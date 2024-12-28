@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS 계산기</title>
+  <style>
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+    }
+    .receipt {
+      flex: 1;
+      border-right: 2px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f8f8f8;
+    }
+    .menu {
+      flex: 1;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background-color: #fff;
+    }
+    .menu button {
+      padding: 15px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .menu button:hover {
+      background-color: #45a049;
+    }
+    .receipt-item {
+      margin-bottom: 10px;
+    }
+    .receipt-item span {
+      display: inline-block;
+      width: 30%;
+    }
+    .total {
+      font-weight: bold;
+      border-top: 2px solid #000;
+      padding-top: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <h2>구매 내역</h2>
+    <div id="receiptItems"></div>
+    <div class="total">총액: <span id="totalPrice">0</span>원</div>
+  </div>
+  <div class="menu" id="menu">
+    <button data-name="아메리카노" data-price="4000">아메리카노<br>4,000원</button>
+    <button data-name="카페라떼" data-price="4500">카페라떼<br>4,500원</button>
+    <button data-name="초코라떼" data-price="5000">초코라떼<br>5,000원</button>
+    <!-- 더 많은 메뉴 추가 가능 -->
+  </div>
+  <script>
+    const receiptItems = document.getElementById('receiptItems');
+    const totalPriceEl = document.getElementById('totalPrice');
+    let total = 0;
+
+    document.getElementById('menu').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
+        total += price;
+
+        // 구매 내역 추가
+        const item = document.createElement('div');
+        item.classList.add('receipt-item');
+        item.innerHTML = `<span>${name}</span><span>1</span><span>${price}원</span>`;
+        receiptItems.appendChild(item);
+
+        // 총액 업데이트
+        totalPriceEl.textContent = total;
+      }
+    });
+  </script>
+</body>
+</html>
