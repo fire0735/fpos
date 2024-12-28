@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FPOS</title>
   <style>
-    /* 기존 스타일 유지 */
     body {
       display: flex;
       font-family: Arial, sans-serif;
@@ -155,7 +154,7 @@
     const bakeryMenu = document.getElementById('BAKERY');
     const items = {};
 
-    // 메뉴 버튼 클릭 이벤트 리스너
+    // 메뉴 버튼 클릭 이벤트
     const menuClickListener = (e) => {
       if (e.target.tagName === 'BUTTON') {
         const name = e.target.getAttribute('data-name');
@@ -194,9 +193,10 @@
     };
 
     // 메뉴에 클릭 이벤트 리스너 추가
-    [coffeeMenu, latteMenu, teaMenu, bakeryMenu].forEach(menu => {
-      menu.addEventListener('click', menuClickListener);
-    });
+    coffeeMenu.addEventListener('click', menuClickListener);
+    latteMenu.addEventListener('click', menuClickListener);
+    teaMenu.addEventListener('click', menuClickListener);
+    bakeryMenu.addEventListener('click', menuClickListener);
 
     // 영수증 업데이트 함수
     function updateReceipt() {
@@ -217,9 +217,5 @@
 
       totalPriceEl.textContent = total;
       totalQuantityEl.textContent = totalQuantity;
-
-      // 취소 버튼 클릭 이벤트 리스너 추가
-      const removeButtons = document.querySelectorAll('.remove-button');
-      removeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          const nameToRemove = e.target
+    }
+ 
