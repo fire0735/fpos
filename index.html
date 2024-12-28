@@ -48,7 +48,7 @@
     }
 
     .receipt-item {
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
 
     .receipt-item span {
@@ -91,7 +91,7 @@
       border: none;
       border-radius: 3px;
       cursor: pointer;
-      margin-left: 10px;
+      margin-left: 4px;
     }
 
     .remove-button:hover, .remove-all-button:hover {
@@ -176,8 +176,8 @@
           <span>${item.name}</span>
           <span>${item.quantity}</span>
           <span>${item.totalPrice}원</span>
-          <button class="remove-button" data-name="${item.name}">제거</button>
-          <button class="remove-all-button" data-name="${item.name}">전체 제거</button>
+          <button class="remove-button" data-name="${item.name}">취소</button>
+          <button class="remove-all-button" data-name="${item.name}">전체 취소</button>
         `;
         receiptItems.appendChild(itemElement);
       }
