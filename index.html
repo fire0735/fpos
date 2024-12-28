@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>결제는 FPOS!</title>
+  <title>FPOS</title>
   <style>
     body {
       display: flex;
       font-family: Arial, sans-serif;
-      margin: 0;
-      height: 50vh;
+      margin: 5px;
+      height: 100vh;
+      grid-template-columns: repeat(3, 1fr); /* 4개의 열로 균등 분할 */
     }
     .receipt {
       flex: 1;
@@ -20,6 +21,7 @@
     }
     .menu {
       flex: 1;
+      grid-template-columns: repeat(4, 1fr); /* 4개의 열로 균등 분할 */
       padding: 10px;
       display: flex;
       flex-direction: column;  /* 세로로 배치 */
@@ -39,6 +41,7 @@
       border-radius: 5px;           /* 둥근 모서리 설정 */
       cursor: pointer;             /* 클릭 가능한 버튼 모양 */
       transition: background-color 0.2s; /* 배경색 전환 효과 */
+      white-space: nowrap;          /* 텍스트 줄 바꿈 방지 */
       margin-bottom: 3px;           /* 버튼 간의 간격 설정 */
     }
 
@@ -47,7 +50,7 @@
     }
 
     .receipt-item {
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
 
     .receipt-item span {
@@ -90,7 +93,7 @@
       border: none;
       border-radius: 3px;
       cursor: pointer;
-      margin-left: 10px;
+      margin-left: 4px;
     }
 
     .remove-button:hover, .remove-all-button:hover {
@@ -106,11 +109,11 @@
   <div class="receipt">
     <h2>결제 목록</h2>
     <div id="receiptItems"></div>
-    <div class="total">총액: <span id="totalPrice">0</span>원</div>
+    <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
-    <button class="clear-button" id="clearButton">결제</button>
+    <button class="clear-button" id="clearButton">결제하기</button>
   </div>
-  <div class="menu" id="menu.COFFEE">
+  <div class="menu" id="menu">
     <h2>COFFEE</h2>
     <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
     <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
@@ -118,25 +121,16 @@
     <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
     <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
     <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
-    </div>
-      <div class="menu" id="menu.LATTE">
-    <h2>LATTE</h2>
-    <button data-name="카페 라떼" data-price="4000">카페 라떼 4,000원</button>
-    <button data-name="녹차 라떼" data-price="3000">녹차 라떼 4,000원</button>
-    <button data-name="민초 라떼" data-price="4000">민초 라떼 4,000원</button>
-    <button data-name="달고나 라떼" data-price="5000">달고나 라떼 7,000원</button>
-    <button data-name="제주 쑥갈 라떼" data-price="2000">제주 쑥갈 라떼 6,000원</button>
-    <button data-name="현무암 라떼" data-price="4800">현무암 라떼 8,000원</button>
   </div>
-      <div class="menu" id="menu.TEA">
-    <h2>DRINKS</h2>
-    <button data-name="카페 " data-price="4000">카페 라떼 4,000원</button>
-    <button data-name="녹차 " data-price="3000">녹차 라떼 4,000원</button>
-    <button data-name="민초 " data-price="4000">민초 라떼 4,000원</button>
-    <button data-name="달고나 " data-price="5000">달고나 라떼 7,000원</button>
-    <button data-name="제주 쑥갈 " data-price="2000">제주 쑥갈 라떼 6,000원</button>
-    <button data-name="현무암 " data-price="4800">현무암 라떼 8,000원</button>
-  </div
+  <div class="menu" id="menu">
+    <h2>COFFEE</h2>
+    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
+    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
+    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
+    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
+    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
+  </div>
   <script>
     const receiptItems = document.getElementById('receiptItems');
     const totalPriceEl = document.getElementById('totalPrice');
@@ -157,10 +151,10 @@
           alert('최대 10개까지 주문 가능합니다.');
           return;
         }
-        // 총 금액이 90만원 이상일경우 결제 불가
+        // 가격제한
         if (totalPrice >= 90) {
-          alert('결제한도는 899,999원입니다.');
-          return'
+          alert('결제 한도는 899,999원 입니다.');
+          return;
         }
         // 이미 해당 메뉴가 있는 경우 수량 증가
         if (items[name]) {
