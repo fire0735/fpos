@@ -23,14 +23,14 @@
       padding: 20px;
       display: flex;
       flex-direction: column;  /* 세로로 배치 */
-      overflow-z: auto; /* 가로 스크롤 가능 */
+      overflow-y: auto; /* 세로 스크롤 가능 */
       flex-wrap: wrap; /* 항목을 두 줄로 나누기 */
       justify-content: space-between; /* 항목 간의 공간을 자동으로 배치 */
       background-color: #fff;
     }
     .menu button {
-      padding: 15px;                /* 버튼 안쪽 여백 설정 */
-      width: 200px;                 /* 버튼의 너비 설정 */
+      padding: 10px;                /* 버튼 안쪽 여백 설정 */
+      width: 180px;                 /* 버튼의 너비 설정 */
       height: 50px;                 /* 버튼의 높이 설정 */
       font-size: 16px;              /* 텍스트 크기 설정 */
       background-color: #4caf50;   /* 배경색 설정 */
@@ -40,7 +40,7 @@
       cursor: pointer;             /* 클릭 가능한 버튼 모양 */
       transition: background-color 0.2s; /* 배경색 전환 효과 */
       white-space: nowrap;          /* 텍스트 줄 바꿈 방지 */
-      margin-bottom: 3px;           /* 버튼 간의 간격 설정 */
+      margin-bottom: 8px;           /* 버튼 간의 간격 설정 */
     }
 
     .menu button:hover {
@@ -77,6 +77,11 @@
     .clear-button:hover {
       background-color: #d32f2f;
     }
+
+    .quantity-display {
+      font-size: 18px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -84,6 +89,7 @@
     <h2>결제 목록</h2>
     <div id="receiptItems"></div>
     <div class="total">총액: <span id="totalPrice">0</span>원</div>
+    <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">초기화</button>
   </div>
   <div class="menu" id="menu">
@@ -99,8 +105,10 @@
   <script>
     const receiptItems = document.getElementById('receiptItems');
     const totalPriceEl = document.getElementById('totalPrice');
+    const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
     let total = 0;
+    let totalQuantity = 0;  // 총 수량 변수 추가
     const menu = document.getElementById('menu');
     const items = {};
 
@@ -108,6 +116,12 @@
       if (e.target.tagName === 'BUTTON') {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'), 10);
+
+        // 총 수량이 10개 이상일 경우 추가 불가
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
 
         // 이미 해당 메뉴가 있는 경우 수량 증가
         if (items[name]) {
@@ -123,6 +137,10 @@
           };
         }
 
+        // 총 수량과 총 가격 업데이트
+        totalQuantity += 1;
+        total += price;
+
         // 구매 내역 업데이트
         updateReceipt();
       }
@@ -131,10 +149,8 @@
     // 구매 내역 업데이트 함수
     function updateReceipt() {
       receiptItems.innerHTML = ''; // 기존 항목 제거
-      total = 0;
       for (const itemName in items) {
         const item = items[itemName];
-        total += item.totalPrice;
 
         const itemElement = document.createElement('div');
         itemElement.classList.add('receipt-item');
@@ -143,6 +159,7 @@
       }
 
       totalPriceEl.textContent = total;
+      totalQuantityEl.textContent = totalQuantity; // 총 수량 표시
     }
 
     // 초기화 버튼 클릭 시 구매 내역 초기화
@@ -152,6 +169,7 @@
         delete items[itemName];
       }
       total = 0;
+      totalQuantity = 0;  // 총 수량 초기화
       updateReceipt();
     });
   </script>
