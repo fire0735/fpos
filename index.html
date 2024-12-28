@@ -42,7 +42,6 @@
       white-space: nowrap;
       margin-bottom: 3px;
     }
-    .re
     .menu button:hover {
       background-color: #45a049;
     }
@@ -75,7 +74,7 @@
     }
 
     .clear-button:hover, .remove-all-button:hover {
-      background-color: #09e938 ;
+      background-color: #09e938;
     }
 
     .quantity-display {
@@ -104,9 +103,9 @@
   </style>
 </head>
 <body>
-  <div class="receipt">
+  <div class="pay">
     <h2>결제 목록</h2>
-    <div id="receiptItems"></div>
+    <div id="paytItems"></div>
     <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">결제하기</button>
@@ -135,11 +134,11 @@
     <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
     <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
   </div>
-    <div class="menu" id="BAKERY">
+  <div class="menu" id="BAKERY">
     <h2>BAKERY</h2>
     <button data-name="1" data-price="1">1</button>
-    <button data-name="2 " data-price="2">2 </button>
-    <button data-name="3 " data-price="3">3 </button>
+    <button data-name="2" data-price="2">2</button>
+    <button data-name="3" data-price="3">3</button>
   </div>
   <script>
     const paytItems = document.getElementById('paytItems');
@@ -197,16 +196,15 @@
     latteMenu.addEventListener('click', menuClickListener);
     teaMenu.addEventListener('click', menuClickListener);
     bakeryMenu.addEventListener('click', menuClickListener);
-    
 
     // 영수증 업데이트 함수
     function updateReceipt() {
-      receiptItems.innerHTML = '';  // 기존 항목 지우기
+      paytItems.innerHTML = '';  // 기존 항목 지우기
       for (const itemName in items) {
         const item = items[itemName];
 
         const itemElement = document.createElement('div');
-        itemElement.classList.add('receipt-item');
+        itemElement.classList.add('pay-item');  // 클래스명 변경
         itemElement.innerHTML = `
           <span>${item.name}</span>
           <span>${item.quantity}</span>
@@ -214,7 +212,7 @@
           <button class="remove-button" data-name="${item.name}">취소</button>
           <button class="remove-all-button" data-name="${item.name}">전체 취소</button>
         `;
-        receiptItems.appendChild(itemElement);
+        paytItems.appendChild(itemElement);  // 변경된 변수명
       }
 
       totalPriceEl.textContent = total;
@@ -222,40 +220,8 @@
     }
 
     // 항목 제거 처리
-    receiptItems.addEventListener('click', (e) => {
+    paytItems.addEventListener('click', (e) => {
       if (e.target.classList.contains('remove-all-button')) {
         const name = e.target.getAttribute('data-name');
         const item = items[name];
-        total -= item.totalPrice;
-        totalQuantity -= item.quantity;
-        delete items[name];
-
-        updateReceipt();
-      } else if (e.target.classList.contains('remove-button')) {
-        const name = e.target.getAttribute('data-name');
-        const item = items[name];
-        total -= item.price;
-        totalQuantity -= 1;
-        item.quantity -= 1;
-        item.totalPrice -= item.price;
-
-        if (item.quantity === 0) {
-          delete items[name];
-        }
-
-        updateReceipt();
-      }
-    });
-
-    // 모든 항목 초기화
-    clearButton.addEventListener('click', () => {
-      total = 0;
-      totalQuantity = 0;
-      for (const itemName in items) {
-        delete items[itemName];
-      }
-      updateReceipt();
-    });
-  </script>
-</body>
-</html>
+        total -= item.total
