@@ -5,7 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FPOS</title>
   <style>
-    /* 스타일은 동일 */
+    /* 기존 스타일 유지 */
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 5px;
+      height: 100vh;
+    }
+    .pay {
+      flex: 1;
+      border-right: 0.1px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f8f8f8;
+    }
+    .menu {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      background-color: #fff;
+    }
+    .menu button {
+      padding: 10px;
+      width: 220px;
+      height: 50px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      white-space: nowrap;
+      margin-bottom: 3px;
+    }
+    .menu button:hover {
+      background-color: #45a049;
+    }
+
+    .pay-item {
+      margin-bottom: 4px;
+    }
+
+    .pay-item span {
+      display: inline-block;
+      width: 30%;
+    }
+
+    .total {
+      font-weight: bold;
+      border-top: 2px solid #000;
+      padding-top: 10px;
+      margin-top: 20px;
+    }
+
+    .clear-button, .remove-all-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #09e938;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .clear-button:hover, .remove-all-button:hover {
+      background-color: #09e938;
+    }
+
+    .quantity-display {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .remove-button, .remove-all-button {
+      background-color: #ff9800;
+      color: white;
+      padding: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    .remove-button:hover, .remove-all-button:hover {
+      background-color: #f57c00;
+    }
+
+    .remove-all-button {
+      background-color: #d32f2f;
+    }
   </style>
 </head>
 <body>
@@ -127,21 +222,4 @@
       const removeButtons = document.querySelectorAll('.remove-button');
       removeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-          const nameToRemove = e.target.getAttribute('data-name');
-          const itemToRemove = items[nameToRemove];
-
-          // 총 금액과 수량 업데이트
-          total -= itemToRemove.totalPrice;
-          totalQuantity -= itemToRemove.quantity;
-
-          // 아이템 삭제
-          delete items[nameToRemove];
-
-          // 영수증 업데이트
-          updateReceipt();
-        });
-      });
-    }
-  </script>
-</body>
-</html>
+          const nameToRemove = e.target
