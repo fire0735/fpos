@@ -83,7 +83,7 @@
       margin-top: 20px;
     }
 
-    .remove-button {
+    .remove-button, .remove-all-button {
       background-color: #ff9800;
       color: white;
       padding: 5px;
@@ -94,8 +94,12 @@
       margin-left: 10px;
     }
 
-    .remove-button:hover {
+    .remove-button:hover, .remove-all-button:hover {
       background-color: #f57c00;
+    }
+
+    .remove-all-button {
+      background-color: #d32f2f;  /* 전체 제거 버튼 색상 */
     }
   </style>
 </head>
@@ -106,7 +110,6 @@
     <div class="total">총액: <span id="totalPrice">0</span>원</div>
     <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">초기화</button>
-    <button class="remove-all-button" id="removeAllButton">전체 제거</button>
   </div>
   <div class="menu" id="menu">
     <h2>COFFEE</h2>
@@ -123,7 +126,6 @@
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
-    const removeAllButton = document.getElementById('removeAllButton');
     let total = 0;
     let totalQuantity = 0;  // 총 수량 변수 추가
     const menu = document.getElementById('menu');
@@ -171,7 +173,9 @@
 
         const itemElement = document.createElement('div');
         itemElement.classList.add('receipt-item');
-        itemElement.innerHTML = `<span>${item.name}</span><span>${item.quantity}</span><span>${item.totalPrice}원</span><button class="remove-button" data-name="${item.name}">제거</button>`;
+        itemElement.innerHTML = `<span>${item.name}</span><span>${item.quantity}</span><span>${item.totalPrice}원</span>
+          <button class="remove-button" data-name="${item.name}">제거</button>
+          <button class="remove-all-button" data-name="${item.name}">전체 제거</button>`;
         receiptItems.appendChild(itemElement);
       }
 
@@ -192,6 +196,18 @@
 
         updateReceipt();
       }
+      
+      if (e.target.classList.contains('remove-all-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        const price = item.totalPrice;
+        
+        total -= price;
+        totalQuantity -= item.quantity;
+        delete items[name];
+
+        updateReceipt();
+      }
     });
 
     // 초기화 버튼 클릭 시 구매 내역 초기화
@@ -202,16 +218,6 @@
       }
       total = 0;
       totalQuantity = 0;  // 총 수량 초기화
-      updateReceipt();
-    });
-
-    // 전체 제거 버튼 클릭 시 모든 메뉴 항목 제거
-    removeAllButton.addEventListener('click', () => {
-      total = 0;
-      totalQuantity = 0;
-      for (const itemName in items) {
-        delete items[itemName];
-      }
       updateReceipt();
     });
   </script>
