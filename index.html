@@ -10,7 +10,6 @@
       font-family: Arial, sans-serif;
       margin: 5px;
       height: 100vh;
-      grid-template-columns: repeat(3, 1fr); /* 4개의 열로 균등 분할 */
     }
     .receipt {
       flex: 1;
@@ -21,28 +20,27 @@
     }
     .menu {
       flex: 1;
-      grid-template-columns: repeat(4, 1fr); /* 4개의 열로 균등 분할 */
       padding: 10px;
       display: flex;
-      flex-direction: column;  /* 세로로 배치 */
-      overflow-y: auto; /* 세로 스크롤 가능 */
-      flex-wrap: wrap; /* 항목을 두 줄로 나누기 */
-      justify-content: space-between; /* 항목 간의 공간을 자동으로 배치 */
+      flex-direction: column;
+      overflow-y: auto;
+      flex-wrap: wrap;
+      justify-content: space-between;
       background-color: #fff;
     }
     .menu button {
-      padding: 10px;                /* 버튼 안쪽 여백 설정 */
-      width: 220px;                 /* 버튼의 너비 설정 */
-      height: 50px;                 /* 버튼의 높이 설정 */
-      font-size: 16px;              /* 텍스트 크기 설정 */
-      background-color: #4caf50;   /* 배경색 설정 */
-      color: white;                 /* 텍스트 색 설정 */
-      border: none;                 /* 테두리 제거 */
-      border-radius: 5px;           /* 둥근 모서리 설정 */
-      cursor: pointer;             /* 클릭 가능한 버튼 모양 */
-      transition: background-color 0.2s; /* 배경색 전환 효과 */
-      white-space: nowrap;          /* 텍스트 줄 바꿈 방지 */
-      margin-bottom: 3px;           /* 버튼 간의 간격 설정 */
+      padding: 10px;
+      width: 220px;
+      height: 50px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      white-space: nowrap;
+      margin-bottom: 3px;
     }
 
     .menu button:hover {
@@ -101,7 +99,7 @@
     }
 
     .remove-all-button {
-      background-color: #d32f2f;  /* 전체 제거 버튼 색상 */
+      background-color: #d32f2f;
     }
   </style>
 </head>
@@ -114,55 +112,54 @@
     <button class="clear-button" id="clearButton">결제하기</button>
   </div>
   <div class="menu" id="COFFEE">
-    <h2>COFFEE</h2>
+    <h2>커피 메뉴</h2>
     <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
     <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
-    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
-    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
-    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
-    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
+    <button data-name="에스프레소" data-price="4000">에스프레소 4,000원</button>
+    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 5,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 2,000원</button>
+    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 4,800원</button>
   </div>
   <div class="menu" id="LATTE">
-    <h2>LATTE</h2>
-    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
-    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
-    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
-    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
-    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
-    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
+    <h2>라떼 메뉴</h2>
+    <button data-name="카페라떼" data-price="5000">카페라떼 5,000원</button>
+    <button data-name="바닐라라떼" data-price="5500">바닐라라떼 5,500원</button>
+    <button data-name="카라멜라떼" data-price="6000">카라멜라떼 6,000원</button>
+    <button data-name="녹차라떼" data-price="5000">녹차라떼 5,000원</button>
   </div>
+  
   <script>
     const receiptItems = document.getElementById('receiptItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
     let total = 0;
-    let totalQuantity = 0;  // 총 수량 변수 추가
+    let totalQuantity = 0;
     const coffeeMenu = document.getElementById('COFFEE');
     const latteMenu = document.getElementById('LATTE');
     const items = {};
 
-    menu.addEventListener('click', (e) => {
+    // 메뉴 버튼 클릭 이벤트
+    const menuClickListener = (e) => {
       if (e.target.tagName === 'BUTTON') {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'), 10);
 
-        // 총 수량이 10개 이상일 경우 추가 불가
+        // 최대 수량 체크
         if (totalQuantity >= 10) {
           alert('최대 10개까지 주문 가능합니다.');
           return;
         }
-        // 가격제한
+        // 가격 한도 체크
         if (total >= 900000) {
           alert('결제 한도는 899,999원 입니다.');
           return;
         }
-        // 이미 해당 메뉴가 있는 경우 수량 증가
+        // 아이템 업데이트 또는 새 항목 추가
         if (items[name]) {
-          items[name].quantity += 1;  // 기존 수량 증가
-          items[name].totalPrice += price;  // 기존 총액 증가
+          items[name].quantity += 1;
+          items[name].totalPrice += price;
         } else {
-          // 새로운 메뉴 항목 추가
           items[name] = {
             name,
             quantity: 1,
@@ -171,18 +168,22 @@
           };
         }
 
-        // 총 수량과 총 가격 업데이트
+        // 총 금액과 수량 업데이트
         totalQuantity += 1;
         total += price;
 
-        // 구매 내역 업데이트
-        updateReceipt();  // 영수증 업데이트 호출
+        // 영수증 업데이트
+        updateReceipt();
       }
-    });
+    };
 
-    // 구매 내역 업데이트 함수
+    // 커피 메뉴와 라떼 메뉴 모두에 이벤트 리스너 추가
+    coffeeMenu.addEventListener('click', menuClickListener);
+    latteMenu.addEventListener('click', menuClickListener);
+
+    // 영수증 업데이트 함수
     function updateReceipt() {
-      receiptItems.innerHTML = '';  // 기존 항목 제거
+      receiptItems.innerHTML = '';  // 기존 항목 지우기
       for (const itemName in items) {
         const item = items[itemName];
 
@@ -198,48 +199,43 @@
         receiptItems.appendChild(itemElement);
       }
 
-      totalPriceEl.textContent = total;  // 총액 업데이트
-      totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
+      totalPriceEl.textContent = total;
+      totalQuantityEl.textContent = totalQuantity;
     }
 
-        // 메뉴 항목 하나 제거하기
-        receiptItems.addEventListener('click', (e) => {
-      if (e.target.classList.contains('remove-all-button')) {
-      const name = e.target.getAttribute('data-name');
-      const item = items[name];
-      const price = item.totalPrice;
-  
-      // 해당 상품 전체 제거
-      total -= price;
-      totalQuantity -= item.quantity;
-      delete items[name];
-
-      updateReceipt();
-    }
-
-      
+    // 항목 제거 처리
+    receiptItems.addEventListener('click', (e) => {
       if (e.target.classList.contains('remove-all-button')) {
         const name = e.target.getAttribute('data-name');
         const item = items[name];
-        const price = item.totalPrice;
-        
-        // 해당 상품 전체 제거
-        total -= price;
+        total -= item.totalPrice;
         totalQuantity -= item.quantity;
         delete items[name];
+
+        updateReceipt();
+      } else if (e.target.classList.contains('remove-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        total -= item.price;
+        totalQuantity -= 1;
+        item.quantity -= 1;
+        item.totalPrice -= item.price;
+
+        if (item.quantity === 0) {
+          delete items[name];
+        }
 
         updateReceipt();
       }
     });
 
-    // 초기화 버튼 클릭 시 구매 내역 초기화
+    // 모든 항목 초기화
     clearButton.addEventListener('click', () => {
-      // 모든 항목 초기화
+      total = 0;
+      totalQuantity = 0;
       for (const itemName in items) {
         delete items[itemName];
       }
-      total = 0;
-      totalQuantity = 0;  // 총 수량 초기화
       updateReceipt();
     });
   </script>
