@@ -125,17 +125,60 @@
     const menu = document.getElementById('menu');
     const items = {};  // 메뉴 항목 저장 객체
 
-    menu.addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON') {  // 버튼 클릭 시
-        const name = e.target.getAttribute('data-name');
-        const price = parseInt(e.target.getAttribute('data-price'), 10);
+menu.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    const name = e.target.getAttribute('data-name');
+    const price = parseInt(e.target.getAttribute('data-price'), 10);
 
-        if (totalQuantity >= 10) {  // 총 수량이 10개 이상일 경우 주문 불가
-          alert('최대 10개까지 주문 가능합니다.');
-          return;
-        }
+    // 총 수량이 10개 이상일 경우 추가 불가
+    if (totalQuantity >= 10) {
+      alert('최대 10개까지 주문 가능합니다.');
+      return;
+    }
 
-        // 이미 항목이 있으면 수량 증가, 없으면 새 항목 추가
-        if (items[name]) {
-          items[name].quantity += 1;
+    // 이미 해당 메뉴가 있는 경우 수량 증가
+    if (items[name]) {
+      items[name].quantity += 1;  // 기존 수량 증가
+      items[name].totalPrice += price;  // 기존 총액 증가
+    } else {
+      // 새로운 메뉴 항목 추가
+      items[name] = {
+        name,
+        quantity: 1,
+        price,
+        totalPrice: price,
+      };
+    }
+
+    // 총 수량과 총 가격 업데이트
+    totalQuantity += 1;
+    total += price;
+
+    // 구매 내역 업데이트
+    updateReceipt();  // 영수증 업데이트 호출
+  }
+});
+
+// 구매 내역 업데이트 함수
+function updateReceipt() {
+  receiptItems.innerHTML = '';  // 기존 항목 제거
+  for (const itemName in items) {
+    const item = items[itemName];
+
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('receipt-item');
+    itemElement.innerHTML = `
+      <span>${item.name}</span>
+      <span>${item.quantity}</span>
+      <span>${item.totalPrice}원</span>
+      <button class="remove-button" data-name="${item.name}">제거</button>
+      <button class="remove-all-button" data-name="${item.name}">전체 제거</button>
+    `;
+    receiptItems.appendChild(itemElement);
+  }
+
+  totalPriceEl.textContent = total;  // 총액 업데이트
+  totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
+}
+
          
