@@ -22,10 +22,9 @@
       flex: 1;
       padding: 20px;
       display: flex;
-      overflow-x: auto; /* 가로 스크롤 가능 */
+      flex-wrap: wrap; /* 가로로 나열하되 화면에 맞게 줄 바꿈 */
       gap: 10px;
       background-color: #fff;
-      max-height: 100vh;
     }
     .menu button {
       padding: 15px;
@@ -36,7 +35,8 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.2s;
-      white-space: nowrap; /* 텍스트가 줄 바꿈되지 않게 함 */
+      width: 150px; /* 버튼 크기 고정 */
+      white-space: nowrap; /* 텍스트가 줄 바꿈되지 않게 */
     }
     .menu button:hover {
       background-color: #45a049;
