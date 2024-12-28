@@ -150,7 +150,8 @@
     let totalQuantity = 0;
     const coffeeMenu = document.getElementById('COFFEE');
     const latteMenu = document.getElementById('LATTE');
-    const teaMenu = document.gerElementByid('TEA');
+    const teaMenu = document.getElementById('TEA');
+    const bakeryMenu = document.getElementById('BAKERY');
     const items = {};
 
     // 메뉴 버튼 클릭 이벤트
@@ -191,9 +192,12 @@
       }
     };
 
-    // 커피 메뉴와 라떼 메뉴 모두에 이벤트 리스너 추가
+    // 메뉴에 클릭 이벤트 리스너 추가
     coffeeMenu.addEventListener('click', menuClickListener);
     latteMenu.addEventListener('click', menuClickListener);
+    teaMenu.addEventListener('click', menuClickListener);
+    bakeryMenu.addEventListener('click', menuClickListener);
+    
 
     // 영수증 업데이트 함수
     function updateReceipt() {
