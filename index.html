@@ -25,6 +25,8 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       background-color: #fff;
+      max-height: 100vh;
+      overflow-y: auto;
     }
     .menu button {
       padding: 15px;
@@ -52,6 +54,19 @@
       padding-top: 10px;
       margin-top: 20px;
     }
+    .clear-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .clear-button:hover {
+      background-color: #d32f2f;
+    }
   </style>
 </head>
 <body>
@@ -59,33 +74,74 @@
     <h2>구매 내역</h2>
     <div id="receiptItems"></div>
     <div class="total">총액: <span id="totalPrice">0</span>원</div>
+    <button class="clear-button" id="clearButton">초기화</button>
   </div>
   <div class="menu" id="menu">
     <button data-name="아메리카노" data-price="4000">아메리카노<br>4,000원</button>
     <button data-name="카페라떼" data-price="4500">카페라떼<br>4,500원</button>
     <button data-name="초코라떼" data-price="5000">초코라떼<br>5,000원</button>
-    <!-- 더 많은 메뉴 추가 가능 -->
+    <button data-name="모카" data-price="5500">모카<br>5,500원</button>
+    <button data-name="에스프레소" data-price="3000">에스프레소<br>3,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="4800">카라멜 마끼야또<br>4,800원</button>
+    <!-- 더 많은 메뉴 항목 추가 가능 -->
   </div>
   <script>
     const receiptItems = document.getElementById('receiptItems');
     const totalPriceEl = document.getElementById('totalPrice');
+    const clearButton = document.getElementById('clearButton');
     let total = 0;
+    const menu = document.getElementById('menu');
+    const items = {};
 
-    document.getElementById('menu').addEventListener('click', (e) => {
+    menu.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'), 10);
-        total += price;
 
-        // 구매 내역 추가
-        const item = document.createElement('div');
-        item.classList.add('receipt-item');
-        item.innerHTML = `<span>${name}</span><span>1</span><span>${price}원</span>`;
-        receiptItems.appendChild(item);
+        // 이미 해당 메뉴가 있는 경우 수량 증가
+        if (items[name]) {
+          items[name].quantity += 1;
+          items[name].totalPrice += price;
+        } else {
+          // 새로운 메뉴 항목 추가
+          items[name] = {
+            name,
+            quantity: 1,
+            price,
+            totalPrice: price,
+          };
+        }
 
-        // 총액 업데이트
-        totalPriceEl.textContent = total;
+        // 구매 내역 업데이트
+        updateReceipt();
       }
+    });
+
+    // 구매 내역 업데이트 함수
+    function updateReceipt() {
+      receiptItems.innerHTML = ''; // 기존 항목 제거
+      total = 0;
+      for (const itemName in items) {
+        const item = items[itemName];
+        total += item.totalPrice;
+
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('receipt-item');
+        itemElement.innerHTML = `<span>${item.name}</span><span>${item.quantity}</span><span>${item.totalPrice}원</span>`;
+        receiptItems.appendChild(itemElement);
+      }
+
+      totalPriceEl.textContent = total;
+    }
+
+    // 초기화 버튼 클릭 시 구매 내역 초기화
+    clearButton.addEventListener('click', () => {
+      // 모든 항목 초기화
+      for (const itemName in items) {
+        delete items[itemName];
+      }
+      total = 0;
+      updateReceipt();
     });
   </script>
 </body>
