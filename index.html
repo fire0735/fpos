@@ -23,7 +23,9 @@
       padding: 20px;
       display: flex;
       flex-direction: column;  /* 세로로 배치 */
-      overflow-x: auto; /* 가로 스크롤 가능 */
+      overflow-z: auto; /* 가로 스크롤 가능 */
+      flex-wrap: wrap; /* 항목을 두 줄로 나누기 */
+      justify-content: space-between; /* 항목 간의 공간을 자동으로 배치 */
       background-color: #fff;
     }
     .menu button {
@@ -85,12 +87,13 @@
     <button class="clear-button" id="clearButton">초기화</button>
   </div>
   <div class="menu" id="menu">
-    <button data-name="아메리카노" data-price="2000">아메리카노 2,000원</button>
-    <button data-name="카페라떼" data-price="3000">카페라떼 3,000원</button>
-    <button data-name="초코라떼" data-price="4000">초코라떼 4,000원</button>
-    <button data-name="모카" data-price="5000">모카 5,000원</button>
-    <button data-name="에스프레소" data-price="2000">에스프레소 2,000원</button>
-    <button data-name="카라멜 마끼야또" data-price="4800">카라멜 마끼야또 4,800원</button>
+    <h2>COFFEE</h2>
+    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
+    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
+    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
+    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
+    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
     <!-- 더 많은 메뉴 항목 추가 가능 -->
   </div>
   <script>
