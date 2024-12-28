@@ -142,7 +142,11 @@
           alert('최대 10개까지 주문 가능합니다.');
           return;
         }
-
+        // 가격제한
+        if (totalPrice >= 90) {
+          alert('결제 한도는 899,999원 입니다.');
+          return;
+        }
         // 이미 해당 메뉴가 있는 경우 수량 증가
         if (items[name]) {
           items[name].quantity += 1;  // 기존 수량 증가
