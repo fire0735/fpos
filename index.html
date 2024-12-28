@@ -1,98 +1,230 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="kr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS 시스템 계산기</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제는 FPOS!</title>
+  <style>
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 50vh;
+    }
+    .receipt {
+      flex: 1;
+      border-right: 0.1px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f8f8f8;
+    }
+    .menu {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;  /* 세로로 배치 */
+      overflow-y: auto; /* 세로 스크롤 가능 */
+      flex-wrap: wrap; /* 항목을 두 줄로 나누기 */
+      justify-content: space-between; /* 항목 간의 공간을 자동으로 배치 */
+      background-color: #fff;
+    }
+    .menu button {
+      padding: 10px;                /* 버튼 안쪽 여백 설정 */
+      width: 220px;                 /* 버튼의 너비 설정 */
+      height: 50px;                 /* 버튼의 높이 설정 */
+      font-size: 16px;              /* 텍스트 크기 설정 */
+      background-color: #4caf50;   /* 배경색 설정 */
+      color: white;                 /* 텍스트 색 설정 */
+      border: none;                 /* 테두리 제거 */
+      border-radius: 5px;           /* 둥근 모서리 설정 */
+      cursor: pointer;             /* 클릭 가능한 버튼 모양 */
+      transition: background-color 0.2s; /* 배경색 전환 효과 */
+      white-space: nowrap;          /* 텍스트 줄 바꿈 방지 */
+      margin-bottom: 3px;           /* 버튼 간의 간격 설정 */
+    }
+
+    .menu button:hover {
+      background-color: #45a049;
+    }
+
+    .receipt-item {
+      margin-bottom: 10px;
+    }
+
+    .receipt-item span {
+      display: inline-block;
+      width: 30%;
+    }
+
+    .total {
+      font-weight: bold;
+      border-top: 2px solid #000;
+      padding-top: 10px;
+      margin-top: 20px;
+    }
+
+    .clear-button, .remove-all-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #09e938;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .clear-button:hover, .remove-all-button:hover {
+      background-color: #09e938 ;
+    }
+
+    .quantity-display {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .remove-button, .remove-all-button {
+      background-color: #ff9800;
+      color: white;
+      padding: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .remove-button:hover, .remove-all-button:hover {
+      background-color: #f57c00;
+    }
+
+    .remove-all-button {
+      background-color: #d32f2f;  /* 전체 제거 버튼 색상 */
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="payment-details">
-            <h2>결제내역</h2>
-            <table id="paymentTable">
-                <thead>
-                    <tr>
-                        <th>메뉴명</th>
-                        <th>수량</th>
-                        <th>가격</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 결제내역이 여기에 추가됩니다. -->
-                </tbody>
-            </table>
-            <div id="totalAmount">
-                <p>총액: 0 원</p>
-            </div>
-        </div>
-        <div class="menu-list">
-            <h2>메뉴목록</h2>
-            <ul>
-                <li>커피 - 3000 원 <button onclick="addToPayment('커피', 3000)">추가</button></li>
-                <li>음료 - 2500 원 <button onclick="addToPayment('음료', 2500)">추가</button></li>
-                <li>샐러드 - 5000 원 <button onclick="addToPayment('샐러드', 5000)">추가</button></li>
-            </ul>
-        </div>
-    </div>
-    <script src="script.js"></script>
+  <div class="receipt">
+    <h2>결제 목록</h2>
+    <div id="receiptItems"></div>
+    <div class="total">총액: <span id="totalPrice">0</span>원</div>
+    <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
+    <button class="clear-button" id="clearButton">결제</button>
+  </div>
+  <div class="menu" id="menu">
+    <h2>COFFEE</h2>
+    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
+    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
+    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
+    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
+    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
+  </div>
+  <script>
+    const receiptItems = document.getElementById('receiptItems');
+    const totalPriceEl = document.getElementById('totalPrice');
+    const totalQuantityEl = document.getElementById('totalQuantity');
+    const clearButton = document.getElementById('clearButton');
+    let total = 0;
+    let totalQuantity = 0;  // 총 수량 변수 추가
+    const menu = document.getElementById('menu');
+    const items = {};
+
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
+
+        // 총 수량이 10개 이상일 경우 추가 불가
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
+
+        // 이미 해당 메뉴가 있는 경우 수량 증가
+        if (items[name]) {
+          items[name].quantity += 1;  // 기존 수량 증가
+          items[name].totalPrice += price;  // 기존 총액 증가
+        } else {
+          // 새로운 메뉴 항목 추가
+          items[name] = {
+            name,
+            quantity: 1,
+            price,
+            totalPrice: price,
+          };
+        }
+
+        // 총 수량과 총 가격 업데이트
+        totalQuantity += 1;
+        total += price;
+
+        // 구매 내역 업데이트
+        updateReceipt();  // 영수증 업데이트 호출
+      }
+    });
+
+    // 구매 내역 업데이트 함수
+    function updateReceipt() {
+      receiptItems.innerHTML = '';  // 기존 항목 제거
+      for (const itemName in items) {
+        const item = items[itemName];
+
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('receipt-item');
+        itemElement.innerHTML = `
+          <span>${item.name}</span>
+          <span>${item.quantity}</span>
+          <span>${item.totalPrice}원</span>
+          <button class="remove-button" data-name="${item.name}">취소</button>
+          <button class="remove-all-button" data-name="${item.name}">전체 취소</button>
+        `;
+        receiptItems.appendChild(itemElement);
+      }
+
+      totalPriceEl.textContent = total;  // 총액 업데이트
+      totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
+    }
+
+    // 메뉴 항목 하나 제거하기
+    receiptItems.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        const price = item.price;
+
+        // 수량 감소 후 상품 삭제
+        total -= price;
+        totalQuantity -= item.quantity;
+        delete items[name];
+
+        updateReceipt();
+      }
+      
+      if (e.target.classList.contains('remove-all-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        const price = item.totalPrice;
+        
+        // 해당 상품 전체 제거
+        total -= price;
+        totalQuantity -= item.quantity;
+        delete items[name];
+
+        updateReceipt();
+      }
+    });
+
+    // 초기화 버튼 클릭 시 구매 내역 초기화
+    clearButton.addEventListener('click', () => {
+      // 모든 항목 초기화
+      for (const itemName in items) {
+        delete items[itemName];
+      }
+      total = 0;
+      totalQuantity = 0;  // 총 수량 초기화
+      updateReceipt();
+    });
+  </script>
 </body>
 </html>
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
-}
-
-.container {
-    display: flex;
-    width: 80%;
-    height: 80%;
-}
-
-.payment-details, .menu-list {
-    flex: 1;
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin: 10px;
-    background-color: white;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-
-h2 {
-    text-align: center;
-}
-
-let total = 0;
-
-function addToPayment(menu, price) {
-    const table = document.getElementById('paymentTable').getElementsByTagName('tbody')[0];
-    
-    // 새로운 결제내역 추가
-    const row = table.insertRow();
-    row.innerHTML = `
-        <td>${menu}</td>
-        <td>1</td>
-        <td>${price} 원</td>
-    `;
-    
-    // 총액 업데이트
-    total += price;
-    document.getElementById('totalAmount').innerHTML = `<p>총액: ${total} 원</p>`;
-}
