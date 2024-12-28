@@ -123,7 +123,7 @@
     <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
   </div>
   <div class="menu" id="LATTE">
-    <h2>COFFEE</h2>
+    <h2>LATTE</h2>
     <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
     <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
     <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
@@ -138,7 +138,8 @@
     const clearButton = document.getElementById('clearButton');
     let total = 0;
     let totalQuantity = 0;  // 총 수량 변수 추가
-    const menu = document.getElementById('menu');
+    const coffeeMenu = document.getElementById('COFFEE');
+    const latteMenu = document.getElementById('LATTE');
     const items = {};
 
     menu.addEventListener('click', (e) => {
@@ -152,7 +153,7 @@
           return;
         }
         // 가격제한
-        if (totalPrice >= 90) {
+        if (total >= 900000) {
           alert('결제 한도는 899,999원 입니다.');
           return;
         }
@@ -201,20 +202,21 @@
       totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
     }
 
-    // 메뉴 항목 하나 제거하기
-    receiptItems.addEventListener('click', (e) => {
-      if (e.target.classList.contains('remove-button')) {
-        const name = e.target.getAttribute('data-name');
-        const item = items[name];
-        const price = item.price;
+        // 메뉴 항목 하나 제거하기
+        receiptItems.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-all-button')) {
+      const name = e.target.getAttribute('data-name');
+      const item = items[name];
+      const price = item.totalPrice;
+  
+      // 해당 상품 전체 제거
+      total -= price;
+      totalQuantity -= item.quantity;
+      delete items[name];
 
-        // 수량 감소 후 상품 삭제
-        total -= price;
-        totalQuantity -= item.quantity;
-        delete items[name];
+      updateReceipt();
+    }
 
-        updateReceipt();
-      }
       
       if (e.target.classList.contains('remove-all-button')) {
         const name = e.target.getAttribute('data-name');
