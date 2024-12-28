@@ -1,184 +1,230 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-  <meta charset="UTF-8">  <!-- 문자 인코딩을 UTF-8로 설정 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 반응형 웹 페이지 설정: 화면 크기에 맞춰 레이아웃 조정 -->
-  <title>결제는 FPOSS!</title>  <!-- 웹 페이지 제목 설정 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제는 FPOSS!</title>
   <style>
     body {
-      display: flex;  /* 부모 요소에서 자식 요소들이 가로로 배치되도록 설정 */
-      font-family: Arial, sans-serif;  /* 텍스트에 사용할 글꼴 설정 */
-      margin: 0;  /* 페이지 외부 여백 없애기 */
-      height: 100vh;  /* 화면 높이의 50%로 설정 */
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 50vh;
     }
     .receipt {
-      flex: 1;  /* receipt 영역을 남은 공간에 비례하여 차지하도록 설정 */
-      border-right: 10px solid #ccc;  /* receipt과 menu 사이에 구분선 추가 */
-      padding: 20px;  /* 패딩으로 내부 여백 설정 */
-      overflow-y: auto;  /* 콘텐츠가 넘칠 경우 스크롤바가 생기도록 설정 */
-      background-color: #f8f8f8;  /* 배경색 설정 */
+      flex: 1;
+      border-right: 0.1px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f8f8f8;
     }
     .menu {
-      flex: 1;  /* menu 영역도 남은 공간에 비례하여 차지하도록 설정 */
-      padding: 10px;  /* 패딩으로 내부 여백 설정 */
-      display: flex;  /* flexbox로 메뉴 항목을 배치 */
-      flex-direction: column;  /* 메뉴 항목들을 세로로 나열 */
-      overflow-y: auto;  /* 콘텐츠가 넘칠 경우 스크롤바가 생기도록 설정 */
-      flex-wrap: wrap;  /* 항목을 여러 줄로 감싸도록 설정 */
-      justify-content: space-between;  /* 항목 간의 공간을 자동으로 분배 */
-      background-color: #fff;  /* 배경색 설정 */
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;  /* 세로로 배치 */
+      overflow-y: auto; /* 세로 스크롤 가능 */
+      flex-wrap: wrap; /* 항목을 두 줄로 나누기 */
+      justify-content: space-between; /* 항목 간의 공간을 자동으로 배치 */
+      background-color: #fff;
     }
     .menu button {
-      padding: 10px;  /* 버튼 안쪽 여백 설정 */
-      width: 220px;  /* 버튼 너비 설정 */
-      height: 50px;  /* 버튼 높이 설정 */
-      font-size: 16px;  /* 버튼의 텍스트 크기 설정 */
-      background-color: #4caf50;  /* 버튼 배경색 설정 */
-      color: white;  /* 버튼 텍스트 색 설정 */
-      border: none;  /* 버튼의 테두리 제거 */
-      border-radius: 5px;  /* 버튼의 둥근 모서리 설정 */
-      cursor: pointer;  /* 버튼 클릭 가능 표시 */
-      transition: background-color 0.2s;  /* 배경색 변경 시 부드러운 효과 */
-      white-space: nowrap;  /* 텍스트 줄 바꿈 방지 */
-      margin-bottom: 3px;  /* 버튼 간의 여백 설정 */
+      padding: 10px;                /* 버튼 안쪽 여백 설정 */
+      width: 220px;                 /* 버튼의 너비 설정 */
+      height: 50px;                 /* 버튼의 높이 설정 */
+      font-size: 16px;              /* 텍스트 크기 설정 */
+      background-color: #4caf50;   /* 배경색 설정 */
+      color: white;                 /* 텍스트 색 설정 */
+      border: none;                 /* 테두리 제거 */
+      border-radius: 5px;           /* 둥근 모서리 설정 */
+      cursor: pointer;             /* 클릭 가능한 버튼 모양 */
+      transition: background-color 0.2s; /* 배경색 전환 효과 */
+      white-space: nowrap;          /* 텍스트 줄 바꿈 방지 */
+      margin-bottom: 3px;           /* 버튼 간의 간격 설정 */
     }
+
     .menu button:hover {
-      background-color: #45a049;  /* 버튼에 마우스를 올렸을 때 색상 변경 */
+      background-color: #45a049;
     }
+
     .receipt-item {
-      margin-bottom: 10px;  /* 각 항목 간의 여백 설정 */
+      margin-bottom: 10px;
     }
+
     .receipt-item span {
-      display: inline-block;  /* span 요소를 인라인 블록으로 설정 */
-      width: 30%;  /* span의 너비를 30%로 설정하여 항목을 나누기 */
+      display: inline-block;
+      width: 30%;
     }
+
     .total {
-      font-weight: bold;  /* 총액 텍스트를 굵게 설정 */
-      border-top: 2px solid #000;  /* 총액 위에 2px 두께의 선 추가 */
-      padding-top: 10px;  /* 총액 위에 여백 설정 */
-      margin-top: 20px;  /* 총액과 다른 항목 사이에 여백 추가 */
+      font-weight: bold;
+      border-top: 2px solid #000;
+      padding-top: 10px;
+      margin-top: 20px;
     }
+
     .clear-button, .remove-all-button {
-      margin-top: 20px;  /* 버튼 상단에 여백 설정 */
-      padding: 10px 20px;  /* 버튼의 패딩 설정 */
-      background-color: #f44336;  /* 버튼 배경색 설정 */
-      color: white;  /* 버튼 텍스트 색 설정 */
-      border: none;  /* 버튼의 테두리 제거 */
-      border-radius: 5px;  /* 둥근 모서리 설정 */
-      cursor: pointer;  /* 클릭 가능한 버튼 표시 */
-      transition: background-color 0.2s;  /* 배경색 변경 시 부드러운 효과 */
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
     }
+
     .clear-button:hover, .remove-all-button:hover {
-      background-color: #d32f2f;  /* 마우스를 올렸을 때 버튼 색상 변경 */
+      background-color: #d32f2f;
     }
+
     .quantity-display {
-      font-size: 18px;  /* 총 수량 텍스트 크기 설정 */
-      margin-top: 20px;  /* 총 수량과 다른 항목 간의 여백 설정 */
+      font-size: 18px;
+      margin-top: 20px;
     }
+
     .remove-button, .remove-all-button {
-      background-color: #ff9800;  /* 제거 버튼 배경색 설정 */
-      color: white;  /* 버튼 텍스트 색 설정 */
-      padding: 5px;  /* 버튼의 패딩 설정 */
-      font-size: 14px;  /* 버튼 텍스트 크기 설정 */
-      border: none;  /* 테두리 제거 */
-      border-radius: 3px;  /* 버튼 둥근 모서리 설정 */
-      cursor: pointer;  /* 클릭 가능한 버튼 표시 */
-      margin-left: 10px;  /* 버튼 왼쪽에 여백 설정 */
+      background-color: #ff9800;
+      color: white;
+      padding: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 10px;
     }
+
     .remove-button:hover, .remove-all-button:hover {
-      background-color: #f57c00;  /* 마우스를 올렸을 때 색상 변경 */
+      background-color: #f57c00;
     }
+
     .remove-all-button {
-      background-color: #d32f2f;  /* 전체 제거 버튼 배경색 설정 */
+      background-color: #d32f2f;  /* 전체 제거 버튼 색상 */
     }
   </style>
 </head>
 <body>
-  <!-- 영수증 영역 -->
   <div class="receipt">
-    <h2>결제 목록</h2>  <!-- 제목 -->
-    <div id="receiptItems"></div>  <!-- 구매 항목이 표시될 영역 -->
-    <div class="total">총액: <span id="totalPrice">0</span>원</div>  <!-- 총액 표시 -->
-    <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>  <!-- 총 수량 표시 -->
-    <button class="clear-button" id="clearButton">초기화</button>  <!-- 초기화 버튼 -->
+    <h2>결제 목록</h2>
+    <div id="receiptItems"></div>
+    <div class="total">총액: <span id="totalPrice">0</span>원</div>
+    <div class="quantity-display">총 수량: <span id="totalQuantity">0</span>개</div>
+    <button class="clear-button" id="clearButton">초기화</button>
   </div>
-
-  <!-- 메뉴 항목들 -->
   <div class="menu" id="menu">
-    <h2>COFFEE</h2>  <!-- 메뉴 제목 -->
-    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>  <!-- 아메리카노 버튼 -->
-    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>  <!-- 아인슈페너 버튼 -->
-    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>  <!-- 에스프레소 버튼 -->
-    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>  <!-- 카푸치노 버튼 -->
-    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>  <!-- 카라멜 마끼야또 버튼 -->
-    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>  <!-- 황금루왁커피 버튼 -->
+    <h2>COFFEE</h2>
+    <button data-name="아메리카노" data-price="4000">아메리카노 4,000원</button>
+    <button data-name="아인슈페너" data-price="3000">아인슈페너 3,000원</button>
+    <button data-name="에스프레소" data-price="4000">에스프레소 3,000원</button>
+    <button data-name="돌하르방 카푸치노" data-price="5000">돌하르방 카푸치노 8,000원</button>
+    <button data-name="카라멜 마끼야또" data-price="2000">카라멜 마끼야또 7,000원</button>
+    <button data-name="황금루왁커피" data-price="4800">황금루왁커피 10,800원</button>
   </div>
-
   <script>
-    // JavaScript 코드는 구매 목록을 처리하고, 가격과 수량을 계산 및 업데이트하는 부분입니다.
     const receiptItems = document.getElementById('receiptItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
-    let total = 0;  // 총 가격
-    let totalQuantity = 0;  // 총 수량
+    let total = 0;
+    let totalQuantity = 0;  // 총 수량 변수 추가
     const menu = document.getElementById('menu');
-    const items = {};  // 메뉴 항목 저장 객체
+    const items = {};
 
-menu.addEventListener('click', (e) => {
-  if (e.target.tagName === 'BUTTON') {
-    const name = e.target.getAttribute('data-name');
-    const price = parseInt(e.target.getAttribute('data-price'), 10);
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
 
-    // 총 수량이 10개 이상일 경우 추가 불가
-    if (totalQuantity >= 10) {
-      alert('최대 10개까지 주문 가능합니다.');
-      return;
+        // 총 수량이 10개 이상일 경우 추가 불가
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
+
+        // 이미 해당 메뉴가 있는 경우 수량 증가
+        if (items[name]) {
+          items[name].quantity += 1;  // 기존 수량 증가
+          items[name].totalPrice += price;  // 기존 총액 증가
+        } else {
+          // 새로운 메뉴 항목 추가
+          items[name] = {
+            name,
+            quantity: 1,
+            price,
+            totalPrice: price,
+          };
+        }
+
+        // 총 수량과 총 가격 업데이트
+        totalQuantity += 1;
+        total += price;
+
+        // 구매 내역 업데이트
+        updateReceipt();  // 영수증 업데이트 호출
+      }
+    });
+
+    // 구매 내역 업데이트 함수
+    function updateReceipt() {
+      receiptItems.innerHTML = '';  // 기존 항목 제거
+      for (const itemName in items) {
+        const item = items[itemName];
+
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('receipt-item');
+        itemElement.innerHTML = `
+          <span>${item.name}</span>
+          <span>${item.quantity}</span>
+          <span>${item.totalPrice}원</span>
+          <button class="remove-button" data-name="${item.name}">제거</button>
+          <button class="remove-all-button" data-name="${item.name}">전체 제거</button>
+        `;
+        receiptItems.appendChild(itemElement);
+      }
+
+      totalPriceEl.textContent = total;  // 총액 업데이트
+      totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
     }
 
-    // 이미 해당 메뉴가 있는 경우 수량 증가
-    if (items[name]) {
-      items[name].quantity += 1;  // 기존 수량 증가
-      items[name].totalPrice += price;  // 기존 총액 증가
-    } else {
-      // 새로운 메뉴 항목 추가
-      items[name] = {
-        name,
-        quantity: 1,
-        price,
-        totalPrice: price,
-      };
-    }
+    // 메뉴 항목 하나 제거하기
+    receiptItems.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        const price = item.price;
 
-    // 총 수량과 총 가격 업데이트
-    totalQuantity += 1;
-    total += price;
+        // 수량 감소 후 상품 삭제
+        total -= price;
+        totalQuantity -= item.quantity;
+        delete items[name];
 
-    // 구매 내역 업데이트
-    updateReceipt();  // 영수증 업데이트 호출
-  }
-});
+        updateReceipt();
+      }
+      
+      if (e.target.classList.contains('remove-all-button')) {
+        const name = e.target.getAttribute('data-name');
+        const item = items[name];
+        const price = item.totalPrice;
+        
+        // 해당 상품 전체 제거
+        total -= price;
+        totalQuantity -= item.quantity;
+        delete items[name];
 
-// 구매 내역 업데이트 함수
-function updateReceipt() {
-  receiptItems.innerHTML = '';  // 기존 항목 제거
-  for (const itemName in items) {
-    const item = items[itemName];
+        updateReceipt();
+      }
+    });
 
-    const itemElement = document.createElement('div');
-    itemElement.classList.add('receipt-item');
-    itemElement.innerHTML = `
-      <span>${item.name}</span>
-      <span>${item.quantity}</span>
-      <span>${item.totalPrice}원</span>
-      <button class="remove-button" data-name="${item.name}">제거</button>
-      <button class="remove-all-button" data-name="${item.name}">전체 제거</button>
-    `;
-    receiptItems.appendChild(itemElement);
-  }
-
-  totalPriceEl.textContent = total;  // 총액 업데이트
-  totalQuantityEl.textContent = totalQuantity;  // 총 수량 업데이트
-}
-
-         
+    // 초기화 버튼 클릭 시 구매 내역 초기화
+    clearButton.addEventListener('click', () => {
+      // 모든 항목 초기화
+      for (const itemName in items) {
+        delete items[itemName];
+      }
+      total = 0;
+      totalQuantity = 0;  // 총 수량 초기화
+      updateReceipt();
+    });
+  </script>
+</body>
+</html>
