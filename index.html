@@ -209,19 +209,4 @@
           <span>${item.name}</span>
           <span>${item.quantity}</span>
           <span>${item.totalPrice}원</span>
-          <button class="remove-button" data-name="${item.name}">취소</button>
-          <button class="remove-all-button" data-name="${item.name}">전체 취소</button>
-        `;
-        paytItems.appendChild(itemElement);  // 변경된 변수명
-      }
-
-      totalPriceEl.textContent = total;
-      totalQuantityEl.textContent = totalQuantity;
-    }
-
-    // 항목 제거 처리
-    paytItems.addEventListener('click', (e) => {
-      if (e.target.classList.contains('remove-all-button')) {
-        const name = e.target.getAttribute('data-name');
-        const item = items[name];
-        total -= item.total
+          <button class="remove
