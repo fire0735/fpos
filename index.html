@@ -16,6 +16,7 @@
       border-right: 0.1px solid #ccc;
       padding: 20px;
       overflow-y: auto;
+      overflow-x: hidden; //
       background-color: #f8f8f8;
     }
     .menu-container {
@@ -23,12 +24,15 @@
       display: flex;
       flex-wrap: wrap;
       overflow-y: auto;
+      overflow-x: hidden; //
     }
     .menu {
       flex: 1;
       padding: 10px;
       display: flex;
       flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden; //
       flex-wrap: wrap;
       justify-content: space-between;
       background-color: #fff;
@@ -57,14 +61,11 @@
       display: inline-block;
       width: 30%;
     }
-    .totals-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .total {
+      font-weight: bold;
       border-top: 2px solid #000;
       padding-top: 10px;
       margin-top: 20px;
-      font-weight: bold;
     }
     .clear-button {
       margin-top: 20px;
@@ -182,13 +183,13 @@
         const item = items[name];
         const itemElement = document.createElement('div');
         itemElement.classList.add('pay-item');
-        itemElement.innerHTML = `
+        itemElement.innerHTML = 
           <span>${item.name}</span>
           <span>${item.quantity}개</span>
           <span>${item.totalPrice}원</span>
           <button class="remove-button" data-name="${name}">취소</button>
           <button class="delete-button" data-name="${name}">전체취소</button>
-        `;
+        ;
         payItems.appendChild(itemElement);
       }
 
