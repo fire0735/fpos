@@ -121,6 +121,10 @@
     <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">결제하기</button>
+    <div id="receiptContainer" style="display: none;">
+      <h3>영수증</h3>
+      <div id="receipt"></div>
+    </div>
   </div>
   <div class="menu-container" id="menuContainer">
     <div class="menu">
@@ -172,8 +176,8 @@
       <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
       <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
     </div>
-    <!-- Other menu sections omitted for brevity -->
   </div>
+
   <script>
     const payItems = document.getElementById('payItems');
     const totalPriceEl = document.getElementById('totalPrice');
