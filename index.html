@@ -108,12 +108,9 @@
       border: 1px solid #ccc;
       background-color: #fff;
     }
-    .receipt {
+    #receipt {
       white-space: pre-wrap;
       font-family: monospace;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
     }
   </style>
 </head>
@@ -124,8 +121,9 @@
     <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">결제하기</button>
-    <div id="receiptContainer">
+    <div id="receiptContainer" style="display: none;">
       <h3>영수증</h3>
+      <div id="receipt"></div>
     </div>
   </div>
   <div class="menu-container" id="menuContainer">
@@ -180,13 +178,11 @@
     </div>
   </div>
 
-
   <script>
     const payItems = document.getElementById('payItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
-    const receiptContainer = document.getElementById('receiptContainer');
 
     let total = 0;
     let totalQuantity = 0;
@@ -240,13 +236,14 @@
     }
 
     function generateReceipt() {
+      const receiptContainer = document.getElementById('receiptContainer');
+      const receipt = document.getElementById('receipt');
+      
       if (totalQuantity === 0) {
+        receiptContainer.style.display = 'none';
         alert('결제할 항목이 없습니다.');
         return;
       }
-
-      const receipt = document.createElement('div');
-      receipt.classList.add('receipt');
 
       let receiptText = '=== 영수증 ===\n';
       for (const name in items) {
@@ -255,17 +252,46 @@
       }
       receiptText += '\n총 결제 금액: ' + total + '원\n';
       receiptText += '================\n';
-
+      
       receipt.textContent = receiptText;
-      receiptContainer.appendChild(receipt);
+      receiptContainer.style.display = 'block';
+    }
 
+    document.getElementById('menuContainer').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
+
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
+        if (total >= 900000) {
+          alert('결제 한도는 899,999원입니다.');
+          return;
+        }
+        if (items[name]) {
+          items[name].quantity++;
+          items[name].totalPrice += price;
+        } else {
+          items[name] = { name, quantity: 1, price, totalPrice: price };
+        }
+
+        total += price;
+        totalQuantity++;
+        updateReceipt();
+      }
+    });
+
+    clearButton.addEventListener('click', () => {
+      generateReceipt();
       total = 0;
       totalQuantity = 0;
       for (const key in items) {
         delete items[key];
       }
       updateReceipt();
-    }
-
-    document.getElementById('menuContainer').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' &&
+    });
+  </script>
+</body>
+</html>
