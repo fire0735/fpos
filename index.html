@@ -183,13 +183,13 @@
         const item = items[name];
         const itemElement = document.createElement('div');
         itemElement.classList.add('pay-item');
-        itemElement.innerHTML = 
+        itemElement.innerHTML = `
           <span>${item.name}</span>
           <span>${item.quantity}개</span>
           <span>${item.totalPrice}원</span>
           <button class="remove-button" data-name="${name}">취소</button>
           <button class="delete-button" data-name="${name}">전체취소</button>
-        ;
+        `;
         payItems.appendChild(itemElement);
       }
 
