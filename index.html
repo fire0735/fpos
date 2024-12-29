@@ -7,30 +7,33 @@
   <style>
     body {
       display: flex;
-      flex-direction: column;
       font-family: Arial, sans-serif;
       margin: 5px;
       height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+    .pay, .menu-container {
+      flex: 1;
+      padding: 20px;
     }
     .pay {
-      flex: 1;
       border-right: 0.1px solid #ccc;
-      padding: 20px;
-      overflow-y: auto;
       background-color: #f8f8f8;
     }
     .menu-container {
-      flex: 1;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       overflow-y: auto;
     }
     .menu {
-      flex: 1;
       padding: 10px;
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap;
       justify-content: space-between;
       background-color: #fff;
     }
@@ -77,28 +80,22 @@
     .clear-button:hover {
       background-color: #07c32e;
     }
-    .remove-button {
-      background-color: #ff9800;
-      color: white;
+    .remove-button, .delete-button {
       padding: 5px;
       font-size: 14px;
       border: none;
       border-radius: 3px;
       cursor: pointer;
       margin-left: 4px;
+    }
+    .remove-button {
+      background-color: #ff9800;
     }
     .remove-button:hover {
       background-color: #f57c00;
     }
     .delete-button {
       background-color: #e74c3c;
-      color: white;
-      padding: 5px;
-      font-size: 14px;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      margin-left: 4px;
     }
     .delete-button:hover {
       background-color: #c0392b;
@@ -108,8 +105,6 @@
       padding: 10px;
       border: 1px solid #ccc;
       background-color: #fff;
-      max-height: 300px; /* 영수증 컨테이너의 최대 높이를 제한 */
-      overflow-y: auto; /* 스크롤이 가능하도록 설정 */
     }
     #receipt {
       white-space: pre-wrap;
@@ -118,69 +113,70 @@
   </style>
 </head>
 <body>
-  <div class="pay">
-    <h2>결제 목록</h2>
-    <div id="payItems"></div>
-    <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
-    <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
-    <button class="clear-button" id="clearButton">결제하기</button>
-    <div id="receiptContainer" style="display: none;">
-      <h3>영수증</h3>
-      <div id="receipt"></div>
+  <div class="container">
+    <div class="pay">
+      <h2>결제 목록</h2>
+      <div id="payItems"></div>
+      <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
+      <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
+      <button class="clear-button" id="clearButton">결제하기</button>
+      <div id="receiptContainer" style="display: none;">
+        <h3>영수증</h3>
+        <div id="receipt"></div>
+      </div>
+    </div>
+    <div class="menu-container" id="menuContainer">
+      <div class="menu">
+        <h2>COFFEE</h2>
+        <button data-name="아메리카노" data-price="4000">아메리카노</button>
+        <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
+        <button data-name="에스프레소" data-price="3000">에스프레소</button>
+        <button data-name="돌하르방 카푸치노" data-price="8000">돌하르방 카푸치노</button>
+        <button data-name="카라멜 마끼야또" data-price="7000">카라멜 마끼야또</button>
+        <button data-name="황금루왁커피" data-price="100000">황금루왁커피</button>
+      </div>
+      <div class="menu">
+        <h2>LATTE</h2>
+        <button data-name="카페 라떼" data-price="4000">카페라떼</button>
+        <button data-name="녹차 라떼" data-price="4500">녹차 라떼</button>
+        <button data-name="민초 라떼" data-price="5000">민초 라떼</button>
+        <button data-name="달고나 라떼" data-price="7000">달고나 라떼</button>
+        <button data-name="제주 쑥길 라떼" data-price="6000">제주 쑥길 라떼</button>
+        <button data-name="현무암 라떼" data-price="8000">현무암 라떼</button>
+      </div>
+      <div class="menu">
+        <h2>TEA</h2>
+        <button data-name="밀크티" data-price="3000">밀크티</button>
+        <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
+        <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
+      </div>
+      <div class="menu">
+        <h2>BAKERY</h2>
+        <button data-name="유니콘 프라페" data-price="8000">유니콘 프라페</button>
+        <button data-name="초코 스무디" data-price="8000">초코 스무디</button>
+        <button data-name="딸기 스무디" data-price="8000">딸기 스무디</button>
+        <button data-name="파르페 아이스크림" data-price="6000">파르페 아이스크림</button>
+        <button data-name="아포카토 아이스크림" data-price="5000">아포카토 아이스크림</button>
+        <button data-name="허니 브레드" data-price="5000">허니 브레드</button>
+        <button data-name="치즈 케이크" data-price="5000">치즈 케이크</button>
+        <button data-name="티라미수" data-price="5000">티라미수</button>
+        <button data-name="딸기 마카롱" data-price="2000">딸기 마카롱</button>
+        <button data-name="초코 마카롱" data-price="2000">초코 마카롱</button>
+        <button data-name="오리지널 핫 번" data-price="3000">오리지널 핫 번</button>
+        <button data-name="제주말차 카스테라" data-price="3000">제주말차 카스테라</button>
+        <button data-name="감귤 롤케이크" data-price="7000">감귤 롤케이크</button>
+        <button data-name="현무암 돌삥" data-price="3000">현무암 돌삥</button>
+        <button data-name="에그 타르트" data-price="2000">에그 타르트</button>
+        <button data-name="초콜릿 도넛" data-price="4000">초콜릿 도넛</button>
+        <button data-name="와플" data-price="7000">와플</button>
+      </div>
+      <div class="menu">
+        <h2>BRUNCH IN EODIYA</h2>
+        <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
+        <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
+      </div>
     </div>
   </div>
-  <div class="menu-container" id="menuContainer">
-    <div class="menu">
-      <h2>COFFEE</h2>
-      <button data-name="아메리카노" data-price="4000">아메리카노</button>
-      <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
-      <button data-name="에스프레소" data-price="3000">에스프레소</button>
-      <button data-name="돌하르방 카푸치노" data-price="8000">돌하르방 카푸치노</button>
-      <button data-name="카라멜 마끼야또" data-price="7000">카라멜 마끼야또</button>
-      <button data-name="황금루왁커피" data-price="100000">황금루왁커피</button>
-    </div>
-    <div class="menu">
-      <h2>LATTE</h2>
-      <button data-name="카페 라떼" data-price="4000">카페라떼</button>
-      <button data-name="녹차 라떼" data-price="4500">녹차 라떼</button>
-      <button data-name="민초 라떼" data-price="5000">민초 라떼</button>
-      <button data-name="달고나 라떼" data-price="7000">달고나 라떼</button>
-      <button data-name="제주 쑥길 라떼" data-price="6000">제주 쑥길 라떼</button>
-      <button data-name="현무암 라떼" data-price="8000">현무암 라떼</button>
-    </div>
-    <div class="menu">
-      <h2>TEA</h2>
-      <button data-name="밀크티" data-price="3000">밀크티</button>
-      <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
-      <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
-    </div>
-    <div class="menu">
-      <h2>BAKERY</h2>
-      <button data-name="유니콘 프라페" data-price="8000">유니콘 프라페</button>
-      <button data-name="초코 스무디" data-price="8000">초코 스무디</button>
-      <button data-name="딸기 스무디" data-price="8000">딸기 스무디</button>
-      <button data-name="파르페 아이스크림" data-price="6000">파르페 아이스크림</button>
-      <button data-name="아포카토 아이스크림" data-price="5000">아포카토 아이스크림</button>
-      <button data-name="허니 브레드" data-price="5000">허니 브레드</button>
-      <button data-name="치즈 케이크" data-price="5000">치즈 케이크</button>
-      <button data-name="티라미수" data-price="5000">티라미수</button>
-      <button data-name="딸기 마카롱" data-price="2000">딸기 마카롱</button>
-      <button data-name="초코 마카롱" data-price="2000">초코 마카롱</button>
-      <button data-name="오리지널 핫 번" data-price="3000">오리지널 핫 번</button>
-      <button data-name="제주말차 카스테라" data-price="3000">제주말차 카스테라</button>
-      <button data-name="감귤 롤케이크" data-price="7000">감귤 롤케이크</button>
-      <button data-name="현무암 돌삥" data-price="3000">현무암 돌삥</button>
-      <button data-name="에그 타르트" data-price="2000">에그 타르트</button>
-      <button data-name="초콜릿 도넛" data-price="4000">초콜릿 도넛</button>
-      <button data-name="와플" data-price="7000">와플</button>
-    </div>
-    <div class="menu">
-      <h2>BRUNCH IN EODIYA</h2>
-      <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
-      <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
-    </div>
-  </div>
-
   <script>
     const payItems = document.getElementById('payItems');
     const totalPriceEl = document.getElementById('totalPrice');
