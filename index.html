@@ -18,6 +18,12 @@
       overflow-y: auto;
       background-color: #f8f8f8;
     }
+    .menu-container {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      overflow-y: auto;
+    }
     .menu {
       flex: 1;
       padding: 10px;
@@ -45,23 +51,19 @@
     .menu button:hover {
       background-color: #45a049;
     }
-
     .pay-item {
       margin-bottom: 4px;
     }
-
     .pay-item span {
       display: inline-block;
       width: 30%;
     }
-
     .total {
       font-weight: bold;
       border-top: 2px solid #000;
       padding-top: 10px;
       margin-top: 20px;
     }
-
     .clear-button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -72,11 +74,9 @@
       cursor: pointer;
       transition: background-color 0.2s;
     }
-
     .clear-button:hover {
       background-color: #07c32e;
     }
-
     .remove-button {
       background-color: #ff9800;
       color: white;
@@ -87,23 +87,20 @@
       cursor: pointer;
       margin-left: 4px;
     }
-
     .remove-button:hover {
       background-color: #f57c00;
     }
-
-    .reset-button {
-      margin-top: 10px;
-      padding: 10px 20px;
+    .delete-button {
       background-color: #e74c3c;
       color: white;
+      padding: 5px;
+      font-size: 14px;
       border: none;
-      border-radius: 5px;
+      border-radius: 3px;
       cursor: pointer;
-      transition: background-color 0.2s;
+      margin-left: 4px;
     }
-
-    .reset-button:hover {
+    .delete-button:hover {
       background-color: #c0392b;
     }
   </style>
@@ -115,20 +112,32 @@
     <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">결제하기</button>
-    <button class="reset-button" id="resetButton">전체 취소</button>
   </div>
-  <div class="menu">
-    <h2>COFFEE</h2>
-    <button data-name="아메리카노" data-price="4000">아메리카노</button>
-    <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
-    <button data-name="에스프레소" data-price="3000">에스프레소</button>
+  <div class="menu-container" id="menuContainer">
+    <div class="menu">
+      <h2>COFFEE</h2>
+      <button data-name="아메리카노" data-price="4000">아메리카노</button>
+      <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
+      <button data-name="에스프레소" data-price="3000">에스프레소</button>
+    </div>
+    <div class="menu">
+      <h2>LATTE</h2>
+      <button data-name="카페라떼" data-price="4000">카페라떼</button>
+      <button data-name="녹차라떼" data-price="4500">녹차라떼</button>
+      <button data-name="민초라떼" data-price="5000">민초라떼</button>
+    </div>
+    <div class="menu">
+      <h2>TEA</h2>
+      <button data-name="밀크티" data-price="3000">밀크티</button>
+      <button data-name="흑당버블티" data-price="4000">흑당버블티</button>
+      <button data-name="얼그레이" data-price="5000">얼그레이</button>
+    </div>
   </div>
   <script>
     const payItems = document.getElementById('payItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
-    const resetButton = document.getElementById('resetButton');
 
     let total = 0;
     let totalQuantity = 0;
@@ -145,6 +154,7 @@
           <span>${item.quantity}개</span>
           <span>${item.totalPrice}원</span>
           <button class="remove-button" data-name="${name}">취소</button>
+          <button class="delete-button" data-name="${name}">전체취소</button>
         `;
         payItems.appendChild(itemElement);
       }
@@ -167,9 +177,20 @@
           updateReceipt();
         })
       );
+
+      document.querySelectorAll('.delete-button').forEach((button) =>
+        button.addEventListener('click', (e) => {
+          const itemName = e.target.getAttribute('data-name');
+          const item = items[itemName];
+          total -= item.totalPrice;
+          totalQuantity -= item.quantity;
+          delete items[itemName];
+          updateReceipt();
+        })
+      );
     }
 
-    document.addEventListener('click', (e) => {
+    document.getElementById('menuContainer').addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'), 10);
@@ -201,19 +222,6 @@
         return;
       }
       alert('결제가 완료되었습니다!');
-      total = 0;
-      totalQuantity = 0;
-      for (const key in items) {
-        delete items[key];
-      }
-      updateReceipt();
-    });
-
-    resetButton.addEventListener('click', () => {
-      if (totalQuantity === 0) {
-        alert('삭제할 항목이 없습니다.');
-        return;
-      }
       total = 0;
       totalQuantity = 0;
       for (const key in items) {
