@@ -91,6 +91,21 @@
     .remove-button:hover {
       background-color: #f57c00;
     }
+
+    .reset-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .reset-button:hover {
+      background-color: #c0392b;
+    }
   </style>
 </head>
 <body>
@@ -100,45 +115,20 @@
     <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
     <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
     <button class="clear-button" id="clearButton">결제하기</button>
+    <button class="reset-button" id="resetButton">전체 취소</button>
   </div>
- </div>
-  <div class="menu" id="COFFEE">
+  <div class="menu">
     <h2>COFFEE</h2>
     <button data-name="아메리카노" data-price="4000">아메리카노</button>
     <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
     <button data-name="에스프레소" data-price="3000">에스프레소</button>
-    <button data-name="돌하르방 카푸치노" data-price="8000">돌하르방 카푸치노</button>
-    <button data-name="카라멜 마끼야또" data-price="7000">카라멜 마끼야또</button>
-    <button data-name="황금루왁커피" data-price="100000">황금루왁커피</button>
   </div>
-  <div class="menu" id="LATTE">
-    <h2>LATTE</h2>
-    <button data-name="카페 라떼" data-price="4000">카페라떼</button>
-    <button data-name="녹차 라떼" data-price="4500">녹차 라떼</button>
-    <button data-name="민초 라떼" data-price="5000">민초 라떼</button>
-    <button data-name="달고나 라떼" data-price="7000">달고나 라떼</button>
-    <button data-name="제주 쑥길 라떼" data-price="6000">제주 쑥길 라떼</button>
-    <button data-name="현무암 라떼" data-price="8000">현무암 라떼</button>
-  </div>
-  <div class="menu" id="TEA">
-    <h2>TEA</h2>
-    <button data-name="밀크티" data-price="3000">밀크티</button>
-    <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
-    <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
-  </div>
-  <div class="menu" id="BAKERY">
-    <h2>BAKERY</h2>
-    <button data-name="1" data-price="1">1</button>
-    <button data-name="2" data-price="2">2</button>
-    <button data-name="3" data-price="3">3</button>
-  </div>
-
   <script>
     const payItems = document.getElementById('payItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
-    const menuContainer = document.getElementById('menuContainer');
+    const resetButton = document.getElementById('resetButton');
 
     let total = 0;
     let totalQuantity = 0;
@@ -166,40 +156,44 @@
         button.addEventListener('click', (e) => {
           const itemName = e.target.getAttribute('data-name');
           const item = items[itemName];
-          total -= item.totalPrice;
-          totalQuantity -= item.quantity;
-          delete items[itemName];
+          total -= item.price;
+          totalQuantity -= 1;
+          if (item.quantity > 1) {
+            item.quantity -= 1;
+            item.totalPrice -= item.price;
+          } else {
+            delete items[itemName];
+          }
           updateReceipt();
         })
       );
     }
 
     document.addEventListener('click', (e) => {
-  if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
-    const name = e.target.getAttribute('data-name');
-    const price = parseInt(e.target.getAttribute('data-price'), 10);
+      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
 
-    if (totalQuantity >= 10) {
-      alert('최대 10개까지 주문 가능합니다.');
-      return;
-    }
-    if (total >= 900000) {
-      alert('결제 한도는 899,999원입니다.');
-      return;
-    }
-    if (items[name]) {
-      items[name].quantity++;
-      items[name].totalPrice += price;
-    } else {
-      items[name] = { name, quantity: 1, price, totalPrice: price };
-    }
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
+        if (total >= 900000) {
+          alert('결제 한도는 899,999원입니다.');
+          return;
+        }
+        if (items[name]) {
+          items[name].quantity++;
+          items[name].totalPrice += price;
+        } else {
+          items[name] = { name, quantity: 1, price, totalPrice: price };
+        }
 
-    total += price;
-    totalQuantity++;
-    updateReceipt();
-  }
-});
-
+        total += price;
+        totalQuantity++;
+        updateReceipt();
+      }
+    });
 
     clearButton.addEventListener('click', () => {
       if (totalQuantity === 0) {
@@ -207,6 +201,19 @@
         return;
       }
       alert('결제가 완료되었습니다!');
+      total = 0;
+      totalQuantity = 0;
+      for (const key in items) {
+        delete items[key];
+      }
+      updateReceipt();
+    });
+
+    resetButton.addEventListener('click', () => {
+      if (totalQuantity === 0) {
+        alert('삭제할 항목이 없습니다.');
+        return;
+      }
       total = 0;
       totalQuantity = 0;
       for (const key in items) {
