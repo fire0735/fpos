@@ -7,6 +7,7 @@
   <style>
     body {
       display: flex;
+      flex-direction: column;
       font-family: Arial, sans-serif;
       margin: 5px;
       height: 100vh;
@@ -107,6 +108,8 @@
       padding: 10px;
       border: 1px solid #ccc;
       background-color: #fff;
+      max-height: 300px; /* 영수증 컨테이너의 최대 높이를 제한 */
+      overflow-y: auto; /* 스크롤이 가능하도록 설정 */
     }
     #receipt {
       white-space: pre-wrap;
@@ -183,114 +186,75 @@
     const totalPriceEl = document.getElementById('totalPrice');
     const totalQuantityEl = document.getElementById('totalQuantity');
     const clearButton = document.getElementById('clearButton');
+    const receiptContainer = document.getElementById('receiptContainer');
+    const receiptEl = document.getElementById('receipt');
+    const menuButtons = document.querySelectorAll('.menu button');
 
-    let total = 0;
+    let totalPrice = 0;
     let totalQuantity = 0;
-    const items = {};
+    let items = [];
 
-    function updateReceipt() {
+    menuButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const name = this.getAttribute('data-name');
+        const price = parseInt(this.getAttribute('data-price'));
+        items.push({ name, price, quantity: 1 });
+        updatePayItems();
+      });
+    });
+
+    function updatePayItems() {
       payItems.innerHTML = '';
-      for (const name in items) {
-        const item = items[name];
+      totalPrice = 0;
+      totalQuantity = 0;
+
+      items.forEach((item, index) => {
         const itemElement = document.createElement('div');
         itemElement.classList.add('pay-item');
         itemElement.innerHTML = `
           <span>${item.name}</span>
+          <span>${item.price}원</span>
           <span>${item.quantity}개</span>
-          <span>${item.totalPrice}원</span>
-          <button class="remove-button" data-name="${name}">취소</button>
-          <button class="delete-button" data-name="${name}">전체취소</button>
+          <button class="remove-button" data-index="${index}">수정</button>
+          <button class="delete-button" data-index="${index}">삭제</button>
         `;
         payItems.appendChild(itemElement);
-      }
 
-      totalPriceEl.textContent = total;
-      totalQuantityEl.textContent = totalQuantity;
+        totalPrice += item.price * item.quantity;
+        totalQuantity += item.quantity;
 
-      document.querySelectorAll('.remove-button').forEach((button) =>
-        button.addEventListener('click', (e) => {
-          const itemName = e.target.getAttribute('data-name');
-          const item = items[itemName];
-          total -= item.price;
-          totalQuantity -= 1;
-          if (item.quantity > 1) {
-            item.quantity -= 1;
-            item.totalPrice -= item.price;
-          } else {
-            delete items[itemName];
+        const removeButton = itemElement.querySelector('.remove-button');
+        const deleteButton = itemElement.querySelector('.delete-button');
+
+        removeButton.addEventListener('click', () => {
+          const newQuantity = prompt('수량을 입력하세요:');
+          if (newQuantity) {
+            items[index].quantity = parseInt(newQuantity);
+            updatePayItems();
           }
-          updateReceipt();
-        })
-      );
+        });
 
-      document.querySelectorAll('.delete-button').forEach((button) =>
-        button.addEventListener('click', (e) => {
-          const itemName = e.target.getAttribute('data-name');
-          const item = items[itemName];
-          total -= item.totalPrice;
-          totalQuantity -= item.quantity;
-          delete items[itemName];
-          updateReceipt();
-        })
-      );
+        deleteButton.addEventListener('click', () => {
+          items.splice(index, 1);
+          updatePayItems();
+        });
+      });
+
+      totalPriceEl.textContent = totalPrice;
+      totalQuantityEl.textContent = totalQuantity;
     }
-
-    function generateReceipt() {
-      const receiptContainer = document.getElementById('receiptContainer');
-      const receipt = document.getElementById('receipt');
-      
-      if (totalQuantity === 0) {
-        receiptContainer.style.display = 'none';
-        alert('결제할 항목이 없습니다.');
-        return;
-      }
-
-      let receiptText = '=== 영수증 ===\n';
-      for (const name in items) {
-        const item = items[name];
-        receiptText += `${item.name} x ${item.quantity}개 = ${item.totalPrice}원\n`;
-      }
-      receiptText += '\n총 결제 금액: ' + total + '원\n';
-      receiptText += '================\n';
-      
-      receipt.textContent = receiptText;
-      receiptContainer.style.display = 'block';
-    }
-
-    document.getElementById('menuContainer').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
-        const name = e.target.getAttribute('data-name');
-        const price = parseInt(e.target.getAttribute('data-price'), 10);
-
-        if (totalQuantity >= 10) {
-          alert('최대 10개까지 주문 가능합니다.');
-          return;
-        }
-        if (total >= 900000) {
-          alert('결제 한도는 899,999원입니다.');
-          return;
-        }
-        if (items[name]) {
-          items[name].quantity++;
-          items[name].totalPrice += price;
-        } else {
-          items[name] = { name, quantity: 1, price, totalPrice: price };
-        }
-
-        total += price;
-        totalQuantity++;
-        updateReceipt();
-      }
-    });
 
     clearButton.addEventListener('click', () => {
-      generateReceipt();
-      total = 0;
-      totalQuantity = 0;
-      for (const key in items) {
-        delete items[key];
-      }
-      updateReceipt();
+      const receiptText = items.map(item => `${item.name} x${item.quantity} = ${item.price * item.quantity}원`).join('\n');
+      const totalReceipt = `
+영수증:
+${receiptText}
+==================
+총 금액: ${totalPrice}원
+총 수량: ${totalQuantity}개
+      `;
+      receiptEl.textContent = totalReceipt;
+      receiptContainer.style.display = 'block'; // 영수증을 표시
     });
   </script>
 </body>
