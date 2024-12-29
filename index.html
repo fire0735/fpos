@@ -16,7 +16,6 @@
       border-right: 0.1px solid #ccc;
       padding: 20px;
       overflow-y: auto;
-      overflow-x: hidden; //
       background-color: #f8f8f8;
     }
     .menu-container {
@@ -24,15 +23,12 @@
       display: flex;
       flex-wrap: wrap;
       overflow-y: auto;
-      overflow-x: hidden; //
     }
     .menu {
       flex: 1;
       padding: 10px;
       display: flex;
       flex-direction: column;
-      overflow-y: auto;
-      overflow-x: hidden; //
       flex-wrap: wrap;
       justify-content: space-between;
       background-color: #fff;
@@ -106,9 +102,30 @@
     .delete-button:hover {
       background-color: #c0392b;
     }
+    #receiptContainer {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+    #receipt {
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
   </style>
 </head>
 <body>
+  <div class="pay">
+    <h2>결제 목록</h2>
+    <div id="payItems"></div>
+    <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
+    <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
+    <button class="clear-button" id="clearButton">결제하기</button>
+    <div id="receiptContainer" style="display: none;">
+      <h3>영수증</h3>
+      <div id="receipt"></div>
+    </div>
+  </div>
   <div class="pay">
     <h2>결제 목록</h2>
     <div id="payItems"></div>
@@ -166,6 +183,7 @@
       <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
       <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
     </div>
+    <!-- Other menu sections omitted for brevity -->
   </div>
   <script>
     const payItems = document.getElementById('payItems');
@@ -224,6 +242,28 @@
       );
     }
 
+    function generateReceipt() {
+      const receiptContainer = document.getElementById('receiptContainer');
+      const receipt = document.getElementById('receipt');
+      
+      if (totalQuantity === 0) {
+        receiptContainer.style.display = 'none';
+        alert('결제할 항목이 없습니다.');
+        return;
+      }
+
+      let receiptText = '=== 영수증 ===\n';
+      for (const name in items) {
+        const item = items[name];
+        receiptText += `${item.name} x ${item.quantity}개 = ${item.totalPrice}원\n`;
+      }
+      receiptText += '\n총 결제 금액: ' + total + '원\n';
+      receiptText += '================\n';
+      
+      receipt.textContent = receiptText;
+      receiptContainer.style.display = 'block';
+    }
+
     document.getElementById('menuContainer').addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
         const name = e.target.getAttribute('data-name');
@@ -251,11 +291,7 @@
     });
 
     clearButton.addEventListener('click', () => {
-      if (totalQuantity === 0) {
-        alert('결제할 항목이 없습니다.');
-        return;
-      }
-      alert('결제가 완료되었습니다!');
+      generateReceipt();
       total = 0;
       totalQuantity = 0;
       for (const key in items) {
