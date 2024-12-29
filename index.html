@@ -24,6 +24,8 @@
     .pay {
       border-right: 0.1px solid #ccc;
       background-color: #f8f8f8;
+      display: flex;
+      flex-direction: column;
     }
     .menu-container {
       display: flex;
@@ -62,8 +64,12 @@
       padding: 5px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
     }
     .pay-item span {
+      width: 33%;
+      text-align: center;
       display: inline-block;
     }
     .total {
@@ -90,10 +96,19 @@
       padding: 10px;
       border: 1px solid #ccc;
       background-color: #fff;
+      flex-grow: 1;
+      overflow-y: auto;
     }
     #receipt {
-      white-space: pre-wrap;
-      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+    }
+    .receipt-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .receipt-item:last-child {
+      border-bottom: none;
     }
   </style>
 </head>
@@ -172,13 +187,13 @@
     const receiptContainer = document.getElementById('receiptContainer');
     const receiptElement = document.getElementById('receipt');
     const menuButtons = document.querySelectorAll('.menu button');
-    
+
     // 메뉴 버튼 클릭 시
     menuButtons.forEach(button => {
       button.addEventListener('click', function () {
         const name = button.dataset.name;
         const price = parseInt(button.dataset.price);
-        
+
         if (items[name]) {
           items[name].quantity += 1;
         } else {
@@ -218,10 +233,11 @@
     clearButton.addEventListener('click', function () {
       receiptContainer.style.display = 'block';
       receiptElement.innerHTML = ''; // 초기화
-      
+
       for (const item in items) {
         const payItem = items[item];
         const receiptItem = document.createElement('div');
+        receiptItem.classList.add('receipt-item');
         receiptItem.textContent = `${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원`;
         receiptElement.appendChild(receiptItem);
       }
