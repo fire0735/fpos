@@ -173,110 +173,102 @@
     </div>
   </div>
 
-  <script>
-    const items = {};  // 메뉴 항목과 수량을 저장할 객체
-    const payItemsContainer = document.getElementById('payItems');
-    const totalPriceElement = document.getElementById('totalPrice');
-    const totalQuantityElement = document.getElementById('totalQuantity');
-    const clearButton = document.getElementById('clearButton');
-    const clearReceiptButton = document.getElementById('clearReceiptButton');
-    const receiptContainer = document.getElementById('receiptContainer');
-    const receiptElement = document.getElementById('receipt');
-    const messageElement = document.getElementById('message');
+ <script>
+  const items = {};  // 메뉴 항목과 수량을 저장할 객체
+  const payItemsContainer = document.getElementById('payItems');
+  const totalPriceElement = document.getElementById('totalPrice');
+  const totalQuantityElement = document.getElementById('totalQuantity');
+  const clearButton = document.getElementById('clearButton');
+  const clearReceiptButton = document.getElementById('clearReceiptButton');
+  const receiptContainer = document.getElementById('receiptContainer');
+  const receiptElement = document.getElementById('receipt');
+  const messageElement = document.getElementById('message');
 
+  let total = 0;
+  let totalQuantity = 0;
+
+  // 메뉴 버튼 클릭 시
+  document.getElementById('menuContainer').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
+      const name = e.target.getAttribute('data-name');
+      const price = parseInt(e.target.getAttribute('data-price'), 10);
+
+      // 최대 수량 및 결제 한도 확인
+      if (totalQuantity >= 10) {
+        alert('최대 10개까지 주문 가능합니다.');
+        return;
+      }
+      if (total >= 900000) {
+        alert('결제 한도는 899,999원입니다.');
+        return;
+      }
+
+      // 아이템 수량 및 총합 업데이트
+      if (items[name]) {
+        items[name].quantity++;
+        items[name].totalPrice += price;
+      } else {
+        items[name] = { name, quantity: 1, price, totalPrice: price };
+      }
+
+      total += price;
+      totalQuantity++;
+      updatePayItems();
+    }
+  });
+
+  // 결제 목록 업데이트
+  function updatePayItems() {
+    payItemsContainer.innerHTML = '';
     let total = 0;
     let totalQuantity = 0;
 
+    for (const item in items) {
+      const payItem = items[item];
+      total += payItem.price * payItem.quantity;
+      totalQuantity += payItem.quantity;
+
     function updatePayItems() {
-      payItems.innerHTML = '';
-      for (const name in items) {
-        const item = items[name];
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('pay-item');
-        itemElement.innerHTML = 
-          <span>${item.name}</span>
-          <span>${item.quantity}개</span>
-          <span>${item.totalPrice}원</span>
-          <button class="remove-button" data-name="${name}">취소</button>
-          <button class="delete-button" data-name="${name}">전체취소</button>
-        ;
-        payItems.appendChild(itemElement);
-      }
-      
-    // 메뉴 버튼 클릭 시
-    document.getElementById('menuContainer').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
-        const name = e.target.getAttribute('data-name');
-        const price = parseInt(e.target.getAttribute('data-price'), 10);
+  payItemsContainer.innerHTML = '';  // Clear the current pay items list
+  for (const name in items) {
+    const item = items[name];
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('pay-item');
+    itemElement.innerHTML = `
+      <span>${item.name}</span>
+      <span>${item.quantity}개</span>
+      <span>${item.totalPrice}원</span>
+      <button class="remove-button" data-name="${name}">취소</button>
+      <button class="delete-button" data-name="${name}">전체취소</button>
+    `;
+    payItemsContainer.appendChild(itemElement);
+  }
+}
 
-        // 최대 수량 및 결제 한도 확인
-        if (totalQuantity >= 10) {
-          alert('최대 10개까지 주문 가능합니다.');
-          return;
-        }
-        if (total >= 900000) {
-          alert('결제 한도는 899,999원입니다.');
-          return;
-        }
+    totalPriceElement.textContent = total;
+    totalQuantityElement.textContent = totalQuantity;
+  }
 
-        // 아이템 수량 및 총합 업데이트
-        if (items[name]) {
-          items[name].quantity++;
-          items[name].totalPrice += price;
-        } else {
-          items[name] = { name, quantity: 1, price, totalPrice: price };
-        }
-
-        total += price;
-        totalQuantity++;
-        updatePayItems();
-      }
-    });
-
-    // 결제 목록 업데이트
-    function updatePayItems() {
-      payItemsContainer.innerHTML = '';
-      let total = 0;
-      let totalQuantity = 0;
-
-      for (const item in items) {
-        const payItem = items[item];
-        total += payItem.price * payItem.quantity;
-        totalQuantity += payItem.quantity;
-
-        const payItemElement = document.createElement('div');
-        payItemElement.classList.add('pay-item');
-        payItemElement.innerHTML = 
-          `<span>${item}</span>
-           <span>${payItem.quantity}개</span>
-           <span>${payItem.price * payItem.quantity}원</span>`;
-        payItemsContainer.appendChild(payItemElement);
-      }
-
-      totalPriceElement.textContent = total;
-      totalQuantityElement.textContent = totalQuantity;
+  // 결제 버튼 클릭 시 결제 처리
+  clearButton.addEventListener('click', () => {
+    if (totalQuantity === 0) {
+      alert('결제할 항목이 없습니다.');
+      return;
     }
+    alert('결제가 완료되었습니다!');
+    total = 0;
+    totalQuantity = 0;
+    for (const key in items) {
+      delete items[key];
+    }
+    updatePayItems();
+  });
 
-    // 결제 버튼 클릭 시 결제 처리
-    clearButton.addEventListener('click', () => {
-      if (totalQuantity === 0) {
-        alert('결제할 항목이 없습니다.');
-        return;
-      }
-      alert('결제가 완료되었습니다!');
-      total = 0;
-      totalQuantity = 0;
-      for (const key in items) {
-        delete items[key];
-      }
-      updatePayItems();
-    });
-
-    // 영수증 닫기 버튼 클릭 시 영수증 숨기기
-    clearReceiptButton.addEventListener('click', () => {
-      receiptContainer.style.display = 'none';
-      receiptElement.innerHTML = '';  // 영수증 내용 초기화
-    });
-  </script>
+  // 영수증 닫기 버튼 클릭 시 영수증 숨기기
+  clearReceiptButton.addEventListener('click', () => {
+    receiptContainer.style.display = 'none';
+    receiptElement.innerHTML = '';  // 영수증 내용 초기화
+  });
+</script>
 </body>
 </html>
