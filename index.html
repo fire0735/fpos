@@ -178,87 +178,92 @@
     </div>
   </div>
 <script>
-const payItems = document.getElementById('payItems');
-const totalPriceEl = document.getElementById('totalPrice');
-const totalQuantityEl = document.getElementById('totalQuantity');
-const clearButton = document.getElementById('clearButton');
-const receiptContainer = document.getElementById('receiptContainer');
-const receiptEl = document.getElementById('receipt');
-const menuButtons = document.querySelectorAll('.menu button');
+    const payItems = document.getElementById('payItems');
+    const totalPriceEl = document.getElementById('totalPrice');
+    const totalQuantityEl = document.getElementById('totalQuantity');
+    const clearButton = document.getElementById('clearButton');
+    const receiptContainer = document.getElementById('receiptContainer');
+    const receiptEl = document.getElementById('receipt');
+    const menuButtons = document.querySelectorAll('.menu button');
 
-let totalPrice = 0;
-let totalQuantity = 0;
-let items = {};
+    let totalPrice = 0;
+    let totalQuantity = 0;
+    let items = {};  // 객체로 항목 관리
 
-menuButtons.forEach(button => {
-  button.addEventListener('click', function () {
-    const name = this.getAttribute('data-name');
-    const price = parseInt(this.getAttribute('data-price'));
+    menuButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const name = this.getAttribute('data-name');
+        const price = parseInt(this.getAttribute('data-price'));
 
-    // 이미 항목이 존재하면 수량 증가
-    if (items[name]) {
-      items[name].quantity++;
-    } else {
-      items[name] = { name, price, quantity: 1 };
+        // 이미 항목이 존재하면 수량 증가
+        if (items[name]) {
+          items[name].quantity++;
+        } else {
+          items[name] = { name, price, quantity: 1 };
+        }
+
+        updatePayItems();
+      });
+    });
+
+    function updatePayItems() {
+      payItems.innerHTML = '';
+      totalPrice = 0;
+      totalQuantity = 0;
+
+      // 객체의 항목들을 순회
+      Object.keys(items).forEach((name) => {
+        const item = items[name];
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('pay-item');
+        itemElement.innerHTML = `
+          <span>${item.name}</span>
+          <span>${item.price}원</span>
+          <span>${item.quantity}개</span>
+          <button class="remove-button" data-name="${name}">수정</button>
+          <button class="delete-button" data-name="${name}">삭제</button>
+        `;
+        payItems.appendChild(itemElement);
+
+        totalPrice += item.price * item.quantity;
+        totalQuantity += item.quantity;
+
+        // 수정 버튼
+        const removeButton = itemElement.querySelector('.remove-button');
+        removeButton.addEventListener('click', () => {
+          const newQuantity = prompt('수량을 입력하세요:');
+          if (newQuantity) {
+            items[name].quantity = parseInt(newQuantity);
+            updatePayItems();
+          }
+        });
+
+        // 삭제 버튼
+        const deleteButton = itemElement.querySelector('.delete-button');
+        deleteButton.addEventListener('click', () => {
+          delete items[name];
+          updatePayItems();
+        });
+      });
+
+      totalPriceEl.textContent = totalPrice;
+      totalQuantityEl.textContent = totalQuantity;
     }
 
-    updatePayItems();
-  });
-});
-
-function updatePayItems() {
-  payItems.innerHTML = '';
-  totalPrice = 0;
-  totalQuantity = 0;
-
-  Object.keys(items).forEach((name) => {
-    const item = items[name];
-    const itemElement = document.createElement('div');
-    itemElement.classList.add('pay-item');
-    itemElement.innerHTML = `
-      <span>${item.name}</span>
-      <span>${item.price}원</span>
-      <span>${item.quantity}개</span>
-      <button class="remove-button" data-name="${name}">수정</button>
-      <button class="delete-button" data-name="${name}">삭제</button>
-    `;
-    payItems.appendChild(itemElement);
-
-    totalPrice += item.price * item.quantity;
-    totalQuantity += item.quantity;
-
-    const removeButton = itemElement.querySelector('.remove-button');
-    const deleteButton = itemElement.querySelector('.delete-button');
-
-    removeButton.addEventListener('click', () => {
-      const newQuantity = prompt('수량을 입력하세요:');
-      if (newQuantity) {
-        items[name].quantity = parseInt(newQuantity);
-        updatePayItems();
-      }
-    });
-
-    deleteButton.addEventListener('click', () => {
-      delete items[name];
-      updatePayItems();
-    });
-  });
-
-  totalPriceEl.textContent = totalPrice;
-  totalQuantityEl.textContent = totalQuantity;
-}
-
-clearButton.addEventListener('click', () => {
-  const receiptText = Object.values(items)
-    .map(item => `${item.name} x${item.quantity} = ${item.price * item.quantity}원`)
-    .join('\n');
-  const totalReceipt = `
+    clearButton.addEventListener('click', () => {
+      const receiptText = Object.values(items)
+        .map(item => `${item.name} x${item.quantity} = ${item.price * item.quantity}원`)
+        .join('\n');
+      const totalReceipt = `
 영수증:
 ${receiptText}
 ==================
 총 금액: ${totalPrice}원
 총 수량: ${totalQuantity}개
-  `;
-  receiptEl.textContent = totalReceipt;
-  receiptContainer.style.display = 'block'; // 영수증을 표시
-});
+      `;
+      receiptEl.textContent = totalReceipt;
+      receiptContainer.style.display = 'block'; // 영수증을 표시
+    });
+  </script>
+  </body>
+</html>
