@@ -336,6 +336,12 @@ clearButton.addEventListener('click', function () {
   receiptTitle.style.paddingBottom = '5px';
   receiptDiv.appendChild(receiptTitle);
 
+  // 현재 시간 추가
+  const currentTime = new Date().toLocaleString();  // 현재 시간
+  const timeDiv = document.createElement('div');
+  timeDiv.innerHTML = `<strong>시간: ${currentTime}</strong>`;
+  receiptDiv.appendChild(timeDiv);  // 시간 표시 추가
+
   let currentPaymentTotal = 0; // 현재 영수증의 결제 금액
   let totalDiscount = 0; // 현재 영수증의 할인 금액
 
@@ -353,30 +359,29 @@ clearButton.addEventListener('click', function () {
   }
 
   // 카테고리별로 출력
-for (const category in categories) {
-  const categoryDiv = document.createElement('div');
-  categoryDiv.innerHTML = `<h4>${category}</h4>`;
-  receiptDiv.appendChild(categoryDiv);
+  for (const category in categories) {
+    const categoryDiv = document.createElement('div');
+    categoryDiv.innerHTML = `<h4>${category}</h4>`;
+    receiptDiv.appendChild(categoryDiv);
 
-  categories[category].forEach(payItem => {
-    const itemTotal = payItem.price * payItem.quantity;
-    currentPaymentTotal += itemTotal;
+    categories[category].forEach(payItem => {
+      const itemTotal = payItem.price * payItem.quantity;
+      currentPaymentTotal += itemTotal;
 
-    const receiptItem = document.createElement('div');
-    // 수량을 포함한 텍스트로 변경
-    receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
-    categoryDiv.appendChild(receiptItem);
+      const receiptItem = document.createElement('div');
+      receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
+      categoryDiv.appendChild(receiptItem);
 
-    // 할인 항목 추가
-    if (payItem.discount) {
-      totalDiscount += payItem.discount;
-      const discountItem = document.createElement('div');
-      discountItem.style.fontStyle = 'italic';
-      discountItem.textContent = `${payItem.discount.toLocaleString()}원`;
-      categoryDiv.appendChild(discountItem);
-    }
-  });
-}
+      // 할인 항목 추가
+      if (payItem.discount) {
+        totalDiscount += payItem.discount;
+        const discountItem = document.createElement('div');
+        discountItem.style.fontStyle = 'italic';
+        discountItem.textContent = `${payItem.discount.toLocaleString()}원`;
+        categoryDiv.appendChild(discountItem);
+      }
+    });
+  }
 
   // 할인 금액을 차감한 결제 금액
   const finalPaymentTotal = currentPaymentTotal - totalDiscount;
@@ -403,14 +408,12 @@ for (const category in categories) {
   // **전체 총 수익**을 한 번만 갱신 (총 수익 중복 추가 방지)
   let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
   if (!overallTotalDiv) {
-    // 처음 실행 시 총 결제 금액 영역 생성
     overallTotalDiv = document.createElement('div');
     overallTotalDiv.id = 'overallTotal';
     overallTotalDiv.style.marginTop = '20px';
     overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
     receiptContainer.appendChild(overallTotalDiv);
   } else {
-    // 이미 영역이 있으면 내용 업데이트
     overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
   }
 
