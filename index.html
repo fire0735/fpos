@@ -234,7 +234,7 @@ const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
 const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
 
-// 결제 목록에서 할인 중복 여부를 추적
+/// 결제 목록에서 할인 중복 여부를 추적
 let discountApplied = {
   gov: false,
   partner: false
@@ -333,9 +333,6 @@ function updatePayItems() {
     });
   });
 }
-
-// 모든 영수증의 총 결제 금액 저장 변수
-let totalOverallPayment = 0;
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
