@@ -257,19 +257,21 @@ function applyDiscount(discountRate, discountType) {
 
   // 할인 금액 계산
   const discountAmount = total * discountRate;
-  const discountedTotal = total - discountAmount;
 
   // 할인 항목을 결제 목록에 추가 (가격 0으로 설정)
-const discountItemName = `${discountType}`;
-if (items[discountItemName]) {
-  items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
-} else {
-  // 할인 항목은 가격 0으로 설정, 수량 1로 설정, discountAmount를 저장
-  items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
-}
+  const discountItemName = `${discountType}`;
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
+  } else {
+    // 할인 항목은 가격 0으로 설정, 수량 1로 설정
+    items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
+  }
 
-// 할인 적용 후 결제 목록 갱신
-updatePayItems();
+  // 할인 금액을 결제 금액에 반영 (최종 결제 금액 계산)
+  const discountedTotal = total - discountAmount;
+
+  // 결제 목록 갱신
+  updatePayItems();
 
   // 총합 업데이트 (할인 적용 후 총액)
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
