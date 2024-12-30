@@ -259,11 +259,15 @@ function applyDiscount(discountRate, discountType) {
   const discountAmount = total * discountRate;
   const discountedTotal = total - discountAmount;
 
-  // 할인 정보를 각 아이템에 추가 (결제 목록에 할인 정보 반영)
+  // 할인된 항목을 새로운 항목으로 추가
   for (const item in items) {
     const payItem = items[item];
     const itemDiscount = payItem.price * payItem.quantity * discountRate;
-    payItem.discount = itemDiscount; // 각 아이템에 할인 추가
+    const discountedPrice = payItem.price * (1 - discountRate); // 할인된 가격
+
+    // 할인된 항목을 별도로 추가
+    const discountedItemName = `${item} (할인적용)`;
+    items[discountedItemName] = { price: discountedPrice, quantity: payItem.quantity, category: payItem.category, discount: itemDiscount };
   }
 
   // 영수증에 할인 금액과 적용 후 금액 표시
@@ -405,6 +409,7 @@ clearButton.addEventListener('click', function () {
   // 총 수익을 항상 영수증 마지막에 위치하도록 하기 위해 
   receiptContainer.appendChild(overallTotalDiv);
 });
+
 
 </script>
 </body>
