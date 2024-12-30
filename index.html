@@ -234,31 +234,33 @@ const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
 const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
 
-/// 결제 목록에서 할인 중복 여부를 추적
+// 할인 상태 추적 변수
 let discountApplied = {
-  gov: false,
-  partner: false
+  gov: false,  // 공무원 할인 적용 여부
+  partner: false  // 협력사 할인 적용 여부
 };
+
+// 결제 목록 아이템과 영수증을 추적하는 객체
+let items = {};
+let totalOverallPayment = 0;  // 총 결제 금액
 
 // 공무원 할인 버튼 클릭 시 처리
 govDiscountButton.addEventListener('click', function () {
-  // 결제 목록에서만 중복 체크
   if (!discountApplied.gov) {
     applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
-    discountApplied.gov = true;  // 공무원 할인 적용 표시
+    discountApplied.gov = true;
   } else {
-    alert('이미 적용된 공무원 할인입니다.');
+    alert('이미 공무원 할인이 적용되었습니다.');
   }
 });
 
 // 협력사 할인 버튼 클릭 시 처리
 partnerDiscountButton.addEventListener('click', function () {
-  // 결제 목록에서만 중복 체크
   if (!discountApplied.partner) {
     applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
-    discountApplied.partner = true;  // 협력사 할인 적용 표시
+    discountApplied.partner = true;
   } else {
-    alert('이미 적용된 협력사 할인입니다.');
+    alert('이미 협력사 할인이 적용되었습니다.');
   }
 });
 
@@ -274,18 +276,17 @@ function applyDiscount(discountRate, discountType) {
   // 할인 금액 계산
   const discountAmount = total * discountRate;
 
-  // 할인 항목을 결제 목록에 추가 (가격 0으로 설정)
+  // 할인 항목을 결제 목록에 추가
   const discountItemName = `${discountType}`;
   if (items[discountItemName]) {
-    items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
+    items[discountItemName].quantity += 1;  // 이미 할인 항목이 있으면 수량 증가
   } else {
-    // 할인 항목은 가격 0으로 설정, 수량 1로 설정
     items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
   // 결제 목록 갱신
   updatePayItems();
-
+  
   // 할인 금액을 총액에서 차감 (결제 금액을 최종적으로 할인 금액 반영)
   const discountedTotal = total - discountAmount;
 
@@ -293,7 +294,7 @@ function applyDiscount(discountRate, discountType) {
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
 }
 
-// 결제 목록 업데이트
+// 결제 목록 업데이트 함수
 function updatePayItems() {
   payItemsContainer.innerHTML = ''; // 결제 목록 초기화
   let total = 0;
@@ -305,7 +306,7 @@ function updatePayItems() {
     total += payItem.price * payItem.quantity; // 금액 계산
     totalQuantity += payItem.quantity; // 수량 계산
 
-    // 할인 항목(가격이 0원인 항목)은 결제 목록에서 제외
+    // 할인 항목(가격 0인 항목)은 결제 목록에서 제외
     if (payItem.price > 0) {
       const payItemElement = document.createElement('div');
       payItemElement.classList.add('pay-item');
@@ -428,6 +429,7 @@ clearButton.addEventListener('click', function () {
   // **총 수익을 맨 아래로 위치시키기** (영수증 추가 후)
   receiptContainer.appendChild(overallTotalDiv);
 });
+
 </script>
 </body>
 </html>
