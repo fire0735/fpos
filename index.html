@@ -372,6 +372,7 @@ clearButton.addEventListener('click', function () {
   let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
   if (!overallTotalDiv) {
     // 처음 실행 시 총 결제 금액 영역 생성
+    receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
     overallTotalDiv = document.createElement('div');
     overallTotalDiv.id = 'overallTotal';
     overallTotalDiv.style.marginTop = '20px';
