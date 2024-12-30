@@ -249,25 +249,15 @@ partnerDiscountButton.addEventListener('click', function () {
 
 // 할인 적용 함수
 function applyDiscount(discountRate, discountType) {
-  let total = 0;
-
-  // 결제 목록에서 총 금액 계산
-  for (const item in items) {
-    total += items[item].price * items[item].quantity;
-  }
-
   // 할인 금액 계산
-  const discountAmount = total * discountRate;
-  const discountedTotal = total - discountAmount;
+  const discountAmount = calculateTotalPrice() * discountRate;
+  
+  // 할인 항목을 결제 항목에 추가 (수량은 1, 가격은 음수로)
+  const discountName = `${discountType}`;
+  items[discountName] = { price: -discountAmount, quantity: 1, category: '할인' };
 
-  // 할인 항목을 결제 목록에 추가 (이 항목은 금액만 차감되고 수량은 필요 없음)
-  const discountItemName = `${discountType}`;
-  if (!items[discountItemName]) {
-    items[discountItemName] = { price: -discountAmount, quantity: 1, category: '' }; // 할인 항목 추가
-  }
-
-  // 결제 목록 갱신
-  updatePayItems();
+  updatePayItems();  // 결제 목록 갱신
+}
 
   // 총합 업데이트
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
@@ -384,6 +374,7 @@ clearButton.addEventListener('click', function () {
 
   // 결제 목록을 갱신
   updatePay
+  
 </script>
 </body>
 </html>
