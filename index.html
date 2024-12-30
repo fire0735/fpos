@@ -259,9 +259,8 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 구분 제목 추가
   const receiptTitle = document.createElement('h3');
-  receiptTitle.style.borderBottom = '10px solid #000'; // 밑줄 추가
-  receiptDiv.appendChild(receiptTitle);
-
+  receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
+  
   // 카테고리별로 아이템을 그룹화
   const categories = {};
   for (const item in items) {
