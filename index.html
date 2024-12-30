@@ -265,11 +265,6 @@ function applyDiscount(discountRate, discountType) {
     items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
-  // 할인 한도 설정
-      if (quantity > 1) {
-        return;
-      }
-
   // 결제 목록 갱신
   updatePayItems();
 
