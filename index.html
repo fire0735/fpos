@@ -314,8 +314,6 @@ clearButton.addEventListener('click', function () {
   const receiptTitle = document.createElement('h3');
   receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
   receiptDiv.appendChild(receiptTitle);
-
-  let receiptTotal = 0; // 영수증 총합 변수
   
   // 카테고리별로 아이템을 그룹화
   const categories = {};
@@ -342,11 +340,11 @@ clearButton.addEventListener('click', function () {
       categoryDiv.appendChild(receiptItem);
     });
   }
-  
+
   // 총합 표시
   const totalDiv = document.createElement('div');
   totalDiv.style.marginTop = '10px';
-  totalDiv.innerHTML = `<strong>결제금액: ${totalPriceElement.textContent}원</strong>`;
+  totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
   receiptDiv.appendChild(totalDiv);
   receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
 
