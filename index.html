@@ -342,20 +342,13 @@ clearButton.addEventListener('click', function () {
       categoryDiv.appendChild(receiptItem);
     });
   }
-// added
-  const totalDiv = document.createElement('div');
-  totalDiv.style.marginTop = '10px';
-  totalDiv.innerHTML = `<strong>총 결제 금액: ${receiptTotal.toLocaleString()}원</strong>`;
-  receiptDiv.appendChild(totalDiv);
-
+  
   // 총합 표시
   const totalDiv = document.createElement('div');
   totalDiv.style.marginTop = '10px';
   totalDiv.innerHTML = `<strong>결제금액: ${totalPriceElement.textContent}원</strong>`;
   receiptDiv.appendChild(totalDiv);
   receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
-
-  
 
   // 영수증 기록을 추가
   receiptContainer.appendChild(receiptDiv);
