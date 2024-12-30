@@ -234,7 +234,7 @@ const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
 const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
 
-// 할인 항목 적용 여부를 결제 목록에서 확인할 객체
+// 결제 목록에서 할인 중복 여부를 추적
 let discountApplied = {
   gov: false,
   partner: false
@@ -242,6 +242,7 @@ let discountApplied = {
 
 // 공무원 할인 버튼 클릭 시 처리
 govDiscountButton.addEventListener('click', function () {
+  // 결제 목록에서만 중복 체크
   if (!discountApplied.gov) {
     applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
     discountApplied.gov = true;  // 공무원 할인 적용 표시
@@ -252,6 +253,7 @@ govDiscountButton.addEventListener('click', function () {
 
 // 협력사 할인 버튼 클릭 시 처리
 partnerDiscountButton.addEventListener('click', function () {
+  // 결제 목록에서만 중복 체크
   if (!discountApplied.partner) {
     applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
     discountApplied.partner = true;  // 협력사 할인 적용 표시
