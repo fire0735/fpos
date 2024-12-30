@@ -303,15 +303,6 @@ function updatePayItems() {
 // 모든 영수증의 총 결제 금액 저장 변수
 let totalOverallPayment = 0;
 
-// 총 결제 금액 계산 함수 // 안되면 얘를 조질것
-function calculateTotalPrice() {
-  let total = 0;
-  for (const item in items) {
-    total += items[item].price * items[item].quantity;
-  }
-  return total;
-}
-
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
   // 영수증 기록을 새로운 div로 생성
