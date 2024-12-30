@@ -259,8 +259,14 @@ function applyDiscount(discountRate, discountType) {
   const discountAmount = total * discountRate;
   const discountedTotal = total - discountAmount;
 
-  // 할인 항목을 결제 목록에 추가하지 않음
-  // 결제 목록에서는 할인 항목을 추가할 필요가 없음, 대신 총 결제 금액에만 할인 적용
+  // 할인 항목을 결제 목록에 추가 (가격 0으로 설정)
+  const discountItemName = ${discountType};
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
+  } else {
+    // 할인 항목은 가격 0으로 설정, 수량 1로 설정
+    items[discountItemName] = { price: , quantity: , category: '', discount: discountAmount };
+  }
 
   // 결제 목록 갱신
   updatePayItems();
@@ -306,7 +312,6 @@ function updatePayItems() {
     });
   });
 }
-
 
 // 모든 영수증의 총 결제 금액 저장 변수
 let totalOverallPayment = 0;
