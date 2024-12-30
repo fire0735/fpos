@@ -332,6 +332,7 @@ clearButton.addEventListener('click', function () {
   receiptDiv.appendChild(receiptTitle);
 
   let currentPaymentTotal = 0; // 현재 영수증의 결제 금액 변수
+  let totalDiscount = 0;  // 할인 금액 변수
 
   // 카테고리별로 아이템을 그룹화
   const categories = {};
@@ -361,6 +362,7 @@ clearButton.addEventListener('click', function () {
 
       // 할인 항목은 따로 출력 (0원인 항목)
       if (payItem.discount) {
+        totalDiscount += payItem.discount;  // 할인 금액 합산
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
         discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
@@ -369,23 +371,26 @@ clearButton.addEventListener('click', function () {
     });
   }
 
+  // 할인 금액을 차감한 결제 금액
+  const finalPaymentTotal = currentPaymentTotal - totalDiscount;
+
   // 현재 영수증의 결제 금액 출력
   const currentTotalDiv = document.createElement('div');
   currentTotalDiv.style.marginTop = '10px';
-  currentTotalDiv.innerHTML = `<strong>결제된 금액: ${currentPaymentTotal.toLocaleString()}원</strong>`;
+  currentTotalDiv.innerHTML = `<strong>결제된 금액: ${finalPaymentTotal.toLocaleString()}원</strong>`;
   receiptDiv.appendChild(currentTotalDiv);
   receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
 
   // 전체 총 결제 금액에 현재 영수증 금액을 추가
-  totalOverallPayment += currentPaymentTotal;
+  totalOverallPayment += finalPaymentTotal;
 
-  // 영수증 기록을 추가
+  // 영수증 기록을 화면에 추가
   receiptContainer.appendChild(receiptDiv);
 
   // 결제 목록 초기화
   Object.keys(items).forEach(item => delete items[item]);
 
-  // 결제 목록을 갱신
+  // 결제 목록 갱신
   updatePayItems();
 
   // **전체 총 수익**을 한 번만 갱신 (총 수익 중복 추가 방지)
