@@ -262,9 +262,9 @@ function applyDiscount(discountRate, discountType) {
   // 할인된 항목을 결제 목록에 추가
   const discountItemName = `${discountType}`;
   if (items[discountItemName]) {
-    items[discountItemName].quantity += 1;
+    items[discountItemName].price = -discountAmount; // 기존 할인 항목의 금액을 수정
   } else {
-    items[discountItemName] = { price: discountAmount, quantity: 1, category: '', discount: discountAmount };
+    items[discountItemName] = { price: -discountAmount, quantity: 1, category: '', discount: discountAmount };
   }
 
   // 결제 목록 갱신
@@ -298,7 +298,7 @@ function updatePayItems() {
   }
 
   // 결제 금액과 수량 업데이트
-  totalPriceElement.textContent = total;
+  totalPriceElement.textContent = total.toLocaleString();
   totalQuantityElement.textContent = totalQuantity;
 
   // 각 항목의 취소 버튼 처리
@@ -311,9 +311,6 @@ function updatePayItems() {
     });
   });
 }
-
-// 모든 영수증의 총 결제 금액 저장 변수
-let totalOverallPayment = 0;
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
