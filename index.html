@@ -302,7 +302,7 @@ function updatePayItems() {
       const discountElement = document.createElement('div');
       discountElement.classList.add('pay-item');
       discountElement.innerHTML = `
-        <span>${item)</span>
+        <span>${item} (${payItem.discount}할인)</span>
         <button class="remove-button" data-name="${item}">취소</button>
       `;
       payItemsContainer.appendChild(discountElement); // 할인 항목 추가
