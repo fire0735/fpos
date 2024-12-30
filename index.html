@@ -312,9 +312,12 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 구분 제목 추가
   const receiptTitle = document.createElement('h3');
+  receiptTitle.textContent = '영수증';
   receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
   receiptDiv.appendChild(receiptTitle);
-  
+
+  let overallTotal = 0; // 전체 총합 변수
+
   // 카테고리별로 아이템을 그룹화
   const categories = {};
   for (const item in items) {
@@ -334,19 +337,31 @@ clearButton.addEventListener('click', function () {
     categoryDiv.innerHTML = `<h4>${category}</h4>`;
     receiptDiv.appendChild(categoryDiv);
 
+    let categoryTotal = 0; // 카테고리별 총합 변수
+
     categories[category].forEach(payItem => {
+      const itemTotal = payItem.price * payItem.quantity;
+      categoryTotal += itemTotal; // 아이템 금액을 카테고리 총합에 추가
       const receiptItem = document.createElement('div');
-      receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원`;
+      receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
       categoryDiv.appendChild(receiptItem);
     });
+
+    // 카테고리 총합 출력
+    const categoryTotalDiv = document.createElement('div');
+    categoryTotalDiv.style.marginTop = '5px';
+    categoryTotalDiv.innerHTML = `<strong>결제된 금액: ${categoryTotal.toLocaleString()}원</strong>`;
+    categoryDiv.appendChild(categoryTotalDiv);
+
+    // 전체 총합에 카테고리 총합을 더함
+    overallTotal += categoryTotal;
   }
 
-  // 총합 표시
-  const totalDiv = document.createElement('div');
-  totalDiv.style.marginTop = '10px';
-  totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
-  receiptDiv.appendChild(totalDiv);
-  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
+  // 전체 총합 출력
+  const overallTotalDiv = document.createElement('div');
+  overallTotalDiv.style.marginTop = '20px';
+  overallTotalDiv.innerHTML = `<h3>총 결제 금액: ${overallTotal.toLocaleString()}원</h3>`;
+  receiptDiv.appendChild(overallTotalDiv);
 
   // 영수증 기록을 추가
   receiptContainer.appendChild(receiptDiv);
