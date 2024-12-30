@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FPOS</title>
   <style>
+    /* 동일한 스타일 정의 */
     body {
       display: flex;
       font-family: Arial, sans-serif;
@@ -111,118 +112,169 @@
       </div>
     </div>
     <div class="menu-container" id="menuContainer">
+      <!-- 메뉴 항목들 -->
       <div class="menu">
         <h2>COFFEE</h2>
-        <button data-name="아메리카노" data-price="4000">아메리카노</button>
-        <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
-        <button data-name="에스프레소" data-price="3000">에스프레소</button>
-        <button data-name="돌하르방 카푸치노" data-price="8000">돌하르방 카푸치노</button>
-        <button data-name="카라멜 마끼야또" data-price="7000">카라멜 마끼야또</button>
-        <button data-name="황금루왁커피" data-price="100000">황금루왁커피</button>
-      </div>
-      <div class="menu">
-        <h2>LATTE</h2>
-        <button data-name="카페 라떼" data-price="4000">카페라떼</button>
-        <button data-name="녹차 라떼" data-price="4500">녹차 라떼</button>
-        <button data-name="민초 라떼" data-price="5000">민초 라떼</button>
-        <button data-name="달고나 라떼" data-price="7000">달고나 라떼</button>
-        <button data-name="제주 쑥길 라떼" data-price="6000">제주 쑥길 라떼</button>
-        <button data-name="현무암 라떼" data-price="8000">현무암 라떼</button>
-      </div>
-      <div class="menu">
-        <h2>TEA</h2>
-        <button data-name="밀크티" data-price="3000">밀크티</button>
-        <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
-        <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
-      </div>
-      <div class="menu">
-        <h2>BAKERY</h2>
-        <button data-name="유니콘 프라페" data-price="8000">유니콘 프라페</button>
-        <button data-name="초코 스무디" data-price="8000">초코 스무디</button>
-        <button data-name="딸기 스무디" data-price="8000">딸기 스무디</button>
-        <button data-name="파르페 아이스크림" data-price="6000">파르페 아이스크림</button>
-        <button data-name="아포카토 아이스크림" data-price="5000">아포카토 아이스크림</button>
-        <button data-name="허니 브레드" data-price="5000">허니 브레드</button>
-        <button data-name="치즈 케이크" data-price="5000">치즈 케이크</button>
-        <button data-name="티라미수" data-price="5000">티라미수</button>
-        <button data-name="딸기 마카롱" data-price="2000">딸기 마카롱</button>
-        <button data-name="초코 마카롱" data-price="2000">초코 마카롱</button>
-        <button data-name="오리지널 핫 번" data-price="3000">오리지널 핫 번</button>
-        <button data-name="제주말차 카스테라" data-price="3000">제주말차 카스테라</button>
-        <button data-name="감귤 롤케이크" data-price="7000">감귤 롤케이크</button>
-        <button data-name="현무암 돌삥" data-price="3000">현무암 돌삥</button>
-        <button data-name="에그 타르트" data-price="2000">에그 타르트</button>
-        <button data-name="초콜릿 도넛" data-price="4000">초콜릿 도넛</button>
-        <button data-name="와플" data-price="7000">와플</button>
-      </div>
-      <div class="menu">
-        <h2>BRUNCH IN EODIYA</h2>
-        <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
-        <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
-      </div>
+      <button data-name="아메리카노" data-price="4000">아메리카노</button>
+      <button data-name="아인슈페너" data-price="4000">아인슈페너</button>
+      <button data-name="에스프레소" data-price="3000">에스프레소</button>
+      <button data-name="돌하르방 카푸치노" data-price="8000">돌하르방 카푸치노</button>
+      <button data-name="카라멜 마끼야또" data-price="7000">카라멜 마끼야또</button>
+      <button data-name="황금루왁커피" data-price="100000">황금루왁커피</button>
+    </div>
+    <div class="menu">
+      <h2>LATTE</h2>
+      <button data-name="카페 라떼" data-price="4000">카페라떼</button>
+      <button data-name="녹차 라떼" data-price="4500">녹차 라떼</button>
+      <button data-name="민초 라떼" data-price="5000">민초 라떼</button>
+      <button data-name="달고나 라떼" data-price="7000">달고나 라떼</button>
+      <button data-name="제주 쑥길 라떼" data-price="6000">제주 쑥길 라떼</button>
+      <button data-name="현무암 라떼" data-price="8000">현무암 라떼</button>
+    </div>
+    <div class="menu">
+      <h2>TEA</h2>
+      <button data-name="밀크티" data-price="3000">밀크티</button>
+      <button data-name="흑당 버블티" data-price="4000">흑당 버블티</button>
+      <button data-name="얼그레이 홍차" data-price="5000">얼그레이 홍차</button>
+    </div>
+    <div class="menu">
+      <h2>BAKERY</h2>
+      <button data-name="유니콘 프라페" data-price="8000">유니콘 프라페</button>
+      <button data-name="초코 스무디" data-price="8000">초코 스무디</button>
+      <button data-name="딸기 스무디" data-price="8000">딸기 스무디</button>
+      <button data-name="파르페 아이스크림" data-price="6000">파르페 아이스크림</button>
+      <button data-name="아포카토 아이스크림" data-price="5000">아포카토 아이스크림</button>
+      <button data-name="허니 브레드" data-price="5000">허니 브레드</button>
+      <button data-name="치즈 케이크" data-price="5000">치즈 케이크</button>
+      <button data-name="티라미수" data-price="5000">티라미수</button>
+      <button data-name="딸기 마카롱" data-price="2000">딸기 마카롱</button>
+      <button data-name="초코 마카롱" data-price="2000">초코 마카롱</button>
+      <button data-name="오리지널 핫 번" data-price="3000">오리지널 핫 번</button>
+      <button data-name="제주말차 카스테라" data-price="3000">제주말차 카스테라</button>
+      <button data-name="감귤 롤케이크" data-price="7000">감귤 롤케이크</button>
+      <button data-name="현무암 돌삥" data-price="3000">현무암 돌삥</button>
+      <button data-name="에그 타르트" data-price="2000">에그 타르트</button>
+      <button data-name="초콜릿 도넛" data-price="4000">초콜릿 도넛</button>
+      <button data-name="와플" data-price="7000">와플</button>
+    </div>
+    <div class="menu">
+      <h2>BRUNCH IN EODIYA</h2>
+      <button data-name="어디야 모닝 센드위치" data-price="4000">어디야 모닝 센드위치</button>
+      <button data-name="어디야 브런치 세트" data-price="8000">어디야 브런치 세트</button>
     </div>
   </div>
 
   <script>
-    const items = [];
+// 결제 항목을 저장할 객체
+const items = {};  
 
-    // 메뉴 버튼 클릭 시 결제 목록에 추가
-    document.querySelectorAll(".menu button").forEach(button => {
-      button.addEventListener("click", () => {
-        const name = button.dataset.name;
-        const price = parseInt(button.dataset.price);
+const payItemsContainer = document.getElementById('payItems');
+const totalPriceElement = document.getElementById('totalPrice');
+const totalQuantityElement = document.getElementById('totalQuantity');
+const clearButton = document.getElementById('clearButton');
+const receiptContainer = document.getElementById('receiptContainer');
+const receiptElement = document.getElementById('receipt');
 
-        const existingItem = items.find(item => item.name === name);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          items.push({ name, price, quantity: 1 });
-        }
+// 메뉴 항목 클릭 시
+document.getElementById('menuContainer').addEventListener('click', function (e) {
+  if (e.target.tagName === 'BUTTON' && e.target.dataset.name) {
+    const name = e.target.dataset.name;
+    const price = parseInt(e.target.dataset.price);
 
-        updatePayList();
-      });
-    });
+    let totalQuantity = 0;
+    let total = 0;
 
-    // 결제 목록 갱신 함수
-    function updatePayList() {
-      const payItemsDiv = document.getElementById("payItems");
-      payItemsDiv.innerHTML = "";
-      let total = 0;
-      let totalQuantity = 0;
-
-      items.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("pay-item");
-        div.innerHTML = `${item.name} - ${item.quantity}개 - ${item.price * item.quantity}원
-          <button class="clear-button" onclick="removeItem('${item.name}')">전체취소</button>`;
-        payItemsDiv.appendChild(div);
-
-        total += item.price * item.quantity;
-        totalQuantity += item.quantity;
-      });
-
-      document.getElementById("totalPrice").textContent = total;
-      document.getElementById("totalQuantity").textContent = totalQuantity;
+    // 전체 결제 목록의 수량과 가격 계산
+    for (const item in items) {
+      totalQuantity += items[item].quantity;
+      total += items[item].price * items[item].quantity;
     }
 
-    // 메뉴 항목 삭제 함수
-    function removeItem(name) {
-      const itemIndex = items.findIndex(item => item.name === name);
-      if (itemIndex !== -1) {
-        items.splice(itemIndex, 1);
-      }
-      updatePayList();
+    // 최대 수량 확인
+    if (totalQuantity >= 10) {
+      alert('최대 10개까지 주문 가능합니다.');
+      return;
     }
 
-    // 결제하기 버튼 클릭 시 영수증 출력
-    document.getElementById("clearButton").addEventListener("click", () => {
-      const receipt = items.map(item => `${item.name} x ${item.quantity} = ${item.price * item.quantity}원`).join("\n");
-      const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      const receiptContent = `영수증:\n\n${receipt}\n\n총 금액: ${total}원`;
+    // 결제 한도 확인
+    if (total >= 900000) {
+      alert('결제 한도는 899,999원입니다.');
+      return;
+    }
 
-      document.getElementById("receipt").textContent = receiptContent;
-      document.getElementById("receiptContainer").style.display = "block";
+    // 기존에 선택된 아이템이 있다면 수량 증가, 없다면 새로 추가
+    if (items[name]) {
+      items[name].quantity += 1;
+    } else {
+      items[name] = { price: price, quantity: 1 };
+    }
+
+    updatePayItems();  // 결제 목록 갱신
+  }
+});
+
+// 결제 목록 업데이트
+function updatePayItems() {
+  payItemsContainer.innerHTML = ''; // 결제 목록 초기화
+  let total = 0;
+  let totalQuantity = 0;
+
+  // 아이템 리스트 순회하여 결제 목록을 업데이트
+  for (const item in items) {
+    const payItem = items[item];
+    total += payItem.price * payItem.quantity; // 금액 계산
+    totalQuantity += payItem.quantity; // 수량 계산
+
+    const payItemElement = document.createElement('div');
+    payItemElement.classList.add('pay-item');
+    payItemElement.innerHTML = `
+      <span>${item}</span>
+      <span>${payItem.quantity}개</span>
+      <span>${payItem.price * payItem.quantity}원</span>
+      <button class="remove-button" data-name="${item}">취소</button>
+    `;
+    payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
+  }
+
+  // 결제 금액과 수량 업데이트
+  totalPriceElement.textContent = total;
+  totalQuantityElement.textContent = totalQuantity;
+
+  // 각 항목의 취소 버튼 처리
+  const removeButtons = document.querySelectorAll('.remove-button');
+  removeButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const name = button.dataset.name;
+      delete items[name];  // 해당 아이템 삭제
+      updatePayItems();  // 결제 목록 갱신
     });
+  });
+}
+
+// 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
+clearButton.addEventListener('click', function () {
+  receiptContainer.style.display = 'block'; // 영수증 영역 표시
+  receiptElement.innerHTML = ''; // 영수증 초기화
+
+  // 영수증 내용 작성
+  for (const item in items) {
+    const payItem = items[item];
+    const receiptItem = document.createElement('div');
+    receiptItem.textContent = `${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원`;
+    receiptElement.appendChild(receiptItem);
+  }
+
+  // 총합 표시
+  const totalDiv = document.createElement('div');
+  totalDiv.style.marginTop = '10px';
+  totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
+  receiptElement.appendChild(totalDiv);
+
+  // 결제 목록 초기화
+  Object.keys(items).forEach(item => delete items[item]);
+  updatePayItems();
+});
+
   </script>
 </body>
 </html>
