@@ -234,7 +234,7 @@ const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
 const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
 
-// 할인 항목 적용 여부를 추적할 객체 (영수증에서도 중복을 확인)
+// 할인 항목 적용 여부를 추적할 객체
 let discountApplied = {
   gov: false,
   partner: false
@@ -274,13 +274,11 @@ function applyDiscount(discountRate, discountType) {
 
   // 할인 항목을 결제 목록에 추가 (가격 0으로 설정)
   const discountItemName = `${discountType}`;
-  
-  // 이미 할인 항목이 결제 목록에 추가된 경우, 중복 적용 방지
-  if (!items[discountItemName]) {
-    items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
   } else {
-    // 할인 항목이 이미 결제 목록에 있으면 수량 증가
-    items[discountItemName].quantity += 1;
+    // 할인 항목은 가격 0으로 설정, 수량 1로 설정
+    items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
   // 결제 목록 갱신
@@ -383,7 +381,7 @@ clearButton.addEventListener('click', function () {
         totalDiscount += payItem.discount;
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
-        discountItem.textContent = `${payItem.discount}`;
+        discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
         categoryDiv.appendChild(discountItem);
       }
     });
