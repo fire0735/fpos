@@ -381,7 +381,7 @@ clearButton.addEventListener('click', function () {
         totalDiscount += payItem.discount;
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
-        discountItem.textContent = `${payItem.discount.toLocaleString}`;
+        discountItem.textContent = `${payItem}`;
         categoryDiv.appendChild(discountItem);
       }
     });
