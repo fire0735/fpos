@@ -227,6 +227,7 @@ document.getElementById('menuContainer').addEventListener('click', function (e) 
     updatePayItems();  // 결제 목록 갱신
   }
 });
+
 // 공무원 할인 및 협력사 할인 버튼 처리
 const govDiscountButton = document.getElementById('govDiscountButton');
 const partnerDiscountButton = document.getElementById('partnerDiscountButton');
@@ -266,6 +267,7 @@ function applyDiscount(discountRate, discountType) {
   // 총합 업데이트
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
 }
+
 // 결제 목록 업데이트
 function updatePayItems() {
   payItemsContainer.innerHTML = ''; // 결제 목록 초기화
@@ -309,38 +311,16 @@ let totalOverallPayment = 0;
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
-  let total = 0; // 총 금액 초기화
-  let hasGovDiscount = false; // 공무원 할인 여부 확인
-  let hasPartnerDiscount = false; // 협력사 할인 여부 확인
-
-  // 결제 목록에서 아이템 가격 계산 및 할인 확인
-  for (const item in items) {
-    const payItem = items[item];
-    const price = payItem.price * payItem.quantity;
-
-    // 할인 항목이 포함되었는지 체크
-    if (item.includes("공무원 할인")) {
-      hasGovDiscount = true;
-    } else if (item.includes("협력사 할인")) {
-      hasPartnerDiscount = true;
-    }
-
-    total += price; // 결제 금액에 아이템 가격 추가
-  }
-
-  // 공무원 할인 적용 (100% 할인)
-  if (hasGovDiscount) {
-    total = 0;  // 공무원 할인이 포함되면 총 금액을 0원으로 설정
-  }
-
-  // 협력사 할인 적용 (50% 할인 후 2로 나누기)
-  if (hasPartnerDiscount) {
-    total /= 2;  // 협력사 할인이 포함되면 금액을 2로 나누기
-  }
-
-  // 영수증 내용 구성
+  // 영수증 기록을 새로운 div로 생성
   const receiptDiv = document.createElement('div');
   receiptDiv.classList.add('receipt');
+
+  // 영수증 구분 제목 추가
+  const receiptTitle = document.createElement('h3');
+  receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
+  receiptDiv.appendChild(receiptTitle);
+
+  let currentPaymentTotal = 0; // 현재 영수증의 결제 금액 변수
 
   // 카테고리별로 아이템을 그룹화
   const categories = {};
@@ -363,17 +343,22 @@ clearButton.addEventListener('click', function () {
 
     categories[category].forEach(payItem => {
       const itemTotal = payItem.price * payItem.quantity;
+      currentPaymentTotal += itemTotal; // 현재 영수증의 결제 금액에 추가
       const receiptItem = document.createElement('div');
       receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
       categoryDiv.appendChild(receiptItem);
     });
   }
 
-  // 결제 금액 출력 (할인 적용된 후)
+  // 현재 영수증의 결제 금액 출력
   const currentTotalDiv = document.createElement('div');
   currentTotalDiv.style.marginTop = '10px';
-  currentTotalDiv.innerHTML = `<strong>결제된 금액: ${total.toLocaleString()}원</strong>`;
+  currentTotalDiv.innerHTML = `<strong>결제된 금액: ${currentPaymentTotal.toLocaleString()}원</strong>`;
   receiptDiv.appendChild(currentTotalDiv);
+  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
+
+  // 전체 총 결제 금액에 현재 영수증 금액을 추가
+  totalOverallPayment += currentPaymentTotal;
 
   // 영수증 기록을 추가
   receiptContainer.appendChild(receiptDiv);
@@ -388,6 +373,7 @@ clearButton.addEventListener('click', function () {
   let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
   if (!overallTotalDiv) {
     // 처음 실행 시 총 결제 금액 영역 생성
+    receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
     overallTotalDiv = document.createElement('div');
     overallTotalDiv.id = 'overallTotal';
     overallTotalDiv.style.marginTop = '20px';
@@ -400,13 +386,11 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 컨테이너를 보이게 설정
   receiptContainer.style.display = 'block';
-});
-
 
   // 총 수익을 항상 영수증 마지막에 위치하도록 하기 위해 
   receiptContainer.appendChild(overallTotalDiv);
 });
-
 </script>
+
 </body>
 </html>
