@@ -234,14 +234,30 @@ const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
 const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
 
+// 할인 항목 적용 여부를 추적할 객체
+let discountApplied = {
+  gov: false,
+  partner: false
+};
+
 // 공무원 할인 버튼 클릭 시 처리
 govDiscountButton.addEventListener('click', function () {
-  applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
+  if (!discountApplied.gov) {
+    applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
+    discountApplied.gov = true;  // 공무원 할인 적용 표시
+  } else {
+    alert('이미 적용된 항목입니다.');
+  }
 });
 
 // 협력사 할인 버튼 클릭 시 처리
 partnerDiscountButton.addEventListener('click', function () {
-  applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
+  if (!discountApplied.partner) {
+    applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
+    discountApplied.partner = true;  // 협력사 할인 적용 표시
+  } else {
+    alert('이미 적용된 항목입니다.');
+  }
 });
 
 // 할인 적용 함수
