@@ -267,7 +267,7 @@ function applyDiscount(discountRate, discountType) {
     items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
-  // 할인 금액을 결제 금액에 반영 (최종 결제 금액 계산)
+  // 할인 금액을 총액에서 차감 (결제 금액을 최종적으로 할인 금액 반영)
   const discountedTotal = total - discountAmount;
 
   // 결제 목록 갱신
