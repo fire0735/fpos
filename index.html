@@ -253,8 +253,15 @@ function updatePayItems() {
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
-  receiptContainer.style.display = 'block'; // 영수증 영역 표시
-  
+  // 영수증 기록을 새로운 div로 생성
+  const receiptDiv = document.createElement('div');
+  receiptDiv.classList.add('receipt');
+
+  // 영수증 구분 제목 추가
+  const receiptTitle = document.createElement('h3');
+  receiptTitle.textContent = `영수증 ${receiptContainer.children.length + 1}`;
+  receiptDiv.appendChild(receiptTitle);
+
   // 카테고리별로 아이템을 그룹화
   const categories = {};
   for (const item in items) {
@@ -270,13 +277,9 @@ clearButton.addEventListener('click', function () {
 
   // 각 카테고리별로 결제 내역을 영수증에 출력
   for (const category in categories) {
-    let categoryDiv = document.querySelector(`#${category}`);
-    if (!categoryDiv) {
-      categoryDiv = document.createElement('div');
-      categoryDiv.id = category;
-      categoryDiv.innerHTML = `<h3>${category}</h3>`;
-      receiptElement.appendChild(categoryDiv);
-    }
+    const categoryDiv = document.createElement('div');
+    categoryDiv.innerHTML = `<h4>${category}</h4>`;
+    receiptDiv.appendChild(categoryDiv);
 
     categories[category].forEach(payItem => {
       const receiptItem = document.createElement('div');
@@ -289,13 +292,15 @@ clearButton.addEventListener('click', function () {
   const totalDiv = document.createElement('div');
   totalDiv.style.marginTop = '10px';
   totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
-  receiptElement.appendChild(totalDiv);
+  receiptDiv.appendChild(totalDiv);
+
+  // 영수증 기록을 추가
+  receiptContainer.appendChild(receiptDiv);
 
   // 결제 목록 초기화
   Object.keys(items).forEach(item => delete items[item]);
   updatePayItems();
 });
-
 </script>
 </body>
 </html>
