@@ -365,7 +365,7 @@ clearButton.addEventListener('click', function () {
         totalDiscount += payItem.discount;
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
-        discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
+        discountItem.textContent = `${payItem.discount.toLocaleString()}원`;
         categoryDiv.appendChild(discountItem);
       }
     });
