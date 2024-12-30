@@ -260,7 +260,7 @@ function applyDiscount(discountRate, discountType) {
   const discountedPrice = (total - discountAmount) / 2;
 
   // 결제 목록에 추가
-  items[discountedItemName] = { price: discountedPrice, quantity: 1, category: "할인" };
+  items[discountedItemName] = { category: "할인" };
 
   // 결제 목록 갱신
   updatePayItems();
