@@ -315,7 +315,7 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 구분 제목 추가
   const receiptTitle = document.createElement('h3');
-  receiptTitle.textContent = '영수증';
+  receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
   receiptDiv.appendChild(receiptTitle);
 
   let currentPaymentTotal = 0; // 현재 영수증의 결제 금액 변수
@@ -353,6 +353,7 @@ clearButton.addEventListener('click', function () {
   currentTotalDiv.style.marginTop = '10px';
   currentTotalDiv.innerHTML = `<strong>결제된 금액: ${currentPaymentTotal.toLocaleString()}원</strong>`;
   receiptDiv.appendChild(currentTotalDiv);
+  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
 
   // 전체 총 결제 금액에 현재 영수증 금액을 추가
   totalOverallPayment += currentPaymentTotal;
