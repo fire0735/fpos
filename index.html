@@ -322,19 +322,19 @@ let totalOverallPayment = 0;
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
-  // 영수증 기록을 새로운 div로 생성
+  // 영수증 기록 생성
   const receiptDiv = document.createElement('div');
   receiptDiv.classList.add('receipt');
 
-  // 영수증 구분 제목 추가
   const receiptTitle = document.createElement('h3');
-  receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
+  receiptTitle.style.borderBottom = '2px solid #000';
+  receiptTitle.style.paddingBottom = '5px';
   receiptDiv.appendChild(receiptTitle);
 
-  let currentPaymentTotal = 0; // 현재 영수증의 결제 금액 변수
-  let totalDiscount = 0;  // 할인 금액 변수
+  let currentPaymentTotal = 0; // 현재 영수증의 결제 금액
+  let totalDiscount = 0; // 현재 영수증의 할인 금액
 
-  // 카테고리별로 아이템을 그룹화
+  // 카테고리별 정리
   const categories = {};
   for (const item in items) {
     const payItem = items[item];
@@ -347,7 +347,7 @@ clearButton.addEventListener('click', function () {
     categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price, discount: payItem.discount });
   }
 
-  // 각 카테고리별로 결제 내역을 영수증에 출력
+  // 카테고리별로 출력
   for (const category in categories) {
     const categoryDiv = document.createElement('div');
     categoryDiv.innerHTML = `<h4>${category}</h4>`;
@@ -355,14 +355,15 @@ clearButton.addEventListener('click', function () {
 
     categories[category].forEach(payItem => {
       const itemTotal = payItem.price * payItem.quantity;
-      currentPaymentTotal += itemTotal; // 현재 영수증의 결제 금액에 추가
+      currentPaymentTotal += itemTotal;
+
       const receiptItem = document.createElement('div');
       receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
       categoryDiv.appendChild(receiptItem);
 
-      // 할인 항목은 따로 출력 (0원인 항목)
+      // 할인 항목 추가
       if (payItem.discount) {
-        totalDiscount += payItem.discount;  // 할인 금액 합산
+        totalDiscount += payItem.discount;
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
         discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
@@ -409,6 +410,9 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 컨테이너를 보이게 설정
   receiptContainer.style.display = 'block';
+
+  // 결과를 항상 맨 아래로 유지 (영수증, 총 수익 등이 맨 아래에 표시됨)
+  receiptContainer.appendChild(summaryDiv);
 });
 </script>
 </body>
