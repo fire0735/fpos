@@ -259,9 +259,7 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 구분 제목 추가
   const receiptTitle = document.createElement('h3');
-  receiptTitle.textContent = `영수증`; // receiptCount 사용 //
   receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
-  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
   receiptDiv.appendChild(receiptTitle);
 
   // 카테고리별로 아이템을 그룹화
@@ -295,6 +293,7 @@ clearButton.addEventListener('click', function () {
   totalDiv.style.marginTop = '10px';
   totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
   receiptDiv.appendChild(totalDiv);
+  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
 
   // 영수증 기록을 추가
   receiptContainer.appendChild(receiptDiv);
