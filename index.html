@@ -357,7 +357,7 @@ clearButton.addEventListener('click', function () {
       currentPaymentTotal += itemTotal;
 
       const receiptItem = document.createElement('div');
-      receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
+      receiptItem.textContent = `${payItem.name}`;
       categoryDiv.appendChild(receiptItem);
 
       // 할인 항목 추가
@@ -365,7 +365,7 @@ clearButton.addEventListener('click', function () {
         totalDiscount += payItem.discount;
         const discountItem = document.createElement('div');
         discountItem.style.fontStyle = 'italic';
-        discountItem.textContent = `${payItem.discount}`;
+        discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
         categoryDiv.appendChild(discountItem);
       }
     });
