@@ -265,7 +265,7 @@ function applyDiscount(discountRate, discountType) {
     items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
   } else {
     // 할인 항목은 가격 0으로 설정, 수량 1로 설정
-    items[discountItemName] = { price: , quantity: , category: '', discount: discountAmount };
+    items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
   // 결제 목록 갱신
