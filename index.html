@@ -96,6 +96,19 @@
       white-space: pre-wrap;
       font-family: monospace;
     }
+    .discount-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.discount-button:hover {
+  background-color: #d85a4f;
+}
   </style>
 </head>
 <body>
@@ -106,6 +119,8 @@
       <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
       <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
       <button class="clear-button" id="clearButton">결제하기</button>
+      <button class="discount-button" id="govDiscountButton">공무원 할인</button>
+      <button class="discount-button" id="partnerDiscountButton">협력사 할인</button>
       <div id="receiptContainer" style="display: none;">
         <h3>영수증</h3>
         <div id="receipt"></div>
@@ -212,7 +227,45 @@ document.getElementById('menuContainer').addEventListener('click', function (e) 
     updatePayItems();  // 결제 목록 갱신
   }
 });
+// 공무원 할인 및 협력사 할인 버튼 처리
+const govDiscountButton = document.getElementById('govDiscountButton');
+const partnerDiscountButton = document.getElementById('partnerDiscountButton');
 
+// 할인율 (예시: 공무원 10%, 협력사 5%)
+const GOV_DISCOUNT_RATE = 0.1;  // 10% 공무원 할인
+const PARTNER_DISCOUNT_RATE = 0.05;  // 5% 협력사 할인
+
+// 공무원 할인 버튼 클릭 시 처리
+govDiscountButton.addEventListener('click', function () {
+  applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
+});
+
+// 협력사 할인 버튼 클릭 시 처리
+partnerDiscountButton.addEventListener('click', function () {
+  applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
+});
+
+// 할인 적용 함수
+function applyDiscount(discountRate, discountType) {
+  let total = 0;
+
+  // 결제 목록에서 총 금액 계산
+  for (const item in items) {
+    total += items[item].price * items[item].quantity;
+  }
+
+  // 할인 금액 계산
+  const discountAmount = total * discountRate;
+  const discountedTotal = total - discountAmount;
+
+  // 영수증에 할인 금액과 적용 후 금액 표시
+  const discountDiv = document.createElement('div');
+  discountDiv.innerHTML = `${discountType}: -${discountAmount.toLocaleString()}원 (할인 적용 후 금액: ${discountedTotal.toLocaleString()}원)`;
+  receiptElement.appendChild(discountDiv);
+
+  // 총합 업데이트
+  totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
+}
 // 결제 목록 업데이트
 function updatePayItems() {
   payItemsContainer.innerHTML = ''; // 결제 목록 초기화
