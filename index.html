@@ -308,7 +308,6 @@ function updatePayItems() {
 let totalOverallPayment = 0;
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
-// 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
   // 영수증 기록을 새로운 div로 생성
   const receiptDiv = document.createElement('div');
@@ -372,7 +371,7 @@ clearButton.addEventListener('click', function () {
   let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
   if (!overallTotalDiv) {
     // 처음 실행 시 총 결제 금액 영역 생성
-    receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
+    receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
     overallTotalDiv = document.createElement('div');
     overallTotalDiv.id = 'overallTotal';
     overallTotalDiv.style.marginTop = '20px';
