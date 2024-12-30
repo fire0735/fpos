@@ -299,7 +299,7 @@ function updatePayItems() {
     } else {
       // 할인 항목 표시
       payItemElement.innerHTML = `
-        <span>${item} (${payItem.discount} 할인) x ${payItem.quantity} = 0원</span>
+        <span>${item} (${payItem.discount} ("원 할인")</span>
         <button class="remove-button" data-name="${item}">취소</button>
       `;
     }
