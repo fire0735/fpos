@@ -259,10 +259,12 @@ function applyDiscount(discountRate, discountType) {
   const discountAmount = total * discountRate;
   const discountedTotal = total - discountAmount;
 
-  // 각 아이템의 가격에 할인 적용
-  for (const item in items) {
-    const payItem = items[item];
-    payItem.price = payItem.price * (1 - discountRate); // 가격에 할인율 적용
+  // 할인 항목을 결제 목록에 추가
+  const discountItemName = `${discountType}`;
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;
+  } else {
+    items[discountItemName] = { price: discountAmount, quantity: 1, category: '', discount: discountAmount };
   }
 
   // 결제 목록 갱신
