@@ -259,27 +259,19 @@ function applyDiscount(discountRate, discountType) {
   const discountAmount = total * discountRate;
   const discountedTotal = total - discountAmount;
 
-  // 할인된 항목을 새로운 항목으로 추가
-  for (const item in items) {
-    const payItem = items[item];
-    const itemDiscount = payItem.price * payItem.quantity * discountRate;
-    const discountedPrice = payItem.price * (1 - discountRate); // 할인된 가격
-
-    // 할인된 항목을 별도로 추가
-    const discountedItemName = `${item} (할인적용)`;
-    items[discountedItemName] = { price: discountedPrice, quantity: payItem.quantity, category: payItem.category, discount: itemDiscount };
+  // 할인된 항목을 결제 목록에 추가
+  const discountItemName = `${discountType}`;
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;
+  } else {
+    items[discountItemName] = { price: discountAmount, quantity: 1, category: '', discount: discountAmount };
   }
 
-  // 영수증에 할인 금액과 적용 후 금액 표시
-  const discountDiv = document.createElement('div');
-  discountDiv.innerHTML = `${discountType}: -${discountAmount.toLocaleString()}원 (할인 적용 후 금액: ${discountedTotal.toLocaleString()}원)`;
-  receiptElement.appendChild(discountDiv);
+  // 결제 목록 갱신
+  updatePayItems();
 
   // 총합 업데이트
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
-
-  // 결제 목록 갱신
-  updatePayItems(); 
 }
 
 // 결제 목록 업데이트
@@ -300,7 +292,6 @@ function updatePayItems() {
       <span>${item}</span>
       <span>${payItem.quantity}개</span>
       <span>${payItem.price * payItem.quantity}원</span>
-      ${payItem.discount > 0 ? `<span>(할인: ${payItem.discount.toLocaleString()}원)</span>` : ''}
       <button class="remove-button" data-name="${item}">취소</button>
     `;
     payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
@@ -347,7 +338,7 @@ clearButton.addEventListener('click', function () {
       categories[category] = [];
     }
 
-    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price, discount: payItem.discount });
+    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price });
   }
 
   // 각 카테고리별로 결제 내역을 영수증에 출력
@@ -357,14 +348,10 @@ clearButton.addEventListener('click', function () {
     receiptDiv.appendChild(categoryDiv);
 
     categories[category].forEach(payItem => {
-      const itemTotal = payItem.price * payItem.quantity - payItem.discount;
+      const itemTotal = payItem.price * payItem.quantity;
       currentPaymentTotal += itemTotal; // 현재 영수증의 결제 금액에 추가
       const receiptItem = document.createElement('div');
       receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
-      if (payItem.discount > 0) {
-        const discountText = ` (할인: ${payItem.discount.toLocaleString()}원)`;
-        receiptItem.textContent += discountText;
-      }
       categoryDiv.appendChild(receiptItem);
     });
   }
@@ -392,7 +379,6 @@ clearButton.addEventListener('click', function () {
   let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
   if (!overallTotalDiv) {
     // 처음 실행 시 총 결제 금액 영역 생성
-    receiptTitle.style.borderBottom = '2px solid #000'; // 밑줄 추가
     overallTotalDiv = document.createElement('div');
     overallTotalDiv.id = 'overallTotal';
     overallTotalDiv.style.marginTop = '20px';
@@ -405,12 +391,7 @@ clearButton.addEventListener('click', function () {
 
   // 영수증 컨테이너를 보이게 설정
   receiptContainer.style.display = 'block';
-
-  // 총 수익을 항상 영수증 마지막에 위치하도록 하기 위해 
-  receiptContainer.appendChild(overallTotalDiv);
 });
-
-
 </script>
 </body>
 </html>
