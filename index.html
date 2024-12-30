@@ -167,117 +167,126 @@
   <script>
     const items = {};  // 메뉴 항목과 수량을 저장할 객체
 
-    const payItemsContainer = document.getElementById('payItems');
-    const totalPriceElement = document.getElementById('totalPrice');
-    const totalQuantityElement = document.getElementById('totalQuantity');
-    const clearButton = document.getElementById('clearButton');
-    const receiptContainer = document.getElementById('receiptContainer');
-    const receiptElement = document.getElementById('receipt');
-    const menuButtons = document.querySelectorAll('.menu button');
+const payItemsContainer = document.getElementById('payItems');
+const totalPriceElement = document.getElementById('totalPrice');
+const totalQuantityElement = document.getElementById('totalQuantity');
+const clearButton = document.getElementById('clearButton');
+const receiptContainer = document.getElementById('receiptContainer');
+const receiptElement = document.getElementById('receipt');
+const menuButtons = document.querySelectorAll('.menu button');
 
-    // 메뉴 버튼 클릭 시
-    menuButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        const name = button.dataset.name;
-        const price = parseInt(button.dataset.price);
+// 메뉴 버튼 클릭 시
+menuButtons.forEach(button => {
+  button.addEventListener('click', function () {
+    const name = button.dataset.name;
+    const price = parseInt(button.dataset.price);
 
-        // 기존에 선택된 아이템이 있다면 수량 증가, 없다면 새로 추가
-        if (items[name]) {
-          items[name].quantity += 1;
-        } else {
-          items[name] = { price: price, quantity: 1 };
-        }
+    // 최대 수량 및 결제 한도 확인
+    let totalQuantity = 0;
+    let total = 0;
 
-        updatePayItems();
-      });
-    });
-
-    document.getElementById('menuContainer').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
-        const name = e.target.getAttribute('data-name');
-        const price = parseInt(e.target.getAttribute('data-price'), 10);
-        // 최대 수량 및 결제 한도 확인
-        if (totalQuantity >= 10) {
-          alert('최대 10개까지 주문 가능합니다.');
-          return;
-        }
-        if (total >= 900000) {
-          alert('결제 한도는 899,999원입니다.');
-          return;
-        }
-    
-    // 결제 목록 업데이트
-    function updatePayItems() {
-      payItemsContainer.innerHTML = ''; // 결제 목록 초기화
-      let total = 0;
-      let totalQuantity = 0;
-
-      // 아이템 리스트 순회하여 결제 목록을 업데이트
-      for (const item in items) {
-        const payItem = items[item];
-        total += payItem.price * payItem.quantity; // 금액 계산
-        totalQuantity += payItem.quantity; // 수량 계산
-
-        const payItemElement = document.createElement('div');
-        payItemElement.classList.add('pay-item');
-        payItemElement.innerHTML = `
-          <span>${item}</span>
-          <span>${payItem.quantity}개</span>
-          <span>${payItem.price * payItem.quantity}원</span>
-          <button class="remove-button" data-name="${item}">취소</button>
-          <button class="delete-button" data-name="${item}">전체취소</button>
-        `;
-        payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
-      }
-
-      // 결제 금액과 수량 업데이트
-      totalPriceElement.textContent = total;
-      totalQuantityElement.textContent = totalQuantity;
-
-      // 각 항목의 취소 버튼 처리
-      const removeButtons = document.querySelectorAll('.remove-button');
-      removeButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          const name = button.dataset.name;
-          delete items[name];  // 해당 아이템 삭제
-          updatePayItems();  // 결제 목록 갱신
-        });
-      });
-
-      // 전체 취소 버튼 처리
-      const deleteButtons = document.querySelectorAll('.delete-button');
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          const name = button.dataset.name;
-          delete items[name];  // 해당 아이템 삭제
-          updatePayItems();  // 결제 목록 갱신
-        });
-      });
+    // 전체 결제 목록의 수량과 가격 계산
+    for (const item in items) {
+      totalQuantity += items[item].quantity;
+      total += items[item].price * items[item].quantity;
     }
 
-    // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
-    clearButton.addEventListener('click', function () {
-      receiptContainer.style.display = 'block'; // 영수증 영역 표시
-      receiptElement.innerHTML = ''; // 영수증 초기화
+    // 최대 수량 확인
+    if (totalQuantity >= 10) {
+      alert('최대 10개까지 주문 가능합니다.');
+      return;
+    }
 
-      // 영수증 내용 작성
-      for (const item in items) {
-        const payItem = items[item];
-        const receiptItem = document.createElement('div');
-        receiptItem.textContent = `${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원`;
-        receiptElement.appendChild(receiptItem);
-      }
+    // 결제 한도 확인
+    if (total >= 900000) {
+      alert('결제 한도는 899,999원입니다.');
+      return;
+    }
 
-      // 총합 표시
-      const totalDiv = document.createElement('div');
-      totalDiv.style.marginTop = '10px';
-      totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
-      receiptElement.appendChild(totalDiv);
+    // 기존에 선택된 아이템이 있다면 수량 증가, 없다면 새로 추가
+    if (items[name]) {
+      items[name].quantity += 1;
+    } else {
+      items[name] = { price: price, quantity: 1 };
+    }
 
-      // 결제 목록 초기화
-      Object.keys(items).forEach(item => delete items[item]);
-      updatePayItems();
+    updatePayItems();  // 결제 목록 갱신
+  });
+});
+
+// 결제 목록 업데이트
+function updatePayItems() {
+  payItemsContainer.innerHTML = ''; // 결제 목록 초기화
+  let total = 0;
+  let totalQuantity = 0;
+
+  // 아이템 리스트 순회하여 결제 목록을 업데이트
+  for (const item in items) {
+    const payItem = items[item];
+    total += payItem.price * payItem.quantity; // 금액 계산
+    totalQuantity += payItem.quantity; // 수량 계산
+
+    const payItemElement = document.createElement('div');
+    payItemElement.classList.add('pay-item');
+    payItemElement.innerHTML = `
+      <span>${item}</span>
+      <span>${payItem.quantity}개</span>
+      <span>${payItem.price * payItem.quantity}원</span>
+      <button class="remove-button" data-name="${item}">취소</button>
+      <button class="delete-button" data-name="${item}">전체취소</button>
+    `;
+    payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
+  }
+
+  // 결제 금액과 수량 업데이트
+  totalPriceElement.textContent = total;
+  totalQuantityElement.textContent = totalQuantity;
+
+  // 각 항목의 취소 버튼 처리
+  const removeButtons = document.querySelectorAll('.remove-button');
+  removeButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const name = button.dataset.name;
+      delete items[name];  // 해당 아이템 삭제
+      updatePayItems();  // 결제 목록 갱신
     });
+  });
+
+  // 전체 취소 버튼 처리
+  const deleteButtons = document.querySelectorAll('.delete-button');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const name = button.dataset.name;
+      delete items[name];  // 해당 아이템 삭제
+      updatePayItems();  // 결제 목록 갱신
+    });
+  });
+}
+
+// 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
+clearButton.addEventListener('click', function () {
+  receiptContainer.style.display = 'block'; // 영수증 영역 표시
+  receiptElement.innerHTML = ''; // 영수증 초기화
+
+  // 영수증 내용 작성
+  for (const item in items) {
+    const payItem = items[item];
+    const receiptItem = document.createElement('div');
+    receiptItem.textContent = `${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원`;
+    receiptElement.appendChild(receiptItem);
+  }
+
+  // 총합 표시
+  const totalDiv = document.createElement('div');
+  totalDiv.style.marginTop = '10px';
+  totalDiv.innerHTML = `<strong>총합: ${totalPriceElement.textContent}원</strong>`;
+  receiptElement.appendChild(totalDiv);
+
+  // 결제 목록 초기화
+  Object.keys(items).forEach(item => delete items[item]);
+  updatePayItems();
+});
+
   </script>
 </body>
 </html>
