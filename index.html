@@ -22,117 +22,69 @@
             gap: 20px; /* 버튼 간 간격 */
         }
 
-        .EODIYA-button {
+        .menu-button {
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
             border: none;
             border-radius: 8px;
-            background-color: #008fe7;
             color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
+            width: 200px; /* 버튼 너비 */
             text-align: center;
+        }
+
+        /* 기본 색상 및 호버 색상 설정 */
+        .EODIYA-button {
+            background-color: #008fe7; /* 기본 색상 */
+        }
+        .EODIYA-button:hover {
+            background-color: #0056b3; /* 호버 시 색상 */
         }
 
         .BURGERQUEEN-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #d6680e;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
-            text-align: center;
+            background-color: #d6680e; /* 기본 색상 */
+        }
+        .BURGERQUEEN-button:hover {
+            background-color: #a34a07; /* 호버 시 색상 */
         }
 
         .SHC-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #008fe7;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
-            text-align: center;
+            background-color: #2ecc71; /* 기본 색상 */
+        }
+        .SHC-button:hover {
+            background-color: #27ae60; /* 호버 시 색상 */
         }
 
         .BEEFBACK-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #008fe7;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
-            text-align: center;
+            background-color: #9b59b6; /* 기본 색상 */
+        }
+        .BEEFBACK-button:hover {
+            background-color: #8e44ad; /* 호버 시 색상 */
         }
 
         .YEONDONGSCHOOLFOOD-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #008fe7;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
-            text-align: center;
+            background-color: #e74c3c; /* 기본 색상 */
+        }
+        .YEONDONGSCHOOLFOOD-button:hover {
+            background-color: #c0392b; /* 호버 시 색상 */
         }
 
         .HANGAHANICE21-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #008fe7;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 200px; /* 버튼 너비 설정 */
-            text-align: center;
+            background-color: #f1c40f; /* 기본 색상 */
         }
-
-        .EODIYA-button:hover {
-            background-color: #379bdb;
-        }
-
-        .BURGERQUEEN-button:hover {
-            background-color: #e77b23;
-        }
-
-        .SHC-button:hover {
-            background-color: #0056b3;
-        }
-
-        .BEEFBACK-button:hover {
-            background-color: #0056b3;
-        }
-
-        .YEONDONGSCHOOLFOOD-button:hover {
-            background-color: #0056b3;
-        }
-
         .HANGAHANICE21-button:hover {
-            background-color: #0056b3;
+            background-color: #f39c12; /* 호버 시 색상 */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <button class="EODIYA-button" id="EODIYA">EODIYA 메뉴</button>
-        <button class="menu-button" id="BURGERQUEEN">BURGERQUEEN 메뉴</button>
-        <button class="menu-button" id="SHC">SHC 메뉴</button>
-        <button class="menu-button" id="BEEFBACK">BEEFBACK 메뉴</button>
-        <button class="menu-button" id="YEONDONGSCHOOLFOOD">YEONDONGSCHOOLFOOD 메뉴</button>
-        <button class="menu-button" id="HANGAHANICE21">HANGAHANICE21 메뉴</button>
+        <button class="menu-button EODIYA-button" id="EODIYA">EODIYA</button>
+        <button class="menu-button BURGERQUEEN-button" id="BURGERQUEEN">BURGERQUEEN</button>
+        <button class="menu-button SHC-button" id="SHC">SHC</button>
+        <button class="menu-button BEEFBACK-button" id="BEEFBACK">BEEFBACK</button>
+        <button class="menu-button YEONDONGSCHOOLFOOD-button" id="YEONDONGSCHOOLFOOD">YEONDONGSCHOOLFOOD</button>
+        <button class="menu-button HANGAHANICE21-button" id="HANGAHANICE21">HANGAHANICE21</button>
     </div>
 
     <script>
