@@ -248,15 +248,27 @@ partnerDiscountButton.addEventListener('click', function () {
 
 // 할인 적용 함수
 function applyDiscount(discountRate, discountType) {
-  // 할인 금액 계산
-  const discountAmount = calculateTotalPrice() * discountRate;
-  
-  // 할인 항목을 결제 항목에 추가 (수량은 1, 가격은 음수로)
-  const discountName = `${discountType}`;
-  items[discountName] = { price: -discountAmount, quantity: 1, category: '할인' };
+  let total = 0;
 
-  updatePayItems();  // 결제 목록 갱신
-}
+  // 결제 목록에서 총 금액 계산
+  for (const item in items) {
+    total += items[item].price * items[item].quantity;
+  }
+
+  // 할인 금액 계산
+  const discountAmount = total * discountRate;
+  const discountedTotal = total - discountAmount;
+
+  // 할인된 항목을 결제 목록에 추가
+  const discountItemName = `${discountType}`;
+  if (items[discountItemName]) {
+    items[discountItemName].quantity += 1;
+  } else {
+    items[discountItemName] = { price: discountAmount, quantity: 1, category: '', discount: discountAmount };
+  }
+
+  // 결제 목록 갱신
+  updatePayItems();
 
   // 총합 업데이트
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
@@ -299,7 +311,7 @@ function updatePayItems() {
     });
   });
 }
-  
+
 // 모든 영수증의 총 결제 금액 저장 변수
 let totalOverallPayment = 0;
 
