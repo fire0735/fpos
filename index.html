@@ -411,8 +411,8 @@ clearButton.addEventListener('click', function () {
   // 영수증 컨테이너를 보이게 설정
   receiptContainer.style.display = 'block';
 
-  // 결과를 항상 맨 아래로 유지 (영수증, 총 수익 등이 맨 아래에 표시됨)
-  receiptContainer.appendChild(summaryDiv);
+  // **총 수익을 맨 아래로 위치시키기** (영수증 추가 후)
+  receiptContainer.appendChild(overallTotalDiv);
 });
 </script>
 </body>
