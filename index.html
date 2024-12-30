@@ -187,7 +187,6 @@ const totalPriceElement = document.getElementById('totalPrice');
 const totalQuantityElement = document.getElementById('totalQuantity');
 const clearButton = document.getElementById('clearButton');
 const receiptContainer = document.getElementById('receiptContainer');
-const receiptElement = document.getElementById('receipt');
 
 // 메뉴 항목 클릭 시
 document.getElementById('menuContainer').addEventListener('click', function (e) {
@@ -267,11 +266,11 @@ function applyDiscount(discountRate, discountType) {
     items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
   }
 
-  // 할인 금액을 총액에서 차감 (결제 금액을 최종적으로 할인 금액 반영)
-  const discountedTotal = total - discountAmount;
-
   // 결제 목록 갱신
   updatePayItems();
+
+  // 할인 금액을 총액에서 차감 (결제 금액을 최종적으로 할인 금액 반영)
+  const discountedTotal = total - discountAmount;
 
   // 총합 업데이트 (할인 적용 후 총액)
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
@@ -289,15 +288,18 @@ function updatePayItems() {
     total += payItem.price * payItem.quantity; // 금액 계산
     totalQuantity += payItem.quantity; // 수량 계산
 
-    const payItemElement = document.createElement('div');
-    payItemElement.classList.add('pay-item');
-    payItemElement.innerHTML = `
-      <span>${item}</span>
-      <span>${payItem.quantity}개</span>
-      <span>${payItem.price * payItem.quantity}원</span>
-      <button class="remove-button" data-name="${item}">취소</button>
-    `;
-    payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
+    // 할인 항목(가격이 0원인 항목)은 결제 목록에서 제외
+    if (payItem.price > 0) {
+      const payItemElement = document.createElement('div');
+      payItemElement.classList.add('pay-item');
+      payItemElement.innerHTML = `
+        <span>${item}</span>
+        <span>${payItem.quantity}개</span>
+        <span>${payItem.price * payItem.quantity}원</span>
+        <button class="remove-button" data-name="${item}">취소</button>
+      `;
+      payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
+    }
   }
 
   // 결제 금액과 수량 업데이트
@@ -341,7 +343,7 @@ clearButton.addEventListener('click', function () {
       categories[category] = [];
     }
 
-    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price });
+    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price, discount: payItem.discount });
   }
 
   // 각 카테고리별로 결제 내역을 영수증에 출력
@@ -356,6 +358,14 @@ clearButton.addEventListener('click', function () {
       const receiptItem = document.createElement('div');
       receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
       categoryDiv.appendChild(receiptItem);
+
+      // 할인 항목은 따로 출력 (0원인 항목)
+      if (payItem.discount) {
+        const discountItem = document.createElement('div');
+        discountItem.style.fontStyle = 'italic';
+        discountItem.textContent = `${payItem.discount.toLocaleString()}원 할인`;
+        categoryDiv.appendChild(discountItem);
+      }
     });
   }
 
