@@ -192,6 +192,20 @@
       });
     });
 
+    document.getElementById('menuContainer').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('data-name')) {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'), 10);
+        // 최대 수량 및 결제 한도 확인
+        if (totalQuantity >= 10) {
+          alert('최대 10개까지 주문 가능합니다.');
+          return;
+        }
+        if (total >= 900000) {
+          alert('결제 한도는 899,999원입니다.');
+          return;
+        }
+    
     // 결제 목록 업데이트
     function updatePayItems() {
       payItemsContainer.innerHTML = ''; // 결제 목록 초기화
