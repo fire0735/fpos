@@ -275,7 +275,6 @@ function applyDiscount(discountRate, discountType) {
   totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
 }
 
-// 결제 목록 업데이트
 function updatePayItems() {
   payItemsContainer.innerHTML = ''; // 결제 목록 초기화
   let total = 0;
@@ -287,31 +286,30 @@ function updatePayItems() {
     total += payItem.price * payItem.quantity; // 금액 계산
     totalQuantity += payItem.quantity; // 수량 계산
 
-    // 할인 항목(가격이 0원인 항목)은 결제 목록에서 제외
+    // 결제 항목 추가
+    const payItemElement = document.createElement('div');
+    payItemElement.classList.add('pay-item');
+
     if (payItem.price > 0) {
-      const payItemElement = document.createElement('div');
-      payItemElement.classList.add('pay-item');
+      // 정상 메뉴 항목
       payItemElement.innerHTML = `
-        <span>${item}</span>
-        
+        <span>${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원</span>
         <button class="remove-button" data-name="${item}">취소</button>
       `;
-      payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
     } else {
-      // 할인 항목을 표시하는 경우
-      const discountElement = document.createElement('div');
-      discountElement.classList.add('pay-item');
-      discountElement.innerHTML = `
-        <span>${item} (${payItem.discount}할인)</span>
+      // 할인 항목 표시
+      payItemElement.innerHTML = `
+        <span>${item} (${payItem.discount} 할인) x ${payItem.quantity} = 0원</span>
         <button class="remove-button" data-name="${item}">취소</button>
       `;
-      payItemsContainer.appendChild(discountElement); // 할인 항목 추가
     }
+
+    payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
   }
 
   // 결제 금액과 수량 업데이트
-  totalPriceElement.textContent = total;
-  totalQuantityElement.textContent = totalQuantity;
+  totalPriceElement.textContent = total.toLocaleString(); // 총 결제 금액 표시
+  totalQuantityElement.textContent = totalQuantity; // 총 수량 표시
 
   // 각 항목의 취소 버튼 처리
   const removeButtons = document.querySelectorAll('.remove-button');
