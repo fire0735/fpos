@@ -368,25 +368,22 @@ clearButton.addEventListener('click', function () {
   updatePayItems();
 
   // 전체 총 결제 금액 업데이트 및 출력
-const overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
-if (!overallTotalDiv) {
-  // 처음 실행 시 총 결제 금액 영역 생성
-  const newOverallTotalDiv = document.createElement('div');
-  newOverallTotalDiv.id = 'overallTotal';
-  newOverallTotalDiv.style.marginTop = '20px';
-  newOverallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
-  receiptContainer.appendChild(newOverallTotalDiv);
-} else {
-  // 이미 영역이 있으면 내용 업데이트
-  overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
-}
+  const overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
+  if (!overallTotalDiv) {
+    // 처음 실행 시 총 결제 금액 영역 생성
+    const newOverallTotalDiv = document.createElement('div');
+    newOverallTotalDiv.id = 'overallTotal';
+    newOverallTotalDiv.style.marginTop = '20px';
+    newOverallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
+    receiptContainer.appendChild(newOverallTotalDiv);
+  } else {
+    // 이미 영역이 있으면 내용 업데이트
+    overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
+  }
 
   // 영수증 컨테이너를 보이게 설정
   receiptContainer.style.display = 'block';
 });
-
-
-  
 </script>
 </body>
 </html>
