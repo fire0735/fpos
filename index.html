@@ -180,7 +180,6 @@
   </div>
 <script>
 // 결제 항목을 저장할 객체
-// 결제 항목을 저장할 객체
 const items = {};  
 
 const payItemsContainer = document.getElementById('payItems');
@@ -222,7 +221,7 @@ document.getElementById('menuContainer').addEventListener('click', function (e) 
     if (items[name]) {
       items[name].quantity += 1;
     } else {
-      items[name] = { price: price, quantity: 1, category: category };
+      items[name] = { price: price, quantity: 1, category: category, discount: 0 }; // 기본 할인 0%
     }
 
     updatePayItems();  // 결제 목록 갱신
@@ -300,9 +299,18 @@ function updatePayItems() {
     });
   });
 }
-
+  
 // 모든 영수증의 총 결제 금액 저장 변수
 let totalOverallPayment = 0;
+
+// 총 결제 금액 계산 함수 // 안되면 얘를 조질것
+function calculateTotalPrice() {
+  let total = 0;
+  for (const item in items) {
+    total += items[item].price * items[item].quantity;
+  }
+  return total;
+}
 
 // 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
 clearButton.addEventListener('click', function () {
@@ -345,17 +353,6 @@ clearButton.addEventListener('click', function () {
     });
   }
 
-  // **할인 항목**을 영수증에 추가
-  for (const item in items) {
-    if (item.includes("할인")) {
-      const discountItem = items[item];
-      currentPaymentTotal += discountItem.price * discountItem.quantity;
-      const receiptItem = document.createElement('div');
-      receiptItem.textContent = `${item} = ${discountItem.price * discountItem.quantity}원`;
-      receiptDiv.appendChild(receiptItem);
-    }
-  }
-
   // 현재 영수증의 결제 금액 출력
   const currentTotalDiv = document.createElement('div');
   currentTotalDiv.style.marginTop = '10px';
@@ -373,8 +370,25 @@ clearButton.addEventListener('click', function () {
   Object.keys(items).forEach(item => delete items[item]);
 
   // 결제 목록을 갱신
-  updatePay
-  
+  updatePayItems();
+
+  // **전체 총 수익**을 한 번만 갱신 (총 수익 중복 추가 방지)
+  let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
+  if (!overallTotalDiv) {
+    // 처음 실행 시 총 결제 금액 영역 생성
+    overallTotalDiv = document.createElement('div');
+    overallTotalDiv.id = 'overallTotal';
+    overallTotalDiv.style.marginTop = '20px';
+    overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
+    receiptContainer.appendChild(overallTotalDiv);
+  } else {
+    // 이미 영역이 있으면 내용 업데이트
+    overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
+  }
+
+  // 영수증 컨테이너를 보이게 설정
+  receiptContainer.style.display = 'block';
+});
 </script>
 </body>
 </html>
