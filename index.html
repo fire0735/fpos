@@ -121,13 +121,14 @@
       <button class="clear-button" id="clearButton">결제하기</button>
       <button class="discount-button" id="govDiscountButton">공무원 할인</button>
       <button class="discount-button" id="partnerDiscountButton">협력사 할인</button>
+      <button id="savePdfButton">영수증 PDF로 저장</button>
+
       <div id="receiptContainer" style="display: none;">
         <h3>영수증</h3>
         <div id="receipt"></div>
       </div>
     </div>
     <div class="menu-container" id="menuContainer">
-      <!-- 메뉴 항목들 -->
       <div class="menu">
         <h2>COFFEE</h2>
       <button data-name="아메리카노" data-price="4000">아메리카노</button>
@@ -414,6 +415,77 @@ clearButton.addEventListener('click', function () {
   // **총 수익을 맨 아래로 위치시키기** (영수증 추가 후)
   receiptContainer.appendChild(overallTotalDiv);
 });
+
+// jsPDF 생성 및 영수증을 PDF로 저장
+const { jsPDF } = window.jspdf;
+
+function saveReceiptAsPDF() {
+  const doc = new jsPDF();
+
+  // PDF 제목 설정
+  doc.setFontSize(18);
+  doc.text("영수증", 14, 20);
+
+  let currentYPosition = 30; // PDF 상에서 항목을 추가할 Y 좌표
+
+  let currentPaymentTotal = 0;
+  let totalDiscount = 0;
+
+  // 카테고리별 정리
+  const categories = {};
+  for (const item in items) {
+    const payItem = items[item];
+    const category = payItem.category;
+
+    if (!categories[category]) {
+      categories[category] = [];
+    }
+
+    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price, discount: payItem.discount });
+  }
+
+  // 카테고리별로 PDF에 추가
+  for (const category in categories) {
+    doc.setFontSize(14);
+    doc.text(category, 14, currentYPosition);
+    currentYPosition += 10;
+
+    categories[category].forEach(payItem => {
+      const itemTotal = payItem.price * payItem.quantity;
+      currentPaymentTotal += itemTotal;
+
+      doc.setFontSize(12);
+      doc.text(`${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`, 14, currentYPosition);
+      currentYPosition += 10;
+
+      // 할인 항목 추가
+      if (payItem.discount) {
+        totalDiscount += payItem.discount;
+        doc.setFontSize(10);
+        doc.text(`${payItem.discount.toLocaleString()}원 할인`, 14, currentYPosition);
+        currentYPosition += 10;
+      }
+    });
+  }
+
+  // 결제 금액 출력
+  const finalPaymentTotal = currentPaymentTotal - totalDiscount;
+  doc.setFontSize(14);
+  doc.text(`결제된 금액: ${finalPaymentTotal.toLocaleString()}원`, 14, currentYPosition);
+  currentYPosition += 10;
+
+  // 총 수익 추가
+  const totalOverallPayment = finalPaymentTotal; // 총 수익
+  doc.setFontSize(16);
+  doc.text(`총 수익: ${totalOverallPayment.toLocaleString()}원`, 14, currentYPosition);
+
+  // PDF 저장
+  doc.save('receipt.pdf');
+}
+
+// PDF 저장 버튼을 클릭했을 때 saveReceiptAsPDF 함수 호출
+document.getElementById('savePdfButton').addEventListener('click', saveReceiptAsPDF);
+
 </script>
 </body>
 </html>
