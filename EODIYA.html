@@ -121,6 +121,13 @@
       <button class="clear-button" id="clearButton">결제하기</button>
       <button class="discount-button" id="govDiscountButton">공무원 할인</button>
       <button class="discount-button" id="partnerDiscountButton">협력사 할인</button>
+      <button class="tip-button" id="tipButton">팁 처리</button>
+      
+     <div id="tipContainer" style="display:none;">
+       <label for="tipAmount">팁 금액:</label>
+       <input type="number" id="tipAmount" placeholder="팁 금액을 입력하세요">
+       <button id="applyTipButton">적용</button>
+     </div>
       <div id="receiptContainer" style="display: none;">
         <h3>영수증</h3>
         <div id="receipt"></div>
@@ -186,6 +193,50 @@ const totalPriceElement = document.getElementById('totalPrice');
 const totalQuantityElement = document.getElementById('totalQuantity');
 const clearButton = document.getElementById('clearButton');
 const receiptContainer = document.getElementById('receiptContainer');
+
+const tipButton = document.getElementById('tipButton');
+const tipContainer = document.getElementById('tipContainer');
+const applyTipButton = document.getElementById('applyTipButton');
+const tipAmountInput = document.getElementById('tipAmount');
+
+// 팁 처리 버튼 클릭 시 팁 입력창 표시
+tipButton.addEventListener('click', function () {
+  tipContainer.style.display = 'block';  // 팁 입력창 보이게 함
+});
+
+// 팁 금액 적용 버튼 클릭 시 처리
+applyTipButton.addEventListener('click', function () {
+  const tipAmount = parseInt(tipAmountInput.value);
+
+  // 팁 금액이 유효한지 확인
+  if (isNaN(tipAmount) || tipAmount <= 0) {
+    alert('유효한 팁 금액을 입력하세요.');
+    return;
+  }
+
+  // 결제 목록에 팁 추가
+  addTipToPayment(tipAmount);
+
+  // 팁 입력창 숨기기
+  tipContainer.style.display = 'none';
+
+  // 입력창 초기화
+  tipAmountInput.value = '';
+});
+
+// 결제 목록에 팁 추가하는 함수
+function addTipToPayment(tipAmount) {
+  // 팁 항목 추가
+  const tipItemName = '팁';
+  if (items[tipItemName]) {
+    items[tipItemName].quantity += 1;  // 이미 팁 항목이 있다면 수량 증가
+  } else {
+    // 팁 항목은 가격으로 설정, 수량 1로 설정
+    items[tipItemName] = { price: tipAmount, quantity: 1, category: '기타', discount: 0 };
+  }
+
+  // 결제 목록 갱신
+  updatePayItems();
 
 // 메뉴 항목 클릭 시
 document.getElementById('menuContainer').addEventListener('click', function (e) {
