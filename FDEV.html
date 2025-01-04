@@ -102,7 +102,7 @@
 
     <!-- 로그인 컨테이너 -->
     <div class="container">
-        <input type="text" id="loginInput" class="input-field" placeholder="로그인 코드를 입력하세요">
+        <input type="text" id="loginInput" class="input-field" placeholder="로그인 코드를 입력하세요.">
         <button class="menu-button DEVELOPMENT-button" id="DEVELOPMENT">로그인</button>
         <button class="menu-button index-button" id="index">나가기</button>
     </div>
@@ -119,6 +119,10 @@
         } else {
             alert('로그인 코드가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
         }
+    });
+
+        // 입력창 초기화
+        document.getElementById('loginInput').value = ''; // 로그인 후 입력창 비우기
     });
 
     // 나가기 버튼 클릭 이벤트
