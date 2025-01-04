@@ -108,24 +108,24 @@
     </div>
 
     <script>
-        // 설정한 텍스트 (비밀번호)
-        const correctPassword = "FDEV123";
+    // 설정한 텍스트 (비밀번호)
+    const correctPassword = "FDEV123";
 
-        // 로그인 버튼 클릭 이벤트
-        document.getElementById('DEVELOPMENT').addEventListener('click', function () {
-            const userInput = document.getElementById('loginInput').value; // 입력 값 가져오기
-            if (userInput === correctPassword) {
-                alert("로그인 성공!"); // 성공 메시지
-                // 페이지 이동 대신 알림으로 처리
-            } else {
-                alert('비밀번호가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
-            }
-        });
+    // 로그인 버튼 클릭 이벤트
+    document.getElementById('DEVELOPMENT').addEventListener('click', function () {
+        const userInput = document.getElementById('loginInput').value; // 입력 값 가져오기
+        if (userInput === correctPassword) {
+            window.location.href = 'DEVELOPMENT.html'; // 로그인 성공 시 페이지 이동
+        } else {
+            alert('로그인 코드가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
+        }
+    });
 
-        // 나가기 버튼 클릭 이벤트
-        document.getElementById('index').addEventListener('click', function () {
-            alert("나가기 버튼이 눌렸습니다."); // 페이지 이동 대신 알림으로 처리
-        });
-    </script>
+    // 나가기 버튼 클릭 이벤트
+    document.getElementById('index').addEventListener('click', function () {
+        window.location.href = 'index.html'; // 나가기 버튼 클릭 시 페이지 이동
+    });
+</script>
+
 </body>
 </html>
