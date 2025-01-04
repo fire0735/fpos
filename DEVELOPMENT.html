@@ -136,6 +136,7 @@
       <div id="receiptContainer" style="display: none;">
         <h3>영수증</h3>
         <div id="receipt"></div>
+        <button class="remove-receipt-button" id="removeReceiptButton">영수증 삭제</button>
       </div>
     </div>
     <div class="menu-container" id="menuContainer">
@@ -250,13 +251,11 @@ function updatePayItems() {
   let total = 0;
   let totalQuantity = 0;
 
-  // 아이템 리스트 순회하여 결제 목록을 업데이트
   for (const item in items) {
     const payItem = items[item];
     total += payItem.price * payItem.quantity; // 금액 계산
     totalQuantity += payItem.quantity; // 수량 계산
 
-    // 결제 항목 추가
     const payItemElement = document.createElement('div');
     payItemElement.classList.add('pay-item');
 
@@ -264,6 +263,7 @@ function updatePayItems() {
       // 정상 메뉴 항목
       payItemElement.innerHTML = `
         <span>${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원</span>
+        <!-- 삭제 버튼 추가 -->
         <button class="remove-button" data-name="${item}">취소</button>
       `;
     } else {
@@ -277,7 +277,6 @@ function updatePayItems() {
     payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
   }
 
-  // 결제 금액과 수량 업데이트
   totalPriceElement.textContent = total.toLocaleString(); // 총 결제 금액 표시
   totalQuantityElement.textContent = totalQuantity; // 총 수량 표시
 
@@ -291,6 +290,7 @@ function updatePayItems() {
     });
   });
 }
+
 
 // 모든 영수증의 총 결제 금액 저장 변수
 let totalOverallPayment = 0;
