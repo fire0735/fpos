@@ -16,19 +16,22 @@
         }
 
         .Title {
-            position: fixed; /* 제목을 화면 맨 위에 고정 */
-            top: 0;
-            width: 100%;
             text-align: center;
             background-color: #ffffff;
             padding: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            gap: 40px;
+            width: 100%;
+        }
+
+        .EndTitle {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555; /* 텍스트 색상 조정 */
+            text-align: center;
         }
 
         .container {
-            margin-top: 150px; /* 제목 아래로 충분히 간격 확보 */
+            margin-top: 50px; /* 제목과 컨텐츠 간격 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,7 +45,6 @@
             border-radius: 5px;
             width: 300px;
             text-align: center;
-            margin-bottom: 15px
         }
 
         .menu-button {
@@ -56,14 +58,10 @@
             text-align: center;
         }
 
-        .EndTitle {
-            font-size: 8px;
-            margin-bottom: 15px
-        }
-
         .DEVELOPMENT-button {
             background-color: #008fe7;
         }
+
         .DEVELOPMENT-button:hover {
             background-color: #0056b3;
         }
@@ -71,41 +69,48 @@
         .index-button {
             background-color: #e74c3c;
         }
+
         .index-button:hover {
             background-color: #c0392b;
         }
-        
     </style>
 </head>
 <body>
+    <!-- 제목 -->
     <div class="Title">
         <h1>FDEV 개발자 모드</h1>
     </div>
+
+    <!-- 제목 아래의 설명 -->
+    <div class="EndTitle">
+        본 시스템은 개발자만 사용이 가능합니다.
+    </div>
+
+    <!-- 로그인 컨테이너 -->
     <div class="container">
         <input type="text" id="loginInput" class="input-field" placeholder="로그인 코드를 입력하세요">
         <button class="menu-button DEVELOPMENT-button" id="DEVELOPMENT">로그인</button>
         <button class="menu-button index-button" id="index">나가기</button>
     </div>
-    <div class="EndTitle">
-        <h1>본 시스템은 개발자만 사용이 가능합니다.</h1>
-    </div>
+
     <script>
         // 설정한 텍스트 (비밀번호)
         const correctPassword = "FDEV123";
 
         // 로그인 버튼 클릭 이벤트
-        document.getElementById('DEVELOPMENT').addEventListener('click', function() {
+        document.getElementById('DEVELOPMENT').addEventListener('click', function () {
             const userInput = document.getElementById('loginInput').value; // 입력 값 가져오기
             if (userInput === correctPassword) {
-                window.location.href = 'DEVELOPMENT.html'; // 페이지 이동
+                alert("로그인 성공!"); // 성공 메시지
+                // 페이지 이동 대신 알림으로 처리
             } else {
                 alert('비밀번호가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
             }
         });
 
         // 나가기 버튼 클릭 이벤트
-        document.getElementById('index').addEventListener('click', function() {
-            window.location.href = 'index.html'; // 나가기 페이지로 이동
+        document.getElementById('index').addEventListener('click', function () {
+            alert("나가기 버튼이 눌렸습니다."); // 페이지 이동 대신 알림으로 처리
         });
     </script>
 </body>
