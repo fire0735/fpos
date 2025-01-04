@@ -5,74 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDEV 개발자 모드</title>
     <style>
-        body, html {
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f0f0;
-        }
+        /* Reset 기본 설정 */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .Title {
-            text-align: center;
-            background-color: #ffffff;
-            padding: 20px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
+    /* 제목 스타일 */
+    .Title {
+        width: 100%;
+        text-align: center;
+        background-color: #fff;
+        padding: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .EndTitle {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555; /* 텍스트 색상 조정 */
-            text-align: center;
-        }
+    /* 설명 텍스트 */
+    .EndTitle {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
 
-        .container {
-            margin-top: 50px; /* 제목과 컨텐츠 간격 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px; /* 입력창과 버튼 사이 간격 */
-        }
+    /* 컨테이너 스타일 */
+    .container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px; /* 간격 */
+    }
 
-        .input-field {
-            padding: 10px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 300px;
-            text-align: center;
-        }
+    /* 입력창 */
+    .input-field {
+        width: 300px;
+        padding: 10px;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }
 
-        .menu-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 90px;
-            color: white;
-            width: 300px;
-            text-align: center;
-        }
+    /* 버튼 공통 스타일 */
+    .menu-button {
+        width: 300px;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 90px;
+        cursor: pointer;
+        color: white;
+        text-align: center;
+    }
 
-        .DEVELOPMENT-button {
-            background-color: #008fe7;
-        }
+    /* 로그인 버튼 */
+    .DEVELOPMENT-button {
+        background-color: #008fe7;
+    }
+    .DEVELOPMENT-button:hover {
+        background-color: #0056b3;
+    }
 
-        .DEVELOPMENT-button:hover {
-            background-color: #0056b3;
-        }
+    /* 나가기 버튼 */
+    .index-button {
+    background-color: #e74c3c;
+    }
+    .index-button:hover {
+        background-color: #c0392b;
+    }
 
-        .index-button {
-            background-color: #e74c3c;
-        }
-
-        .index-button:hover {
-            background-color: #c0392b;
-        }
     </style>
 </head>
 <body>
