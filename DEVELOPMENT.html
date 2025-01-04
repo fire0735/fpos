@@ -13,6 +13,11 @@
       height: 100vh;
       flex-direction: column;
     }
+    .DEVELOPERMODE {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;/
+    }
     .container {
       display: flex;
       justify-content: space-between;
@@ -112,6 +117,9 @@
   </style>
 </head>
 <body>
+  <div class="DEVELOPERMODE">
+        <button class="DEVELOPMENT-button DEVELOPERMODE-button" id="DEVELOPMENT">개발자모드</button>
+    </div>
   <div class="container">
     <div class="pay">
       <h2>결제 목록</h2>
@@ -128,54 +136,13 @@
     </div>
     <div class="menu-container" id="menuContainer">
       <div class="menu">
-        <h2>식사한끼</h2>
-      <button data-name="공기밥" data-price="1000">공기밥</button>
-      <button data-name="미소된장국" data-price="1000">미소된장국</button>
-      <button data-name="된장찌개" data-price="7000">된장찌개</button>
-      <button data-name="김치찌개" data-price="7000">김치찌개</button>
-      <button data-name="떡만두국" data-price="6000">떡만두국</button>
+        <h2>테스트 도</h2>
+      <button data-name="1" data-price="1000">1000</button>
+      <button data-name="2" data-price="2000">2000</button>
+      <button data-name="3" data-price="3000">3000</button>
+      <button data-name="4" data-price="4000">4000</button>
+      <button data-name="5" data-price="5000">5000</button>
     </div>
-    <div class="menu">
-      <h2>떡볶이</h2>
-      <button data-name="오리지널 떡볶이" data-price="5000">오리지널 떡볶이</button>
-      <button data-name="짜장 떡볶이" data-price="6000">짜장 떡볶이</button>
-      <button data-name="로제 떡볶이" data-price="6000">로제 떡볶이</button>
-      <button data-name="민초 떡볶이" data-price="6000">민초 떡볶이</button>
-      <button data-name="차돌 떡볶이" data-price="7000">차돌 떡볶이</button>
-      <button data-name="치즈 떡볶이" data-price="5000">치즈 떡볶이</button>
-    </div>
-    <div class="menu">
-      <h2>분식메뉴</h2>
-      <button data-name="연동김밥" data-price="6000">연동김밥</button>
-      <button data-name="순대와 간" data-price="5000">순대와 간</button>
-      <button data-name="군만두" data-price="5000">군만두</button>
-      <button data-name="오므라이스" data-price="7000">오므라이스</button>
-      <button data-name="연동 돈까스" data-price="8000">연동 돈까스</button>
-      <button data-name="김치 볶음밥" data-price="6000">김치 볶음밥</button>
-      <button data-name="달걀 볶음밥" data-price="7000">달걀 볶음밥</button>
-      <button data-name="핫도그" data-price="3000">핫도그</button>
-      <button data-name="주먹밥" data-price="2000">주먹밥</button>
-      <button data-name="오뎅 & 국물" data-price="3000">오뎅 & 국물</button>
-      <button data-name="오뎅 한개" data-price="1000">오뎅 한개</button>
-      <button data-name="소떡소떡" data-price="4000">소떡소떡</button>
-    </div>
-    <div class="menu">
-      <h2>면류</h2>
-      <button data-name="계란떡 라면" data-price="7000">계란떡 라면</button>
-      <button data-name="연동 우동" data-price="6000">연동 우동</button>
-      <button data-name="쫄면" data-price="3000">쫄면</button>
-    </div>
-    <div class="menu">
-      <h2>튀김류</h2>
-      <button data-name="새우튀김" data-price="5000">새우튀김</button>
-      <button data-name="김말이 튀김" data-price="4000">김말이 튀김</button>
-    </div>
-      <div class="menu">
-      <h2>음료</h2>
-      <button data-name="소다 슬러쉬" data-price="2000">소다 슬러쉬</button>
-      <button data-name="망고 슬러쉬" data-price="2000">망고 슬러쉬</button>
-      <button data-name="콜라" data-price="1000">콜라</button>
-  </div>
 <script>
 // 결제 항목을 저장할 객체
 const items = {};  
