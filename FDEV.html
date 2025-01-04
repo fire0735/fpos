@@ -56,6 +56,11 @@
             text-align: center;
         }
 
+        .EndTitle {
+            margin-bottom: 20px; /* EndTitle을 하단에 일정 간격을 두기 */
+            font-size: 8px;
+        }
+
         .DEVELOPMENT-button {
             background-color: #008fe7;
         }
@@ -69,6 +74,7 @@
         .index-button:hover {
             background-color: #c0392b;
         }
+        
     </style>
 </head>
 <body>
@@ -80,7 +86,9 @@
         <button class="menu-button DEVELOPMENT-button" id="DEVELOPMENT">로그인</button>
         <button class="menu-button index-button" id="index">나가기</button>
     </div>
-    
+    <div class="EndTitle">
+        <h1>본 시스템은 개발자만 사용이 가능합니다.</h1>
+    </div>
     <script>
         // 설정한 텍스트 (비밀번호)
         const correctPassword = "FDEV123";
