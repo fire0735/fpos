@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FPOS 시스템</title>
+    <title>FDEV</title>
     <style>
         body, html {
             height: 100%;
@@ -35,7 +35,7 @@
             cursor: pointer;
             border: none;
             border-radius: 90px;
-            color: white;
+            color: black;
             width: 400px; /* 버튼 너비 */
             text-align: center;
         }
@@ -44,20 +44,20 @@
 </head>
 <body>
     <div class="Title">
-        <h1></h1>
+        <h1>FDEV</h1>
     </div>
     <div class="container">
-        <button class="menu-button EODIYA-button" id="EODIYA">로그인</button>
-        <button class="menu-button BURGERQUEEN-button" id="BURGERQUEEN">나가기</button>
+        <button class="menu-button DEVELOPMENT-button" id="DEVELOPMENT">로그인</button>
+        <button class="menu-button BURGERQUEEN-button" id="index">나가기</button>
     </div>
     
     <script>
-        document.getElementById('EODIYA').addEventListener('click', function() {
-            window.location.href = 'EODIYA.html'; // EODIYA 메뉴 페이지로 이동
+        document.getElementById('DEVELOPMENT').addEventListener('click', function() {
+            window.location.href = 'DEVELOPMENT.html'; // EODIYA 메뉴 페이지로 이동
         });
 
-        document.getElementById('BURGERQUEEN').addEventListener('click', function() {
-            window.location.href = 'BURGERQUEEN.html'; // BURGERQUEEN 메뉴 페이지로 이동
+        document.getElementById('index').addEventListener('click', function() {
+            window.location.href = 'index.html'; // BURGERQUEEN 메뉴 페이지로 이동
         });
 
     </script>
