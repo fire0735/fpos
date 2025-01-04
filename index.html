@@ -29,6 +29,13 @@
             gap: 25px; /* 버튼 간 간격 */
         }
 
+        .DEVELOPERMODE {
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center;
+            gap: 25px; /* 버튼 간 간격 */
+        }
+
         .menu-button {
             padding: 15px 30px;
             font-size: 18px;
@@ -36,6 +43,17 @@
             border: none;
             border-radius: 90px;
             color: white;
+            width: 400px; /* 버튼 너비 */
+            text-align: center;
+        }
+
+        .DEVELOPMENT-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 90px;
+            color: black;
             width: 400px; /* 버튼 너비 */
             text-align: center;
         }
@@ -95,11 +113,28 @@
         .HANGAHANICE21-button:hover {
             background-color: #ff73ab; /* 호버 시 색상 */
         }
+
+        .DEVELOPMENT-button {
+            background-color: #FF0000; /* 기본 색상 */
+        }
+        .DEVELOPMENT-button:hover {
+            background-color: #FF0000; /* 호버 시 색상 */
+        }
+
+        
     </style>
 </head>
 <body>
     <div class="Title">
         <h1>간편 계산 시스템 FPOS!</h1>
+    </div>
+    <div class="container">
+        <button class="menu-button EODIYA-button" id="EODIYA">어디야</button>
+        <button class="menu-button BURGERQUEEN-button" id="BURGERQUEEN">버거퀸</button>
+        <button class="menu-button SHC-button" id="SHC">SHC</button>
+        <button class="menu-button BEEFBACK-button" id="BEEFBACK">BEEFBACK</button>
+        <button class="menu-button YEONDONGSCHOOLFOOD-button" id="YEONDONGSCHOOLFOOD">연동분식</button>
+        <button class="menu-button HANGAHANICE21-button" id="HANGAHANICE21">한가한 아이스 21</button>
     </div>
     <div class="container">
         <button class="menu-button EODIYA-button" id="EODIYA">어디야</button>
@@ -139,6 +174,10 @@
 
         document.getElementById('HANGAHANICE21').addEventListener('click', function() {
             window.location.href = 'HANGAHANICE21.html'; // HANGAHANICE21 메뉴 페이지로 이동
+        });
+
+        document.getElementById('DEVELOP').addEventListener('click', function() {
+            window.location.href = 'DEVELOP.html'; // DEVELOP 메뉴 페이지로 이동
         });
     </script>
 </body>
