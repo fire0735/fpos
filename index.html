@@ -114,10 +114,10 @@
             background-color: #ff73ab; /* 호버 시 색상 */
         }
 
-        .DEVELOPMENT-button {
+        .DEVELOPERMODE-button {
             background-color: #FF0000; /* 기본 색상 */
         }
-        .DEVELOPMENT-button:hover {
+        .DEVELOPERMODE-button:hover {
             background-color: #FF0000; /* 호버 시 색상 */
         }
 
@@ -136,13 +136,8 @@
         <button class="menu-button YEONDONGSCHOOLFOOD-button" id="YEONDONGSCHOOLFOOD">연동분식</button>
         <button class="menu-button HANGAHANICE21-button" id="HANGAHANICE21">한가한 아이스 21</button>
     </div>
-    <div class="container">
-        <button class="menu-button EODIYA-button" id="EODIYA">어디야</button>
-        <button class="menu-button BURGERQUEEN-button" id="BURGERQUEEN">버거퀸</button>
-        <button class="menu-button SHC-button" id="SHC">SHC</button>
-        <button class="menu-button BEEFBACK-button" id="BEEFBACK">BEEFBACK</button>
-        <button class="menu-button YEONDONGSCHOOLFOOD-button" id="YEONDONGSCHOOLFOOD">연동분식</button>
-        <button class="menu-button HANGAHANICE21-button" id="HANGAHANICE21">한가한 아이스 21</button>
+    <div class="DEVELOPMENT">
+        <button class="DEVELOPMENT-button DEVELOPERMODE-button" id="DEVELOPMENT">어디야</button>
     </div>
     <div class="EndTitle">
         <h1>본 시스템은 개발상태이며 오류가 발생할수 있습니다.</h1>
@@ -176,8 +171,8 @@
             window.location.href = 'HANGAHANICE21.html'; // HANGAHANICE21 메뉴 페이지로 이동
         });
 
-        document.getElementById('DEVELOP').addEventListener('click', function() {
-            window.location.href = 'DEVELOP.html'; // DEVELOP 메뉴 페이지로 이동
+        document.getElementById('DEVELOPMENT').addEventListener('click', function() {
+            window.location.href = 'DEVELOPMENT.html'; // DEVELOP 메뉴 페이지로 이동
         });
     </script>
 </body>
