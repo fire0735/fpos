@@ -5,88 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDEV 개발자 모드</title>
     <style>
+        /* Reset 기본 설정 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* 페이지 전체 배경색 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-            /* Reset 기본 설정 */
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0; /* 페이지 전체 배경색 */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        /* 제목 스타일 */
+        .Title {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333; /* 기본 텍스트 색상 */
+            margin-top: 10px; /* 약간의 상단 여백 */
+        }
 
-    /* 제목 스타일 */
-    .Title {
-        width: 100%;
-        text-align: center;
-        padding: 20px 0;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333; /* 기본 텍스트 색상 */
-        margin-top: 10px; /* 약간의 상단 여백 */
-    }
+        /* 설명 텍스트 */
+        .EndTitle {
+            font-size: 18px;
+            font-weight: bold;
+            color: #666; /* 연한 텍스트 색상 */
+            margin-top: 10px; /* 제목과 간격 */
+            text-align: center;
+        }
 
-    /* 설명 텍스트 */
-    .EndTitle {
-        font-size: 18px;
-        font-weight: bold;
-        color: #666; /* 연한 텍스트 색상 */
-        margin-top: 10px; /* 제목과 간격 */
-        text-align: center;
-    }
+        /* 컨테이너 스타일 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px; /* 입력창과 버튼 간의 간격 */
+            margin-top: 30px; /* 제목 아래 간격 */
+        }
 
-    /* 컨테이너 스타일 */
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 25px; /* 입력창과 버튼 간의 간격 */
-        margin-top: 30px; /* 제목 아래 간격 */
-    }
+        /* 입력창 */
+        .input-field {
+            width: 300px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc; /* 연한 테두리 */
+            border-radius: 5px;
+            text-align: center;
+            background-color: #fff; /* 입력창 배경 */
+            color: #333; /* 텍스트 색상 */
+        }
 
-    /* 입력창 */
-    .input-field {
-        width: 300px;
-        padding: 10px;
-        font-size: 18px;
-        border: 1px solid #ccc; /* 연한 테두리 */
-        border-radius: 5px;
-        text-align: center;
-        background-color: #fff; /* 입력창 배경 */
-        color: #333; /* 텍스트 색상 */
-    }
+        /* 버튼 공통 스타일 */
+        .menu-button {
+            width: 300px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 90px; /* 둥근 모서리 */
+            cursor: pointer;
+            color: #fff; /* 버튼 텍스트 색상 */
+            text-align: center;
+        }
 
-    /* 버튼 공통 스타일 */
-    .menu-button {
-        width: 300px;
-        padding: 15px 30px;
-        font-size: 18px;
-        border: none;
-        border-radius: 90px; /* 둥근 모서리 */
-        cursor: pointer;
-        color: #fff; /* 버튼 텍스트 색상 */
-        text-align: center;
-    }
+        /* DEVELOPMENT 버튼 스타일 */
+        .DEVELOPMENT-button {
+            background-color: #008fe7; /* 기본 색상 */
+        }
+        .DEVELOPMENT-button:hover {
+            background-color: #0056b3; /* 호버 시 색상 */
+        }
 
-    /* DEVELOPMENT 버튼 스타일 */
-    .DEVELOPMENT-button {
-        background-color: #008fe7; /* 기본 색상 */
-    }
-    .DEVELOPMENT-button:hover {
-        background-color: #0056b3; /* 호버 시 색상 */
-    }
-
-    /* index 버튼 스타일 */
-    .index-button {
-        background-color: #e74c3c; /* 기본 색상 */
-    }
-    .index-button:hover {
-        background-color: #c0392b; /* 호버 시 색상 */
-    }
-
+        /* index 버튼 스타일 */
+        .index-button {
+            background-color: #e74c3c; /* 기본 색상 */
+        }
+        .index-button:hover {
+            background-color: #c0392b; /* 호버 시 색상 */
+        }
     </style>
 </head>
 <body>
@@ -108,28 +106,27 @@
     </div>
 
     <script>
-    // 설정한 텍스트 (비밀번호)
-    const correctPassword = "FDEV123";
+        // 설정한 텍스트 (비밀번호)
+        const correctPassword = "FDEV123";
 
-    // 로그인 버튼 클릭 이벤트
-    document.getElementById('DEVELOPMENT').addEventListener('click', function () {
-        const userInput = document.getElementById('loginInput').value; // 입력 값 가져오기
-        if (userInput === correctPassword) {
-            window.location.href = 'DEVELOPMENT.html'; // 로그인 성공 시 페이지 이동
-        } else {
-            alert('로그인 코드가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
-        }
-    });
+        // 로그인 버튼 클릭 이벤트
+        document.getElementById('DEVELOPMENT').addEventListener('click', function () {
+            const userInput = document.getElementById('loginInput').value; // 입력 값 가져오기
+            if (userInput === correctPassword) {
+                window.location.href = 'DEVELOPMENT.html'; // 로그인 성공 시 페이지 이동
+            } else {
+                alert('로그인 코드가 틀렸습니다. 다시 시도하세요.'); // 경고 메시지
+            }
 
-        // 입력창 초기화
-        document.getElementById('input-field').value = ''; // 로그인 후 입력창 비우기
-    });
+            // 입력창 초기화
+            document.getElementById('loginInput').value = ''; // 로그인 후 입력창 비우기
+        });
 
-    // 나가기 버튼 클릭 이벤트
-    document.getElementById('index').addEventListener('click', function () {
-        window.location.href = 'index.html'; // 나가기 버튼 클릭 시 페이지 이동
-    });
-</script>
+        // 나가기 버튼 클릭 이벤트
+        document.getElementById('index').addEventListener('click', function () {
+            window.location.href = 'index.html'; // 나가기 버튼 클릭 시 페이지 이동
+        });
+    </script>
 
 </body>
 </html>
