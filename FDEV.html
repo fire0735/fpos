@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FDEV 개발자 시스템</title>
+    <title>FDEV 개발자 모드</title>
     <style>
         body, html {
-            height: 100%;
+            height: 10vh;
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
@@ -24,6 +24,7 @@
             padding: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            gap: 40px;
         }
 
         .container {
@@ -41,6 +42,7 @@
             border-radius: 5px;
             width: 300px;
             text-align: center;
+            margin-bottom: 15px
         }
 
         .menu-button {
@@ -71,10 +73,10 @@
 </head>
 <body>
     <div class="Title">
-        <h1>FDEV 개발자 시스템</h1>
+        <h1>FDEV 개발자 모</h1>
     </div>
     <div class="container">
-        <input type="text" id="loginInput" class="input-field" placeholder="비밀번호를 입력하세요">
+        <input type="text" id="loginInput" class="input-field" placeholder="로그인 코드를 입력하세요">
         <button class="menu-button DEVELOPMENT-button" id="DEVELOPMENT">로그인</button>
         <button class="menu-button index-button" id="index">나가기</button>
     </div>
