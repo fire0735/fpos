@@ -1,395 +1,183 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FPOS.DEVELOPERMODE</title>
-  <style>
-    /* 동일한 스타일 정의 */
-    body {
-      display: flex;
-      font-family: Arial, sans-serif;
-      margin: 5px;
-      height: 100vh;
-      flex-direction: column;
-    }
-    .DEVELOPERMODE {
-    display: flex;
-    justify-content: space-between;
-    color: black;
-    font-size: 10px; /* 폰트 크기 설정 */
-    left: 20px;
-    position: relative; /* position을 relative로 추가하여 left 속성 적용 */
-    margin-bottom: 0; /* 불필요한 밑에 공백 제거 */
-    }
-    .container {
-      display: flex;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-    .pay, .menu-container {
-      flex: 1;
-      padding: 20px;
-    }
-    .pay {
-      border-right: 0.1px solid #ccc;
-      background-color: #f8f8f8;
-    }
-    .menu-container {
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    .menu {
-      margin-bottom: 20px;
-      padding: 10px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .menu h2 {
-      margin-bottom: 10px;
-    }
-    .menu button {
-      padding: 10px;
-      width: 220px;
-      height: 50px;
-      font-size: 16px;
-      background-color: #000000;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      white-space: nowrap;
-      margin-bottom: 5px;
-    }
-    .menu button:hover {
-      background-color: #000000;
-    }
-    .pay-item {
-      margin-bottom: 5px;
-      padding: 5px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .pay-item span {
-      display: inline-block;
-    }
-    .total {
-      font-weight: bold;
-      border-top: 2px solid #000;
-      padding-top: 10px;
-      margin-top: 20px;
-    }
-    .clear-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #09e938;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    .clear-button:hover {
-      background-color: #07c32e;
-    }
-    #receiptContainer {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-    }
-    #receipt {
-      white-space: pre-wrap;
-      font-family: monospace;
-    }
-    .discount-button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #5c61ef;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-.discount-button:hover {
-  background-color: #5c61ef;
-}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPOS 시스템</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .Title {
+            margin-top: 20px; /* Title을 상단에 일정 간격을 두기 */
+            font-size: 24px;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center;
+            gap: 25px; /* 버튼 간 간격 */
+        }
+
+        .DEVELOPERMODE {
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center;
+            gap: 10px; /* 버튼 간 간격 */
+            position: fixed; /* 화면의 특정 위치에 고정 */
+            bottom: 20px; /* 아래에서 20px 떨어짐 */
+            left: 20px; /* 왼쪽에서 20px 떨어짐 */
+        }
+
+
+        .menu-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 90px;
+            color: white;
+            width: 400px; /* 버튼 너비 */
+            text-align: center;
+        }
+
+        .DEVELOPMENT-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 90px;
+            color: red;
+            width: 200px; /* 버튼 너비 */
+            text-align: center;
+        }
+
+        .EndTitle {
+            margin-bottom: 20px; /* EndTitle을 하단에 일정 간격을 두기 */
+            font-size: 8px;
+        }
+
+        .reserved {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: #000;
+        }
+        
+        /* 기본 색상 및 호버 색상 설정 */
+        .EODIYA-button {
+            background-color: #008fe7; /* 기본 색상 */
+        }
+        .EODIYA-button:hover {
+            background-color: #0056b3; /* 호버 시 색상 */
+        }
+
+        .BURGERQUEEN-button {
+            background-color: #d6680e; /* 기본 색상 */
+        }
+        .BURGERQUEEN-button:hover {
+            background-color: #a34a07; /* 호버 시 색상 */
+        }
+
+        .SHC-button {
+            background-color: #f5c30c; /* 기본 색상 */
+        }
+        .SHC-button:hover {
+            background-color: #F2B50B; /* 호버 시 색상 */
+        }
+
+        .BEEFBACK-button {
+            background-color: #e33b3b; /* 기본 색상 */
+        }
+        .BEEFBACK-button:hover {
+            background-color: #C12F2F; /* 호버 시 색상 */
+        }
+
+        .YEONDONGSCHOOLFOOD-button {
+            background-color: #ff4b00; /* 기본 색상 */
+        }
+        .YEONDONGSCHOOLFOOD-button:hover {
+            background-color: #D43A00; /* 호버 시 색상 */
+        }
+
+        .HANGAHANICE21-button {
+            background-color: #03abeb; /* 기본 색상 */
+        }
+        .HANGAHANICE21-button:hover {
+            background-color: #ff73ab; /* 호버 시 색상 */
+        }
+
+        .DEVELOPERMODE-button {
+            background-color: #000000; /* 기본 색상 */
+        }
+        .DEVELOPERMODE-button:hover {
+            background-color: #000000; /* 호버 시 색상 */
+        }
+
+        
+    </style>
 </head>
 <body>
-  <div class="DEVELOPERMODE">
-        <h1>개발자모드</h1>
+    <div class="Title">
+        <h1>간편 계산 시스템 FPOS!</h1>
     </div>
-  <div class="container">
-    <div class="pay">
-      <h2>결제 목록</h2>
-      <div id="payItems"></div>
-      <div class="total">결제 금액: <span id="totalPrice">0</span>원</div>
-      <div class="total">총 수량: <span id="totalQuantity">0</span>개</div>
-      <button class="clear-button" id="clearButton">결제하기</button>
-      <button class="discount-button" id="govDiscountButton">공무원 할인</button>
-      <button class="discount-button" id="partnerDiscountButton">협력사 할인</button>
-      <div id="receiptContainer" style="display: none;">
-        <h3>영수증</h3>
-        <div id="receipt"></div>
-      </div>
+    <div class="container">
+        <button class="menu-button EODIYA-button" id="EODIYA">어디야</button>
+        <button class="menu-button BURGERQUEEN-button" id="BURGERQUEEN">버거퀸</button>
+        <button class="menu-button SHC-button" id="SHC">SHC</button>
+        <button class="menu-button BEEFBACK-button" id="BEEFBACK">BEEFBACK</button>
+        <button class="menu-button YEONDONGSCHOOLFOOD-button" id="YEONDONGSCHOOLFOOD">연동분식</button>
+        <button class="menu-button HANGAHANICE21-button" id="HANGAHANICE21">한가한 아이스 21</button>
     </div>
-    <div class="menu-container" id="menuContainer">
-      <div class="menu">
-        <h2>테스트 도구</h2>
-      <button data-name="1" data-price="1000">1000</button>
-      <button data-name="2" data-price="2000">2000</button>
-      <button data-name="3" data-price="3000">3000</button>
-      <button data-name="4" data-price="4000">4000</button>
-      <button data-name="5" data-price="5000">5000</button>
+    <div class="DEVELOPERMODE">
+        <button class="DEVELOPMENT-button DEVELOPERMODE-button" id="DEVELOPMENT">개발자모드</button>
     </div>
-<script>
-// 결제 항목을 저장할 객체
-const items = {};  
+    <div class="EndTitle">
+        <h1>본 시스템은 개발상태이며 오류가 발생할수 있습니다.</h1>
+    </div>
+    <div class="reserved">
+        <p>© 2025. (https://github.com/fire0735) all rights reserved.</p>
+    </div>
+ 
+    <script>
+        document.getElementById('EODIYA').addEventListener('click', function() {
+            window.location.href = 'EODIYA.html'; // EODIYA 메뉴 페이지로 이동
+        });
 
-const payItemsContainer = document.getElementById('payItems');
-const totalPriceElement = document.getElementById('totalPrice');
-const totalQuantityElement = document.getElementById('totalQuantity');
-const clearButton = document.getElementById('clearButton');
-const receiptContainer = document.getElementById('receiptContainer');
+        document.getElementById('BURGERQUEEN').addEventListener('click', function() {
+            window.location.href = 'BURGERQUEEN.html'; // BURGERQUEEN 메뉴 페이지로 이동
+        });
 
-// 메뉴 항목 클릭 시
-document.getElementById('menuContainer').addEventListener('click', function (e) {
-  if (e.target.tagName === 'BUTTON' && e.target.dataset.name) {
-    const name = e.target.dataset.name;
-    const price = parseInt(e.target.dataset.price);
-    const category = e.target.parentElement.querySelector('h2').textContent;  // 카테고리 정보
+        document.getElementById('SHC').addEventListener('click', function() {
+            window.location.href = 'SHC.html'; // SHC 메뉴 페이지로 이동
+        });
 
-    let totalQuantity = 0;
-    let total = 0;
+        document.getElementById('BEEFBACK').addEventListener('click', function() {
+            window.location.href = 'BEEFBACK.html'; // BEEFBACK 메뉴 페이지로 이동
+        });
 
-    // 전체 결제 목록의 수량과 가격 계산
-    for (const item in items) {
-      totalQuantity += items[item].quantity;
-      total += items[item].price * items[item].quantity;
-    }
+        document.getElementById('YEONDONGSCHOOLFOOD').addEventListener('click', function() {
+            window.location.href = 'YEONDONGSCHOOLFOOD.html'; // YEONDONGSCHOOLFOOD 메뉴 페이지로 이동
+        });
 
-    // 최대 수량 확인
-    if (totalQuantity >= 10) {
-      alert('최대 10개까지 주문 가능합니다.');
-      return;
-    }
+        document.getElementById('HANGAHANICE21').addEventListener('click', function() {
+            window.location.href = 'HANGAHANICE21.html'; // HANGAHANICE21 메뉴 페이지로 이동
+        });
 
-    // 결제 한도 확인
-    if (total >= 900000) {
-      alert('결제 한도는 899,999원입니다.');
-      return;
-    }
-
-    // 기존에 선택된 아이템이 있다면 수량 증가, 없다면 새로 추가
-    if (items[name]) {
-      items[name].quantity += 1;
-    } else {
-      items[name] = { price: price, quantity: 1, category: category, discount: 0 }; // 기본 할인 0%
-    }
-
-    updatePayItems();  // 결제 목록 갱신
-  }
-});
-
-// 공무원 할인 및 협력사 할인 버튼 처리
-const govDiscountButton = document.getElementById('govDiscountButton');
-const partnerDiscountButton = document.getElementById('partnerDiscountButton');
-
-// 할인율 (예시: 공무원 100%, 협력사 50%)
-const GOV_DISCOUNT_RATE = 1;  // 100% 공무원 할인
-const PARTNER_DISCOUNT_RATE = 0.50;  // 50% 협력사 할인
-
-// 공무원 할인 버튼 클릭 시 처리
-govDiscountButton.addEventListener('click', function () {
-  applyDiscount(GOV_DISCOUNT_RATE, "공무원 할인");
-});
-
-// 협력사 할인 버튼 클릭 시 처리
-partnerDiscountButton.addEventListener('click', function () {
-  applyDiscount(PARTNER_DISCOUNT_RATE, "협력사 할인");
-});
-
-// 할인 적용 함수
-function applyDiscount(discountRate, discountType) {
-  let total = 0;
-
-  // 결제 목록에서 총 금액 계산
-  for (const item in items) {
-    total += items[item].price * items[item].quantity;
-  }
-
-  // 할인 금액 계산
-  const discountAmount = total * discountRate;
-
-  // 할인 항목을 결제 목록에 추가 (가격 0으로 설정)
-  const discountItemName = `${discountType}`;
-  if (items[discountItemName]) {
-    items[discountItemName].quantity += 1;  // 기존 할인 항목이 있다면 수량 증가
-  } else {
-    // 할인 항목은 가격 0으로 설정, 수량 1로 설정
-    items[discountItemName] = { price: 0, quantity: 1, category: '', discount: discountAmount };
-  }
-
-  // 결제 목록 갱신
-  updatePayItems();
-
-  // 할인 금액을 총액에서 차감 (결제 금액을 최종적으로 할인 금액 반영)
-  const discountedTotal = total - discountAmount;
-
-  // 총합 업데이트 (할인 적용 후 총액)
-  totalPriceElement.textContent = discountedTotal.toLocaleString();  // 할인 적용 후 총액 표시
-}
-
-function updatePayItems() {
-  payItemsContainer.innerHTML = ''; // 결제 목록 초기화
-  let total = 0;
-  let totalQuantity = 0;
-
-  // 아이템 리스트 순회하여 결제 목록을 업데이트
-  for (const item in items) {
-    const payItem = items[item];
-    total += payItem.price * payItem.quantity; // 금액 계산
-    totalQuantity += payItem.quantity; // 수량 계산
-
-    // 결제 항목 추가
-    const payItemElement = document.createElement('div');
-    payItemElement.classList.add('pay-item');
-
-    if (payItem.price > 0) {
-      // 정상 메뉴 항목
-      payItemElement.innerHTML = `
-        <span>${item} x ${payItem.quantity} = ${payItem.price * payItem.quantity}원</span>
-        <button class="remove-button" data-name="${item}">취소</button>
-      `;
-    } else {
-      // 할인 항목 표시
-      payItemElement.innerHTML = `
-        <span>${item} (${payItem.discount}원 할인)</span>
-        <button class="remove-button" data-name="${item}">취소</button>
-      `;
-    }
-
-    payItemsContainer.appendChild(payItemElement); // 결제 항목 추가
-  }
-
-  // 결제 금액과 수량 업데이트
-  totalPriceElement.textContent = total.toLocaleString(); // 총 결제 금액 표시
-  totalQuantityElement.textContent = totalQuantity; // 총 수량 표시
-
-  // 각 항목의 취소 버튼 처리
-  const removeButtons = document.querySelectorAll('.remove-button');
-  removeButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      const name = button.dataset.name;
-      delete items[name];  // 해당 아이템 삭제
-      updatePayItems();  // 결제 목록 갱신
-    });
-  });
-}
-
-// 모든 영수증의 총 결제 금액 저장 변수
-let totalOverallPayment = 0;
-
-// 결제 버튼 클릭 시 영수증 출력 및 결제 목록 초기화
-clearButton.addEventListener('click', function () {
-  // 영수증 기록 생성
-  const receiptDiv = document.createElement('div');
-  receiptDiv.classList.add('receipt');
-
-  const receiptTitle = document.createElement('h3');
-  receiptTitle.style.borderBottom = '2px solid #000';
-  receiptTitle.style.paddingBottom = '5px';
-  receiptDiv.appendChild(receiptTitle);
-
-  let currentPaymentTotal = 0; // 현재 영수증의 결제 금액
-  let totalDiscount = 0; // 현재 영수증의 할인 금액
-
-  // 카테고리별 정리
-  const categories = {};
-  for (const item in items) {
-    const payItem = items[item];
-    const category = payItem.category;
-
-    if (!categories[category]) {
-      categories[category] = [];
-    }
-
-    categories[category].push({ name: item, quantity: payItem.quantity, price: payItem.price, discount: payItem.discount });
-  }
-
-  // 카테고리별로 출력
-for (const category in categories) {
-  const categoryDiv = document.createElement('div');
-  categoryDiv.innerHTML = `<h4>${category}</h4>`;
-  receiptDiv.appendChild(categoryDiv);
-
-  categories[category].forEach(payItem => {
-    const itemTotal = payItem.price * payItem.quantity;
-    currentPaymentTotal += itemTotal;
-
-    const receiptItem = document.createElement('div');
-    // 수량을 포함한 텍스트로 변경
-    receiptItem.textContent = `${payItem.name} x ${payItem.quantity} = ${itemTotal.toLocaleString()}원`;
-    categoryDiv.appendChild(receiptItem);
-
-    // 할인 항목 추가
-    if (payItem.discount) {
-      totalDiscount += payItem.discount;
-      const discountItem = document.createElement('div');
-      discountItem.style.fontStyle = 'italic';
-      discountItem.textContent = `${payItem.discount.toLocaleString()}원`;
-      categoryDiv.appendChild(discountItem);
-    }
-  });
-}
-
-  // 할인 금액을 차감한 결제 금액
-  const finalPaymentTotal = currentPaymentTotal - totalDiscount;
-
-  // 현재 영수증의 결제 금액 출력
-  const currentTotalDiv = document.createElement('div');
-  currentTotalDiv.style.marginTop = '10px';
-  currentTotalDiv.innerHTML = `<strong>결제된 금액: ${finalPaymentTotal.toLocaleString()}원</strong>`;
-  receiptDiv.appendChild(currentTotalDiv);
-  receiptTitle.style.paddingBottom = '5px'; // 밑줄과 텍스트 간의 여백 추가
-
-  // 전체 총 결제 금액에 현재 영수증 금액을 추가
-  totalOverallPayment += finalPaymentTotal;
-
-  // 영수증 기록을 화면에 추가
-  receiptContainer.appendChild(receiptDiv);
-
-  // 결제 목록 초기화
-  Object.keys(items).forEach(item => delete items[item]);
-
-  // 결제 목록 갱신
-  updatePayItems();
-
-  // **전체 총 수익**을 한 번만 갱신 (총 수익 중복 추가 방지)
-  let overallTotalDiv = document.getElementById('overallTotal'); // 총 결제 금액 영역
-  if (!overallTotalDiv) {
-    // 처음 실행 시 총 결제 금액 영역 생성
-    overallTotalDiv = document.createElement('div');
-    overallTotalDiv.id = 'overallTotal';
-    overallTotalDiv.style.marginTop = '20px';
-    overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
-    receiptContainer.appendChild(overallTotalDiv);
-  } else {
-    // 이미 영역이 있으면 내용 업데이트
-    overallTotalDiv.innerHTML = `<h3>총 수익: ${totalOverallPayment.toLocaleString()}원</h3>`;
-  }
-
-  // 영수증 컨테이너를 보이게 설정
-  receiptContainer.style.display = 'block';
-
-  // **총 수익을 맨 아래로 위치시키기** (영수증 추가 후)
-  receiptContainer.appendChild(overallTotalDiv);
-});
-</script>
+        document.getElementById('DEVELOPMENT').addEventListener('click', function() {
+            window.location.href = 'FDEV.html'; // FDEV 메뉴 페이지로 이동
+        });
+    </script>
 </body>
 </html>
