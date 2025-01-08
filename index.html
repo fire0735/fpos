@@ -37,14 +37,9 @@
             var finalDecoded = base64Decode(rot13Decoded2);
 
             // 디코딩된 HTML을 body에 삽입
-            document.body.innerHTML = finalDecoded;
-
-            // 새로운 스크립트 코드가 있다면 실행되도록 추가
-            // 예를 들어, 페이지 내 스크립트를 실행하려면 아래와 같이 할 수 있습니다.
-            var scripts = document.getElementsByTagName("script");
-            for (var i = 0; i < scripts.length; i++) {
-                eval(scripts[i].innerHTML);
-            }
+            document.open(); // 기존 내용을 비우고 새로운 내용을 삽입
+            document.write(finalDecoded); // 디코딩된 HTML 삽입
+            document.close(); // 페이지를 다시 렌더링
         }
 
         // 페이지 로드 후 자동 실행
