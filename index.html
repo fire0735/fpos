@@ -37,9 +37,7 @@
             var finalDecoded = base64Decode(rot13Decoded2);
 
             // 디코딩된 HTML을 body에 삽입
-            document.open(); // 기존 내용을 비우고 새로운 내용을 삽입
-            document.write(finalDecoded); // 디코딩된 HTML 삽입
-            document.close(); // 페이지를 다시 렌더링
+            document.body.innerHTML = finalDecoded; // 기존 body의 내용을 새로 덮어씁니다.
         }
 
         // 페이지 로드 후 자동 실행
