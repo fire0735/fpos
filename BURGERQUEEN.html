@@ -189,11 +189,6 @@ document.getElementById('menuContainer').addEventListener('click', function (e) 
       return;
     }
 
-    // "프리미엄 황금 와퍼" 9개 제한 조건 추가
-    if (name === "프리미엄 황금 와퍼" && items[name]?.quantity >= 9) {
-      return;
-    }
-
     // 기존에 선택된 아이템이 있다면 수량 증가, 없다면 새로 추가
     if (items[name]) {
       items[name].quantity += 1;
